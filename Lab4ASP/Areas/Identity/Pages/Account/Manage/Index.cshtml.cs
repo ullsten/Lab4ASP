@@ -46,6 +46,8 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+        
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -71,6 +73,13 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Profile Picture")]
             public byte[] ProfilePicture { get; set; }
+
+            [TempData]
+            public string StatusMessage { get; set; }
+            [TempData]
+            public string UserNameChangeLimitMessage { get; set; }
+            [BindProperty]
+            public InputModel Input { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -87,7 +96,9 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 Username = userName,
                 FirstName = firstName,
                 LastName = lastName,
-                ProfilePicture = profilePicture
+                ProfilePicture = profilePicture,
+                StatusMessage = StatusMessage,
+                UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).",
             };
         }
 
@@ -99,7 +110,25 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(user);
+            var userName = await _userManager.GetUserNameAsync(user);
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            var profilePicture = user.ProfilePicture;
+
+            Username = userName;
+
+            Input = new InputModel
+            {
+                PhoneNumber = phoneNumber,
+                Username = userName,
+                FirstName = firstName,
+                LastName = lastName,
+                ProfilePicture = profilePicture,
+                StatusMessage = StatusMessage,
+                UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s)."
+            };
+
             return Page();
         }
 
@@ -141,6 +170,34 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            // username
+            if (Input.Username != user.UserName)
+            {
+                if (user.UsernameChangeLimit == 3)
+                {
+                    StatusMessage = "You have reached the maximum number of username changes.";
+                    return RedirectToPage();
+                }
+
+                var userNameExists = await _userManager.FindByNameAsync(Input.Username);
+                if (userNameExists != null)
+                {
+                    StatusMessage = "User name already taken. Select a different username.";
+                    return RedirectToPage();
+                }
+
+                var setUsernameResult = await _userManager.SetUserNameAsync(user, Input.Username);
+                if (!setUsernameResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting username for user with ID '{userId}'.");
+                }
+
+                user.UsernameChangeLimit -= 1;
+                await _userManager.UpdateAsync(user);
+            }
+
+            // for profile-picture
             if (Request.Form.Files.Count > 0)
             {
                 IFormFile file = Request.Form.Files.FirstOrDefault();
@@ -150,16 +207,16 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                     {
                         await file.CopyToAsync(dataStream);
                         user.ProfilePicture = dataStream.ToArray();
-                        await _userManager.UpdateAsync(user);
                     }
                 }
             }
 
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
+
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
-
 
     }
 }

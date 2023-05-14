@@ -7,7 +7,7 @@ namespace Lab4ASP
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +24,18 @@ namespace Lab4ASP
 
             var app = builder.Build();
 
+
+            //// Call SeedRolesAsync method to seed Identity roles
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                ContextSeed.SeedRolesAsync(userManager, roleManager).Wait();
+                ContextSeed.SeedSuperAdminAsync(userManager, roleManager).Wait();
+            }
+
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -35,6 +47,8 @@ namespace Lab4ASP
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
