@@ -58,13 +58,17 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
+
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+
             [Display(Name = "Username")]
             public string Username { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
             [Display(Name = "Profile Picture")]
             public byte[] ProfilePicture { get; set; }
         }
@@ -113,16 +117,6 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            //if (Input.Email != user.Email)
-            //{
-            //    var setEmailResult = await _userManager.SetEmailAsync(user, Input.);
-            //    if (!setEmailResult.Succeeded)
-            //    {
-            //        var userId = await _userManager.GetUserIdAsync(user);
-            //        throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
-            //    }
-            //}
-
             var firstName = user.FirstName;
             var lastName = user.LastName;
 
@@ -150,19 +144,22 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
             if (Request.Form.Files.Count > 0)
             {
                 IFormFile file = Request.Form.Files.FirstOrDefault();
-                using (var dataStream = new MemoryStream())
+                if (file != null)
                 {
-                    await file.CopyToAsync(dataStream);
-                    user.ProfilePicture = dataStream.ToArray();
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(dataStream);
+                        user.ProfilePicture = dataStream.ToArray();
+                        await _userManager.UpdateAsync(user);
+                    }
                 }
-                await _userManager.UpdateAsync(user);
             }
 
-            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
 
     }
 }
