@@ -6,7 +6,7 @@ namespace Lab4ASP.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int UsernameChangeLimit { get; set; } = 3;
+        public int UsernameChangeLimit { get; set; } = 10;
         public byte[]? ProfilePicture { get; set; }
     }
 }

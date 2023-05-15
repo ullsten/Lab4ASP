@@ -46,7 +46,7 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -98,7 +98,7 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 LastName = lastName,
                 ProfilePicture = profilePicture,
                 StatusMessage = StatusMessage,
-                UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).",
+                //UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).",
             };
         }
 
@@ -132,6 +132,7 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -146,23 +147,44 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            // First, update first name and last name if necessary
             var firstName = user.FirstName;
             var lastName = user.LastName;
 
             if (Input.FirstName != firstName)
             {
                 user.FirstName = Input.FirstName;
+                StatusMessage = "First name updated";
             }
 
             if (Input.LastName != lastName)
             {
                 user.LastName = Input.LastName;
+                if (StatusMessage == null) // check if the status message has already been set
+                {
+                    StatusMessage = "Last name updated";
+                }
+                else
+                {
+                    StatusMessage += " and last name updated"; // if the status message has already been set, concatenate the new message
+                }
             }
 
+            // Next, update phone number if necessary
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+
+                if(StatusMessage == null)
+                {
+                    StatusMessage = "Phone number updated";
+                }
+                else
+                {
+                    StatusMessage += " and phone number updated";
+                }
+
                 if (!setPhoneResult.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -170,34 +192,37 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            // username
-            if (Input.Username != user.UserName)
+            //username( not working propertly)
+            if (user.UsernameChangeLimit > 0)
             {
-                if (user.UsernameChangeLimit == 3)
+                if (Input.Username != user.UserName)
                 {
-                    StatusMessage = "You have reached the maximum number of username changes.";
-                    return RedirectToPage();
+                    var userNameExists = await _userManager.FindByNameAsync(Input.Username);
+                    if (userNameExists != null)
+                    {
+                        StatusMessage = "User name already taken. Select a different username.";
+                    }
+                    else
+                    {
+                        var setUserName = await _userManager.SetUserNameAsync(user, Input.Username);
+                        if (!setUserName.Succeeded)
+                        {
+                            StatusMessage = "Unexpected error when trying to set user name.";
+                        }
+                        else
+                        {
+                            user.UsernameChangeLimit -= 1;
+                            await _userManager.UpdateAsync(user);
+                            StatusMessage = "Your username is updated.";
+                        }
+                    }
                 }
-
-                var userNameExists = await _userManager.FindByNameAsync(Input.Username);
-                if (userNameExists != null)
-                {
-                    StatusMessage = "User name already taken. Select a different username.";
-                    return RedirectToPage();
-                }
-
-                var setUsernameResult = await _userManager.SetUserNameAsync(user, Input.Username);
-                if (!setUsernameResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting username for user with ID '{userId}'.");
-                }
-
-                user.UsernameChangeLimit -= 1;
-                await _userManager.UpdateAsync(user);
             }
 
-            // for profile-picture
+
+
+
+            // Finally, update profile picture if necessary
             if (Request.Form.Files.Count > 0)
             {
                 IFormFile file = Request.Form.Files.FirstOrDefault();
@@ -211,12 +236,13 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            // Save changes to the user and refresh sign-in
             await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
 
-            StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
 
     }
 }
