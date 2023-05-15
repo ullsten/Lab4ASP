@@ -17,6 +17,6 @@ namespace Lab4ASP.Models
         [DisplayName("Author")]
         public string AuthorName { get; set; }
 
-        public  ICollection<BookAuthor>? BookAuthors { get; set; }    
+        public  ICollection<BookAuthor>? BooksAuthors { get; set; }    
     }
 }

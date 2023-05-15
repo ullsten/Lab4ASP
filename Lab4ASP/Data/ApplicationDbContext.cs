@@ -1,4 +1,6 @@
-﻿using Lab4ASP.Models;
+﻿using System.Security.Principal;
+using Lab4ASP.Models;
+using Lab4ASP.Models.JunctionTables;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,37 +13,55 @@ namespace Lab4ASP.Data
             : base(options)
         {
         }
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<BookType> BookTypes { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<BookAuthor> BooksAuthors { get; set; }
+        public DbSet<LoanHistory> LoanHistories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.HasDefaultSchema("Identity");
+            //builder.HasDefaultSchema("Identity");
+            
+            builder.Entity<Customer>().ToTable("Customers");
+            builder.Entity<Author>().ToTable("Authors");
+            builder.Entity<Book>().ToTable("Books");
+            builder.Entity<Address>().ToTable("Addresses");
+            builder.Entity<BookAuthor>().ToTable("BooksAuthors");
+            builder.Entity<LoanHistory>().ToTable("LoanHistories");
+
+
             builder.Entity<ApplicationUser>(entity =>
             {
-                entity.ToTable(name: "User");
+                entity.ToTable(name: "IdentityUser");
             });
             builder.Entity<IdentityRole>(entity =>
             {
-                entity.ToTable(name: "Role");
+                entity.ToTable(name: "IdentityRole");
             });
             builder.Entity<IdentityUserRole<string>>(entity =>
             {
-                entity.ToTable("UserRoles");
+                entity.ToTable("IdentityUserRoles");
             });
             builder.Entity<IdentityUserClaim<string>>(entity =>
             {
-                entity.ToTable("UserClaims");
+                entity.ToTable("IdentityUserClaims");
             });
             builder.Entity<IdentityUserLogin<string>>(entity =>
             {
-                entity.ToTable("UserLogins");
+                entity.ToTable("IdentityUserLogins");
             });
             builder.Entity<IdentityRoleClaim<string>>(entity =>
             {
-                entity.ToTable("RoleClaims");
+                entity.ToTable("IdentityRoleClaims");
             });
             builder.Entity<IdentityUserToken<string>>(entity =>
             {
-                entity.ToTable("UserTokens");
+                entity.ToTable("IdentityUserTokens");
             });
         }
     }

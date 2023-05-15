@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Lab4ASP.Enums;
 using Lab4ASP.Models.JunctionTables;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Lab4ASP.Models
 {
@@ -24,13 +25,15 @@ namespace Lab4ASP.Models
         public string BookDescription { get; set; }
 
         [Required]
-        [StringLength(12)]
         [DisplayName("Published")]
         public int PublishedYear { get; set; }
 
         [Required]
-        public BookTypes BookTypes { get; set; }
-        public ICollection<BookAuthor>? BookAuthors { get; set; }
+        [ForeignKey("BookTypes")]
+        public int FK_BookTypeId { get; set; }
+        public BookType? BookTypes { get; set; }
+
+        public ICollection<BookAuthor>? BooksAuthors { get; set; }
         public ICollection<LoanHistory>? LoanHistories { get; set; }
     }
 }

@@ -30,9 +30,11 @@ namespace Lab4ASP
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 ContextSeed.SeedRolesAsync(userManager, roleManager).Wait();
                 ContextSeed.SeedSuperAdminAsync(userManager, roleManager).Wait();
+                ContextSeed.Initialize(context);
+
             }
 
 
