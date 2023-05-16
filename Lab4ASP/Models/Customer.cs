@@ -21,6 +21,10 @@ namespace Lab4ASP.Models
         [DisplayName("Last name")]
         public string LastName { get; set; }
 
+        [NotMapped]
+        [DisplayName("Customer")]
+        public string FullName => $"{FirstName} {LastName}";
+
         [Required]
         [StringLength(15)]
         [DisplayName("Phone number")]
@@ -30,8 +34,9 @@ namespace Lab4ASP.Models
         public string Email { get; set; }
 
         //relation
-        public int? FK_AddressId { get; set; } = null; //allow id to be null
-        public virtual Address? Addresses { get; set; }
+        //public int? FK_AddressId { get; set; } = null; //allow id to be null
+        //public virtual Address? Addresses { get; set; }
+        public ICollection<Address>? Addresses { get; set; }
         public ICollection<LoanHistory>? LoanHistories { get; set; }
     }
 }

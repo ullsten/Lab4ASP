@@ -22,9 +22,8 @@ namespace Lab4ASP.Controllers
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-              return _context.Addresses != null ? 
-                          View(await _context.Addresses.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Addresses'  is null.");
+            var applicationDbContext = _context.Addresses.Include(a => a.Customers);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Addresses/Details/5
@@ -36,6 +35,7 @@ namespace Lab4ASP.Controllers
             }
 
             var address = await _context.Addresses
+                .Include(a => a.Customers)
                 .FirstOrDefaultAsync(m => m.AddressId == id);
             if (address == null)
             {
@@ -48,6 +48,7 @@ namespace Lab4ASP.Controllers
         // GET: Addresses/Create
         public IActionResult Create()
         {
+            ViewData["FK_CustomerId"] = new SelectList(_context.Customers, "CustomerId", "FullName"); //Change here what to display in dropdown list
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace Lab4ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AddressId,Street,City,PostalCode")] Address address)
+        public async Task<IActionResult> Create([Bind("AddressId,Street,City,PostalCode,FK_CustomerId")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace Lab4ASP.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FK_CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Email", address.FK_CustomerId);
             return View(address);
         }
 
@@ -80,6 +82,7 @@ namespace Lab4ASP.Controllers
             {
                 return NotFound();
             }
+            ViewData["FK_CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Email", address.FK_CustomerId);
             return View(address);
         }
 
@@ -88,7 +91,7 @@ namespace Lab4ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AddressId,Street,City,PostalCode")] Address address)
+        public async Task<IActionResult> Edit(int id, [Bind("AddressId,Street,City,PostalCode,FK_CustomerId")] Address address)
         {
             if (id != address.AddressId)
             {
@@ -115,6 +118,7 @@ namespace Lab4ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FK_CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Email", address.FK_CustomerId);
             return View(address);
         }
 
@@ -127,6 +131,7 @@ namespace Lab4ASP.Controllers
             }
 
             var address = await _context.Addresses
+                .Include(a => a.Customers)
                 .FirstOrDefaultAsync(m => m.AddressId == id);
             if (address == null)
             {

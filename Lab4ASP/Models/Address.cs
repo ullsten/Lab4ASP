@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lab4ASP.Models
@@ -19,10 +20,14 @@ namespace Lab4ASP.Models
 
         [Required]
         [StringLength(6)]
+        [DisplayName("Postal code")]
         public string PostalCode { get; set; }
 
         //Relation
-        public ICollection<Customer>? Customers { get; set; }
+        [ForeignKey("Customers")]
+        public int? FK_CustomerId { get; set; } = null;
 
+        [DisplayName("Customer")]
+        public Customer? Customers { get; set; }
     }
 }
