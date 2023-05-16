@@ -4,6 +4,7 @@ using Lab4ASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab4ASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516101156_changedNamedCustomerToUser")]
+    partial class changedNamedCustomerToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace Lab4ASP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("FK_UserId")
+                    b.Property<int?>("FK_CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("PostalCode")
@@ -50,7 +53,7 @@ namespace Lab4ASP.Migrations
 
                     b.HasKey("AddressId");
 
-                    b.HasIndex("FK_UserId");
+                    b.HasIndex("FK_CustomerId");
 
                     b.ToTable("Addresses", (string)null);
                 });
@@ -241,7 +244,7 @@ namespace Lab4ASP.Migrations
                     b.Property<int>("FK_BookId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FK_UserId")
+                    b.Property<int>("FK_CustomerId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsLoaned")
@@ -259,18 +262,18 @@ namespace Lab4ASP.Migrations
 
                     b.HasIndex("BooksBookId");
 
-                    b.HasIndex("FK_UserId");
+                    b.HasIndex("FK_CustomerId");
 
                     b.ToTable("LoanHistories", (string)null);
                 });
 
             modelBuilder.Entity("Lab4ASP.Models.Users", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -292,9 +295,9 @@ namespace Lab4ASP.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("CustomerId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -436,11 +439,11 @@ namespace Lab4ASP.Migrations
 
             modelBuilder.Entity("Lab4ASP.Models.Address", b =>
                 {
-                    b.HasOne("Lab4ASP.Models.Users", "Users")
+                    b.HasOne("Lab4ASP.Models.Users", "Customers")
                         .WithMany("Addresses")
-                        .HasForeignKey("FK_UserId");
+                        .HasForeignKey("FK_CustomerId");
 
-                    b.Navigation("Users");
+                    b.Navigation("Customers");
                 });
 
             modelBuilder.Entity("Lab4ASP.Models.Book", b =>
@@ -483,15 +486,15 @@ namespace Lab4ASP.Migrations
                         .WithMany("LoanHistories")
                         .HasForeignKey("BooksBookId");
 
-                    b.HasOne("Lab4ASP.Models.Users", "Users")
+                    b.HasOne("Lab4ASP.Models.Users", "Customers")
                         .WithMany("LoanHistories")
-                        .HasForeignKey("FK_UserId")
+                        .HasForeignKey("FK_CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Books");
 
-                    b.Navigation("Users");
+                    b.Navigation("Customers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

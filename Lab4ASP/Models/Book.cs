@@ -26,7 +26,7 @@ namespace Lab4ASP.Models
 
         [Required]
         [DisplayName("Published")]
-        public int PublishedYear { get; set; }
+        public int PublishedYear { get; set; } //change to datetime
 
         [Required]
         [ForeignKey("BookTypes")]

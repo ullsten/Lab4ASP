@@ -8,9 +8,9 @@ namespace Lab4ASP.Models.JunctionTables
     {
         public int LoanHistoryId { get; set; }
 
-        [ForeignKey("Customers")]
-        public int FK_CustomerId { get; set; }
-        public Customer? Customers { get; set; }
+        [ForeignKey("Users")]
+        public int FK_UserId { get; set; }
+        public Users? Users { get; set; }
 
         [ForeignKey("Book")]
         public int FK_BookId { get; set; }

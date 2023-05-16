@@ -70,19 +70,19 @@ namespace Lab4ASP.Data
                 context.SaveChanges();
             }
 
-            if (!context.Customers.Any())
+            if (!context.Users.Any())
             {
-                var customers = new Customer[]
+                var users = new Users[]
                 {
-                    new Customer { FirstName ="Oskar", LastName = "Ullsten", PhoneNumber="0730913046", Email="ullzten@gmail.com"},
-                    new Customer { FirstName ="Gong", LastName = "Jonsson", PhoneNumber="0706744671", Email="gong@gmail.com"},
-                    new Customer { FirstName ="Alessia", LastName = "Ullsten", PhoneNumber="0703154556", Email="alessia@gmail.com"},
-                    new Customer { FirstName ="August", LastName = "Ullsten", PhoneNumber="073091455", Email="august@gmail.com"},
-                    new Customer { FirstName ="Müsli", LastName = "Ullsten", PhoneNumber="0703414559", Email="Müsli@gmail.com"},
-                    new Customer { FirstName ="Louie", LastName = "Willington", PhoneNumber="0703414559", Email="willington@gmail.com"},
+                    new Users { FirstName ="Oskar", LastName = "Ullsten", PhoneNumber="0730913046", Email="ullzten@gmail.com"},
+                    new Users { FirstName ="Gong", LastName = "Jonsson", PhoneNumber="0706744671", Email="gong@gmail.com"},
+                    new Users { FirstName ="Alessia", LastName = "Ullsten", PhoneNumber="0703154556", Email="alessia@gmail.com"},
+                    new Users { FirstName ="August", LastName = "Ullsten", PhoneNumber="073091455", Email="august@gmail.com"},
+                    new Users { FirstName ="Müsli", LastName = "Ullsten", PhoneNumber="0703414559", Email="Müsli@gmail.com"},
+                    new Users { FirstName ="Louie", LastName = "Willington", PhoneNumber="0703414559", Email="willington@gmail.com"},
                 };
 
-                context.Customers.AddRange(customers);
+                context.Users.AddRange(users);
                 context.SaveChanges();
             }
 
@@ -90,12 +90,12 @@ namespace Lab4ASP.Data
             {
                 var addresses = new Address[]
 {
-                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_CustomerId = 1 },
-                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_CustomerId = 2},
-                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_CustomerId = 3 },
-                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_CustomerId = 4 },
-                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_CustomerId = 5 },
-                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_CustomerId = 6 },
+                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_UserId = 1 },
+                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_UserId = 2},
+                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_UserId = 3 },
+                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_UserId = 4 },
+                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_UserId = 5 },
+                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_UserId = 6 },
                 };
 
                 context.Addresses.AddRange(addresses);

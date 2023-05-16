@@ -24,10 +24,10 @@ namespace Lab4ASP.Models
         public string PostalCode { get; set; }
 
         //Relation
-        [ForeignKey("Customers")]
-        public int? FK_CustomerId { get; set; } = null;
+        [ForeignKey("Users")]
+        public int? FK_UserId { get; set; } = null;
 
-        [DisplayName("Customer")]
-        public Customer? Customers { get; set; }
+        [DisplayName("User")]
+        public Users? Users { get; set; }
     }
 }

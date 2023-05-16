@@ -5,11 +5,11 @@ using Lab4ASP.Models.JunctionTables;
 
 namespace Lab4ASP.Models
 {
-    public class Customer
+    public class Users
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [StringLength(20)]
