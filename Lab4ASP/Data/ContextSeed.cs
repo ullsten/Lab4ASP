@@ -46,7 +46,6 @@ namespace Lab4ASP.Data
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.SuperAdmin.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.SuperAdmin.ToString());
                 }
-
             }
         }
         public static void Initialize(ApplicationDbContext context)

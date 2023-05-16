@@ -33,6 +33,9 @@ namespace Lab4ASP.Models
         [StringLength(50)]
         public string Email { get; set; }
 
+        [NotMapped]
+        public string Borrower { get; set; }
+
         //relation
         public ICollection<Address>? Addresses { get; set; }
         public ICollection<LoanHistory>? LoanHistories { get; set; }

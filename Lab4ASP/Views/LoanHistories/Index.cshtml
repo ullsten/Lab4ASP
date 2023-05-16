@@ -1,0 +1,60 @@
+﻿@*@model IEnumerable<Lab4ASP.Models.JunctionTables.LoanHistory>*@
+@model IEnumerable<Lab4ASP.Models.ViewModels.LoanHistoriesViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">New loan application</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Users.Borrower)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Isloand)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoanEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Isloand)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.LoanHistoryId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.LoanHistoryId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LoanHistoryId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
