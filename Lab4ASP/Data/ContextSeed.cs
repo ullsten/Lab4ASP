@@ -73,22 +73,54 @@ namespace Lab4ASP.Data
             {
                 var books = new Book[]
                 {
-            new Book { BookTitle = "The Great Gatsby", BookDescription = "A classic novel about the Roaring Twenties", PublishedYear = 1925, FK_BookTypeId = 2 },
-            new Book { BookTitle = "To Kill a Mockingbird", BookDescription = "A story about racism and injustice in the American South", PublishedYear = 1960, FK_BookTypeId = 5 },
-            new Book { BookTitle = "The Lord of the Rings", BookDescription = "A fantasy epic about a quest to destroy an evil ring", PublishedYear = 1954, FK_BookTypeId = 4 },
-            new Book { BookTitle = "Pride and Prejudice", BookDescription = "A romantic comedy about the Bennet family", PublishedYear = 1813, FK_BookTypeId = 3 },
-            new Book { BookTitle = "1984", BookDescription = "A dystopian novel about a totalitarian government", PublishedYear = 1949, FK_BookTypeId = 4 },
-            new Book { BookTitle = "The Catcher in the Rye", BookDescription = "A coming-of-age story about a teenage boy in New York City", PublishedYear = 1951, FK_BookTypeId = 2 },
-            new Book { BookTitle = "Moby-Dick", BookDescription = "A novel about Captain Ahab's obsession with a white whale", PublishedYear = 1851, FK_BookTypeId = 5 },
-            new Book { BookTitle = "The Hitchhiker's Guide to the Galaxy", BookDescription = "A humorous science fiction book about the end of the world", PublishedYear = 1979, FK_BookTypeId = 4 },
-            new Book { BookTitle = "The Hunger Games", BookDescription = "A dystopian novel about a teenage girl who must compete in a fight to the death", PublishedYear = 2008, FK_BookTypeId = 4 },
-            new Book { BookTitle = "Gone with the Wind", BookDescription = "A historical romance set in the American South during the Civil War", PublishedYear = 1936, FK_BookTypeId = 3 }
+                    new Book { BookTitle = "The Great Gatsby", BookDescription = "A classic novel about the Roaring Twenties", PublishedYear = 1925, FK_BookTypeId = 2 },
+                    new Book { BookTitle = "To Kill a Mockingbird", BookDescription = "A story about racism and injustice in the American South", PublishedYear = 1960, FK_BookTypeId = 5 },
+                    new Book { BookTitle = "The Lord of the Rings", BookDescription = "A fantasy epic about a quest to destroy an evil ring", PublishedYear = 1954, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "Pride and Prejudice", BookDescription = "A romantic comedy about the Bennet family", PublishedYear = 1813, FK_BookTypeId = 3 },
+                    new Book { BookTitle = "1984", BookDescription = "A dystopian novel about a totalitarian government", PublishedYear = 1949, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "The Catcher in the Rye", BookDescription = "A coming-of-age story about a teenage boy in New York City", PublishedYear = 1951, FK_BookTypeId = 2 },
+                    new Book { BookTitle = "Moby-Dick", BookDescription = "A novel about Captain Ahab's obsession with a white whale", PublishedYear = 1851, FK_BookTypeId = 5 },
+                    new Book { BookTitle = "The Hitchhiker's Guide to the Galaxy", BookDescription = "A humorous science fiction book about the end of the world", PublishedYear = 1979, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "The Hunger Games", BookDescription = "A dystopian novel about a teenage girl who must compete in a fight to the death", PublishedYear = 2008, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "Gone with the Wind", BookDescription = "A historical romance set in the American South during the Civil War", PublishedYear = 1936, FK_BookTypeId = 3 }
                 };
 
                 context.Books.AddRange(books);
                 context.SaveChanges();
             }
 
+            if(!context.Customers.Any())
+            {
+                var customers = new Customer[]
+                {
+                    new Customer { FirstName ="Oskar", LastName = "Ullsten", PhoneNumber="0730913046", Email="ullzten@gmail.com"},
+                    new Customer { FirstName ="Gong", LastName = "Jonsson", PhoneNumber="0706744671", Email="gong@gmail.com"},
+                    new Customer { FirstName ="Alessia", LastName = "Ullsten", PhoneNumber="0703154556", Email="alessia@gmail.com"},
+                    new Customer { FirstName ="August", LastName = "Ullsten", PhoneNumber="073091455", Email="august@gmail.com"},
+                    new Customer { FirstName ="Müsli", LastName = "Ullsten", PhoneNumber="0703414559", Email="Müsli@gmail.com"},
+                    new Customer { FirstName ="Louie", LastName = "Willington", PhoneNumber="0703414559", Email="willington@gmail.com"},
+                };
+
+                context.Customers.AddRange(customers);
+                context.SaveChanges();
+            }
+
+            if(!context.Addresses.Any())
+            {
+                var addresses = new Address[]
+{
+                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_CustomerId = 1 },
+                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_CustomerId = 2},
+                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_CustomerId = 3 },
+                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_CustomerId = 4 },
+                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_CustomerId = 5 },
+                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_CustomerId = 6 },
+                };
+
+                context.Addresses.AddRange(addresses);
+                context.SaveChanges();
+
+            }
         }
 
     }
