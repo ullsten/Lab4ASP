@@ -118,7 +118,7 @@ namespace Lab4ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FK_CustomerId"] = new SelectList(_context.Users, "UserId", "Email", address.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", address.FK_UserId);
             return View(address);
         }
 

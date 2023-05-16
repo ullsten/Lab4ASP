@@ -10,11 +10,11 @@ using Lab4ASP.Models;
 
 namespace Lab4ASP.Controllers
 {
-    public class CustomersController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace Lab4ASP.Controllers
         {
               return _context.Users != null ? 
                           View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Customers'  is null.");
+                          Problem("Entity set 'ApplicationDbContext.Users'  is null.");
         }
 
         // GET: Customers/Details/5
@@ -56,15 +56,15 @@ namespace Lab4ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,PhoneNumber,Email")] Users customer)
+        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,PhoneNumber,Email")] Users user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(user);
         }
 
         // GET: Customers/Edit/5
@@ -75,12 +75,12 @@ namespace Lab4ASP.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Users.FindAsync(id);
-            if (customer == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(user);
         }
 
         // POST: Customers/Edit/5
@@ -88,9 +88,9 @@ namespace Lab4ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,PhoneNumber,Email")] Users customer)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,PhoneNumber,Email")] Users user)
         {
-            if (id != customer.UserId)
+            if (id != user.UserId)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace Lab4ASP.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.UserId))
+                    if (!CustomerExists(user.UserId))
                     {
                         return NotFound();
                     }
@@ -115,7 +115,7 @@ namespace Lab4ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(user);
         }
 
         // GET: Customers/Delete/5
@@ -126,14 +126,14 @@ namespace Lab4ASP.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Users
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.UserId == id);
-            if (customer == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(user);
         }
 
         // POST: Customers/Delete/5
@@ -143,12 +143,12 @@ namespace Lab4ASP.Controllers
         {
             if (_context.Users == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Customers'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Users'  is null.");
             }
-            var customer = await _context.Users.FindAsync(id);
-            if (customer != null)
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
             {
-                _context.Users.Remove(customer);
+                _context.Users.Remove(user);
             }
             
             await _context.SaveChangesAsync();
