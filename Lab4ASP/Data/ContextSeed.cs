@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Lab4ASP.Enums;
 using Lab4ASP.Models;
+using Lab4ASP.Models.JunctionTables;
 using Microsoft.AspNetCore.Identity;
 
 namespace Lab4ASP.Data
@@ -69,6 +70,58 @@ namespace Lab4ASP.Data
                 context.SaveChanges();
             }
 
+            if (!context.Customers.Any())
+            {
+                var customers = new Customer[]
+                {
+                    new Customer { FirstName ="Oskar", LastName = "Ullsten", PhoneNumber="0730913046", Email="ullzten@gmail.com"},
+                    new Customer { FirstName ="Gong", LastName = "Jonsson", PhoneNumber="0706744671", Email="gong@gmail.com"},
+                    new Customer { FirstName ="Alessia", LastName = "Ullsten", PhoneNumber="0703154556", Email="alessia@gmail.com"},
+                    new Customer { FirstName ="August", LastName = "Ullsten", PhoneNumber="073091455", Email="august@gmail.com"},
+                    new Customer { FirstName ="Müsli", LastName = "Ullsten", PhoneNumber="0703414559", Email="Müsli@gmail.com"},
+                    new Customer { FirstName ="Louie", LastName = "Willington", PhoneNumber="0703414559", Email="willington@gmail.com"},
+                };
+
+                context.Customers.AddRange(customers);
+                context.SaveChanges();
+            }
+
+            if (!context.Addresses.Any())
+            {
+                var addresses = new Address[]
+{
+                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_CustomerId = 1 },
+                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_CustomerId = 2},
+                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_CustomerId = 3 },
+                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_CustomerId = 4 },
+                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_CustomerId = 5 },
+                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_CustomerId = 6 },
+                };
+
+                context.Addresses.AddRange(addresses);
+                context.SaveChanges();
+            }
+
+            if (!context.Authors.Any())
+            {
+                var authors = new Author[]
+                {
+                    new Author { AuthorName = "F. Scott Fitzgerald" },
+                    new Author { AuthorName = "Harper Lee" },
+                    new Author { AuthorName = "J.R.R. Tolkien" },
+                    new Author { AuthorName = "Jane Austen" },
+                    new Author { AuthorName = "George Orwell" },
+                    new Author { AuthorName = "J.D. Salinger" },
+                    new Author { AuthorName = "Herman Melville" },
+                    new Author { AuthorName = "Douglas Adams" },
+                    new Author { AuthorName = "Suzanne Collins" },
+                    new Author { AuthorName = "Margaret Mitchell" }
+                };
+
+                context.Authors.AddRange(authors);
+                context.SaveChanges();
+            }
+
             if (!context.Books.Any())
             {
                 var books = new Book[]
@@ -89,37 +142,24 @@ namespace Lab4ASP.Data
                 context.SaveChanges();
             }
 
-            if(!context.Customers.Any())
+            if (!context.BooksAuthors.Any())
             {
-                var customers = new Customer[]
+                var bookAuthors = new BookAuthor[]
                 {
-                    new Customer { FirstName ="Oskar", LastName = "Ullsten", PhoneNumber="0730913046", Email="ullzten@gmail.com"},
-                    new Customer { FirstName ="Gong", LastName = "Jonsson", PhoneNumber="0706744671", Email="gong@gmail.com"},
-                    new Customer { FirstName ="Alessia", LastName = "Ullsten", PhoneNumber="0703154556", Email="alessia@gmail.com"},
-                    new Customer { FirstName ="August", LastName = "Ullsten", PhoneNumber="073091455", Email="august@gmail.com"},
-                    new Customer { FirstName ="Müsli", LastName = "Ullsten", PhoneNumber="0703414559", Email="Müsli@gmail.com"},
-                    new Customer { FirstName ="Louie", LastName = "Willington", PhoneNumber="0703414559", Email="willington@gmail.com"},
+                    new BookAuthor { AuthorId =1, FK_BookId=1},
+                    new BookAuthor { AuthorId =2, FK_BookId=2},
+                    new BookAuthor { AuthorId =3, FK_BookId=3},
+                    new BookAuthor { AuthorId =4, FK_BookId=4},
+                    new BookAuthor { AuthorId =5, FK_BookId=5},
+                    new BookAuthor { AuthorId =6, FK_BookId=6},
+                    new BookAuthor { AuthorId =7, FK_BookId=7},
+                    new BookAuthor { AuthorId =8, FK_BookId=8},
+                    new BookAuthor { AuthorId =9, FK_BookId=9},
+                    new BookAuthor { AuthorId =10, FK_BookId=10},
                 };
 
-                context.Customers.AddRange(customers);
+                context.BooksAuthors.AddRange(bookAuthors);
                 context.SaveChanges();
-            }
-
-            if(!context.Addresses.Any())
-            {
-                var addresses = new Address[]
-{
-                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_CustomerId = 1 },
-                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_CustomerId = 2},
-                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_CustomerId = 3 },
-                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_CustomerId = 4 },
-                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_CustomerId = 5 },
-                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_CustomerId = 6 },
-                };
-
-                context.Addresses.AddRange(addresses);
-                context.SaveChanges();
-
             }
         }
 

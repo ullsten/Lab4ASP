@@ -10,10 +10,12 @@ namespace Lab4ASP.Models.JunctionTables
         [Range(1, int.MaxValue)]
         public int BookAuthorId { get; set; }
 
+        [Required]
         [ForeignKey("Books")]
         public int FK_BookId { get; set; }
         public Book? Books { get; set; }
 
+        [Required]
         [ForeignKey("Authors")]
         public int AuthorId { get; set; }
         public Author? Authors { get; set; }
