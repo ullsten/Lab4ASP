@@ -26,7 +26,7 @@ namespace Lab4ASP.Data
         {
             base.OnModelCreating(builder);
             //builder.HasDefaultSchema("Identity");
-            
+
             builder.Entity<Users>().ToTable("Users");
             builder.Entity<Author>().ToTable("Authors");
             builder.Entity<Book>().ToTable("Books");

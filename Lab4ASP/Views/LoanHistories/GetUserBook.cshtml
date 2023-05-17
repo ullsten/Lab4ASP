@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
+@*@model IEnumerable<Lab4ASP.Models.JunctionTables.LoanHistory>*@
+
+
+@{
+    ViewData["Title"] = "GetUserBook";
+}
+
+<h1>User with borrowed book(s)</h1>
+
+<div>
+    <div>
+        <form asp-action="GetUserBook" method="get">
+            <p>
+                <label for="searchString"></label>
+                <input type="text" name="searchString" id="searchString" placeholder="Search by name..." />
+                <input type="submit" value="Search" />
+            </p>
+        </form>
+    </div>
+
+
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanEnd)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.BookTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LoanStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LoanEnd)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lab4ASP</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lab4ASP Library</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,13 +23,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Loan" asp-action="Index">Loan</a>
+                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Loan" asp-action="Index">Loan</a>*@
+                            <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                Users
+                            </a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -54,3 +54,28 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@*For canvas*@
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">User section</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            Welcome to Lab4 Library.
+            <br />
+            You are in user section with your options in dropdown-list
+        </div>
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                User options
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Create">Loan book</a>
+                <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="GetUserBook">Users borrowed book(s)</a>
+                @*<li><a class="dropdown-item" href="#">Something else here</a></li>*@
+            </ul>
+        </div>
+    </div>
+</div>

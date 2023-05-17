@@ -12,7 +12,7 @@ namespace Lab4ASP.Models
         
         [Required]
         [StringLength(15)]
-        [DisplayName("Book type")]
+        [DisplayName("Genre")]
         public string BookTypeName { get; set; }
     }
 }

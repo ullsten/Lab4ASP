@@ -21,12 +21,12 @@ namespace Lab4ASP.Controllers
         }
 
         // GET: LoanHistories
-        public async Task<ActionResult<List<LoanHistoriesViewModel>>> Index()
+        public async Task<ActionResult<List<LoanHistoryViewModel>>> Index()
         {
             var loanHistory = await (from l in _context.LoanHistories
                                      join u in _context.Users on l.FK_UserId equals u.UserId
                                      join b in _context.Books on l.FK_BookId equals b.BookId
-                                     select new LoanHistoriesViewModel
+                                     select new LoanHistoryViewModel //fyller viewmodel med data
                                      {
                                          FullName = u.FullName,
                                          BookTitle = b.BookTitle,
@@ -38,6 +38,33 @@ namespace Lab4ASP.Controllers
 
             return View(loanHistory);
         }
+
+        //Get users and loaned books by search
+        public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString)
+        {
+            var borrowedBook = from l in _context.LoanHistories
+                               join u in _context.Users on l.FK_UserId equals u.UserId
+                               join b in _context.Books on l.FK_BookId equals b.BookId
+                               select new UserBookViewModel
+                               {
+                                   UserName = u.FullName,
+                                   BookTitle = b.BookTitle,
+                                   LoanStart = l.LoanStart,
+                                   LoanEnd = l.LoanEnd,
+                               };
+
+            var borrowedBookResult = await borrowedBook.AsNoTracking().ToListAsync();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                borrowedBookResult = borrowedBookResult
+                    .Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            return View(borrowedBookResult);
+        }
+
 
         // GET: LoanHistories/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -71,12 +98,14 @@ namespace Lab4ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LoanHistoryId,FK_UserId,FK_BookId,LoanStart,IsLoaned")] LoanHistory loanHistory)
+        public async Task<IActionResult> Create([Bind("LoanHistoryId,FK_UserId,FK_BookId,LoanStart")] LoanHistory loanHistory)
         {
             if (ModelState.IsValid)
             {
                 //Set loanEnd to 9 days after loan start
                 loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
+                //Set IsLoaned to true after submit new loan
+                loanHistory.IsLoaned = true;
 
                 _context.Add(loanHistory);
                 await _context.SaveChangesAsync();
@@ -99,7 +128,10 @@ namespace Lab4ASP.Controllers
             {
                 return NotFound();
             }
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", loanHistory.FK_UserId);
+
+            //Need to show value in dropdown in view
+            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "FullName", loanHistory.FK_UserId);
+            ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookTitle");
             return View(loanHistory);
         }
 

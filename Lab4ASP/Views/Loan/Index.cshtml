@@ -1,10 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Lab4ASP.Models.ViewModels.LoanHistoryViewModel
+
 @{
     <h1>Loan section</h1>
     <hr />
-    //<a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage Roles</a>
+    <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Create">Loan book</a>
+    <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="GetUserBook">Users borrowed book(s)</a>
+
     //<a class="btn btn-primary" asp-controller="RoleManager" asp-action="Index">Add role</a>
     //<a class="btn btn-primary" asp-controller="Customers" asp-action="Index">Customers</a>
 }

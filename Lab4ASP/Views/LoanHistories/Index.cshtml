@@ -1,11 +1,11 @@
 ﻿@*@model IEnumerable<Lab4ASP.Models.JunctionTables.LoanHistory>*@
-@model IEnumerable<Lab4ASP.Models.ViewModels.LoanHistoriesViewModel>
+@model IEnumerable<Lab4ASP.Models.ViewModels.LoanHistoryViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Loan applications</h1>
 
 <p>
     <a asp-action="Create">New loan application</a>
@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @*@Html.DisplayNameFor(model => model.Users.Borrower)*@
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BookTitle)
