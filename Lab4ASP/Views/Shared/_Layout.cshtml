@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lab4ASP Library</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,13 +23,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                            <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminMenu" aria-controls="offcanvasExample">Admin</a>
+                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>*@
                         </li>
                         <li class="nav-item">
-                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Loan" asp-action="Index">Loan</a>*@
-                            <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                                Users
-                            </a>
+                            <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#userMenu" aria-controls="offcanvasExample">Users</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -56,7 +54,7 @@
 </html>
 
 @*For canvas*@
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="userMenu" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">User section</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -74,6 +72,42 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Create">Loan book</a>
                 <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="GetUserBook">Users borrowed book(s)</a>
+                @*<li><a class="dropdown-item" href="#">Something else here</a></li>*@
+            </ul>
+        </div>
+    </div>
+</div>
+
+@*Admin*@
+<div class="offcanvas offcanvas-start" tabindex="-1" id="adminMenu" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">User section</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            Welcome to Lab4 Library.
+            <br />
+            You are in admin section with your options in dropdown-list
+        </div>
+        <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                User options
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage Roles</a>
+                <a class="btn btn-primary" asp-controller="RoleManager" asp-action="Index">Add new role</a>
+                <hr />
+                <a class="btn btn-primary" asp-controller="Books" asp-action="Index">Books</a>
+                <a class="btn btn-primary" asp-controller="BookTypes" asp-action="Index">Book types</a>
+                <hr />
+                <a class="btn btn-primary" asp-controller="Authors" asp-action="Index">Authors</a>
+                <a class="btn btn-primary" asp-controller="BookAuthors" asp-action="Index">Book Authors</a>
+                <hr />
+                <a class="btn btn-primary" asp-controller="Users" asp-action="Index">Users</a>
+                <a class="btn btn-primary" asp-controller="Addresses" asp-action="Index">Addresses</a>
+                <hr />
+                <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Index">Loan</a>
                 @*<li><a class="dropdown-item" href="#">Something else here</a></li>*@
             </ul>
         </div>

@@ -164,5 +164,23 @@ namespace Lab4ASP.Controllers
         {
           return (_context.Books?.Any(e => e.BookId == id)).GetValueOrDefault();
         }
+
+        //**************************************************************
+
+        public async Task<IActionResult> GetRandomBook()
+        {
+            var randomBook = await _context.Books
+                .Include(b => b.BookTypes)
+                .OrderBy(x => Guid.NewGuid()) // Randomize the order of books
+                .FirstOrDefaultAsync();
+
+            if (randomBook == null)
+            {
+                return NotFound();
+            }
+
+            return View(randomBook);
+        }
+
     }
 }
