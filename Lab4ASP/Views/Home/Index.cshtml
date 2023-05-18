@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -14,8 +14,7 @@
         <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
             <div class="card-header">Book of the day</div>
             <div class="card-body">
-                <h4 class="card-title">Primary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                Hej
             </div>
         </div>
     </div>
@@ -38,3 +37,4 @@
         </div>
     </div>
 </div>
+<a class="btn btn-primary" asp-controller="Books" asp-action="GetRandomBook">Random book</a>

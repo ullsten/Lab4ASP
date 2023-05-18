@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab4ASP.Data;
 using Lab4ASP.Models;
+using Lab4ASP.Models.ViewModels;
 
 namespace Lab4ASP.Controllers
 {
@@ -167,11 +168,35 @@ namespace Lab4ASP.Controllers
 
         //**************************************************************
 
+        //public async Task<ActionResult<IEnumerable<UserBookViewModel>>> GetRandomBook()
+        //{
+        //    var randomBook = await _context.Books
+        //        .Include(b => b.BookTypes)
+        //        .OrderBy(x => Guid.NewGuid())
+        //        .Select(b => new UserBookViewModel
+        //        {
+        //           BookTitle = b.BookTitle,
+        //           BookDescription = b.BookDescription,
+
+        //        }).FirstOrDefaultAsync();
+
+        //    if (randomBook == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //   return View(randomBook);
+        //}
         public async Task<IActionResult> GetRandomBook()
         {
             var randomBook = await _context.Books
                 .Include(b => b.BookTypes)
-                .OrderBy(x => Guid.NewGuid()) // Randomize the order of books
+                .OrderBy(x => Guid.NewGuid())
+                .Select(b => new UserBookViewModel
+                {
+                    RndTitle = b.BookTitle,
+                    RndDescription = b.BookDescription
+                })
                 .FirstOrDefaultAsync();
 
             if (randomBook == null)
@@ -179,8 +204,12 @@ namespace Lab4ASP.Controllers
                 return NotFound();
             }
 
-            return View(randomBook);
+            var randomBookCollection = new List<UserBookViewModel> { randomBook };
+
+            return View(randomBookCollection);
         }
+
+
 
     }
 }

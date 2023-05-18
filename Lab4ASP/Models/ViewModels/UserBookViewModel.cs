@@ -10,6 +10,15 @@ namespace Lab4ASP.Models.ViewModels
 
         [DisplayName("Book Title")]
         public string BookTitle { get; set; }
+        
+        [DisplayName("Book Title: ")]
+        public string RndTitle { get; set; }
+
+        [DisplayName("Description")]
+        public string BookDescription { get; set; }
+        
+        [DisplayName("Description: ")]
+        public string RndDescription { get; set; }
 
         [DisplayName("Loaned")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
