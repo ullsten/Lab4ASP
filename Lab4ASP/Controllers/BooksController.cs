@@ -168,42 +168,23 @@ namespace Lab4ASP.Controllers
 
         //**************************************************************
 
-        //public async Task<ActionResult<IEnumerable<UserBookViewModel>>> GetRandomBook()
-        //{
-        //    var randomBook = await _context.Books
-        //        .Include(b => b.BookTypes)
-        //        .OrderBy(x => Guid.NewGuid())
-        //        .Select(b => new UserBookViewModel
-        //        {
-        //           BookTitle = b.BookTitle,
-        //           BookDescription = b.BookDescription,
-
-        //        }).FirstOrDefaultAsync();
-
-        //    if (randomBook == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //   return View(randomBook);
-        //}
         public async Task<IActionResult> GetRandomBook()
         {
             var randomBook = await _context.Books
-                .Include(b => b.BookTypes)
-                .OrderBy(x => Guid.NewGuid())
-                .Select(b => new UserBookViewModel
+                .Include(b => b.BookTypes)          //Hämtar böcker från databasen
+                .OrderBy(x => Guid.NewGuid())       //ordnar böckerna random
+                .Select(b => new UserBookViewModel      // skapar UserBookViewModel object för varje bok med title+description angivet nedanför
                 {
                     RndTitle = b.BookTitle,
                     RndDescription = b.BookDescription
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync();         //hämtar första boken i listan som bli den random bok som ska visas.
 
             if (randomBook == null)
             {
                 return NotFound();
             }
-
+            //Skapar en ny lista med bara en bok för att i view visa random books vid reload
             var randomBookCollection = new List<UserBookViewModel> { randomBook };
 
             return View(randomBookCollection);

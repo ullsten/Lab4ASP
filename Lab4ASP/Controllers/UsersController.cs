@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab4ASP.Data;
 using Lab4ASP.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lab4ASP.Controllers
 {
@@ -27,6 +28,7 @@ namespace Lab4ASP.Controllers
                           Problem("Entity set 'ApplicationDbContext.Users'  is null.");
         }
 
+        
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {

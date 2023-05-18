@@ -23,13 +23,21 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="GetRandomBook">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminMenu" aria-controls="offcanvasExample">Admin</a>
-                            @*<a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>*@
-
+                            @{
+                                if (User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+                                {
+                                    <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminMenu" aria-controls="offcanvasExample">Admin</a>
+                                }
+                            }
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#userMenu" aria-controls="offcanvasExample">Users</a>
-                        </li>
+                        @{
+                            if(User.IsInRole("Basic"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#userMenu" aria-controls="offcanvasExample">Users</a>
+                                </li>
+                            }
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
