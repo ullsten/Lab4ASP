@@ -30,14 +30,17 @@
                                 }
                             }
                         </li>
+                        <li class="nav-item">
                         @{
                             if(User.IsInRole("Basic"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#userMenu" aria-controls="offcanvasExample">Users</a>
-                                </li>
+                            { 
+                                <a class="nav-link text-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#userMenu" aria-controls="offcanvasExample">Users</a> 
                             }
                         }
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action=""></a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -62,7 +65,9 @@
 </body>
 </html>
 
-@*For canvas*@
+
+
+@*For canvas menus*@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="userMenu" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">User section</h5>
@@ -72,11 +77,11 @@
         <div>
             Welcome to Lab4 Library.
             <br />
-            You are in user section with your options in dropdown-list
+            You are in user section with your options.
         </div>
         <hr />
-        <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Create">Loan book</a>
-        <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="GetUserBook">Users borrowed book(s)</a>
+        <a class="btn btn-primary" asp-controller="UserMenu" asp-action="LoanBook">Loan book</a>
+        <a class="btn btn-primary" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">See loaned book(s)</a>
         <hr/>
         <div class="dropdown mt-3">
            @* <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
@@ -101,7 +106,7 @@
         <div>
             Welcome to Lab4 Library.
             <br />
-            You are in admin section with your options below.
+            You are in admin section with your options.
         </div>
         <hr/>
         <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage Roles</a>
@@ -113,6 +118,7 @@
         <a class="btn btn-primary" asp-controller="Authors" asp-action="Index">Authors</a>
         <a class="btn btn-primary" asp-controller="BookAuthors" asp-action="Index">Book Authors</a>
         <hr />
+        <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="GetUserBook">Search user</a>
         <a class="btn btn-primary" asp-controller="Users" asp-action="Index">Users</a>
         <a class="btn btn-primary" asp-controller="Addresses" asp-action="Index">Addresses</a>
         <hr />

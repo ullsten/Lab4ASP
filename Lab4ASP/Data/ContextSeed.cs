@@ -6,6 +6,7 @@ using Lab4ASP.Enums;
 using Lab4ASP.Models;
 using Lab4ASP.Models.JunctionTables;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lab4ASP.Data
 {
@@ -50,20 +51,20 @@ namespace Lab4ASP.Data
         }
         public static void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             if (!context.BookTypes.Any())
             {
                 var bookTypes = new BookType[]
                 {
-           new BookType {BookTypeName = "Biography"},
-           new BookType {BookTypeName = "Novel"},
-           new BookType {BookTypeName = "Mystery"},
-           new BookType {BookTypeName = "Romance"},
-           new BookType {BookTypeName = "Science fiction"},
-           new BookType {BookTypeName = "History"},
-           new BookType {BookTypeName = "Cook book"},
-           new BookType {BookTypeName = "Philosophy"}
+                    new BookType {BookTypeName = "Biography"},
+                    new BookType {BookTypeName = "Novel"},
+                    new BookType {BookTypeName = "Mystery"},
+                    new BookType {BookTypeName = "Romance"},
+                    new BookType {BookTypeName = "Science fiction"},
+                    new BookType {BookTypeName = "History"},
+                    new BookType {BookTypeName = "Cook book"},
+                    new BookType {BookTypeName = "Philosophy"}
                 };
                 context.BookTypes.AddRange(bookTypes);
                 context.SaveChanges();

@@ -5,6 +5,8 @@ namespace Lab4ASP.Models.ViewModels
 {
     public class UserBookViewModel
     {
+        public int LoanHistoryId { get; set; }
+
         [DisplayName("Borrower")]
         public string UserName { get; set; }
 
@@ -27,5 +29,7 @@ namespace Lab4ASP.Models.ViewModels
         [DisplayName("Last loan day")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime LoanEnd { get; set; } = DateTime.Now;
+
+        public bool IsLoaned { get; set; }
     }
 }

@@ -34,8 +34,9 @@ namespace Lab4ASP
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 ContextSeed.SeedRolesAsync(userManager, roleManager).Wait();
                 ContextSeed.SeedSuperAdminAsync(userManager, roleManager).Wait();
+               
+                //Add data to database at program run
                 ContextSeed.Initialize(context);
-
             }
 
 
@@ -62,7 +63,7 @@ namespace Lab4ASP
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Books}/{action=GetRandomBook}/{id?}");
             app.MapRazorPages();
 
             app.Run();

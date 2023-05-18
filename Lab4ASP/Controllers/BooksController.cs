@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using Lab4ASP.Data;
 using Lab4ASP.Models;
 using Lab4ASP.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lab4ASP.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager; //Get data from logged in user if needed
 
-        public BooksController(ApplicationDbContext context)
+        public BooksController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Books
@@ -190,6 +193,8 @@ namespace Lab4ASP.Controllers
             return View(randomBookCollection);
         }
 
+        //Could add to view search field
+   
 
 
     }
