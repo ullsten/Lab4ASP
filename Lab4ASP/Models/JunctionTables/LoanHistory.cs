@@ -18,7 +18,6 @@ namespace Lab4ASP.Models.JunctionTables
         public int FK_BookId { get; set; }
         public Book? Books { get; set; }
 
-
         [Required]
         [DisplayName("Loan start")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -30,7 +29,7 @@ namespace Lab4ASP.Models.JunctionTables
         public DateTime LoanEnd { get; set; }
 
         [Required]
-        [DisplayName("Is loaned")]
+        [DisplayName("Borrowed")]
         public bool IsLoaned { get; set; }
     }
 }

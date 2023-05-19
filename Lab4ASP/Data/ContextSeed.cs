@@ -126,16 +126,16 @@ namespace Lab4ASP.Data
             {
                 var books = new Book[]
                 {
-                    new Book { BookTitle = "The Great Gatsby", BookDescription = "A classic novel about the Roaring Twenties", PublishedYear = 1925, FK_BookTypeId = 2 },
-                    new Book { BookTitle = "To Kill a Mockingbird", BookDescription = "A story about racism and injustice in the American South", PublishedYear = 1960, FK_BookTypeId = 5 },
-                    new Book { BookTitle = "The Lord of the Rings", BookDescription = "A fantasy epic about a quest to destroy an evil ring", PublishedYear = 1954, FK_BookTypeId = 4 },
-                    new Book { BookTitle = "Pride and Prejudice", BookDescription = "A romantic comedy about the Bennet family", PublishedYear = 1813, FK_BookTypeId = 3 },
-                    new Book { BookTitle = "1984", BookDescription = "A dystopian novel about a totalitarian government", PublishedYear = 1949, FK_BookTypeId = 4 },
-                    new Book { BookTitle = "The Catcher in the Rye", BookDescription = "A coming-of-age story about a teenage boy in New York City", PublishedYear = 1951, FK_BookTypeId = 2 },
-                    new Book { BookTitle = "Moby-Dick", BookDescription = "A novel about Captain Ahab's obsession with a white whale", PublishedYear = 1851, FK_BookTypeId = 5 },
-                    new Book { BookTitle = "The Hitchhiker's Guide to the Galaxy", BookDescription = "A humorous science fiction book about the end of the world", PublishedYear = 1979, FK_BookTypeId = 4 },
-                    new Book { BookTitle = "The Hunger Games", BookDescription = "A dystopian novel about a teenage girl who must compete in a fight to the death", PublishedYear = 2008, FK_BookTypeId = 4 },
-                    new Book { BookTitle = "Gone with the Wind", BookDescription = "A historical romance set in the American South during the Civil War", PublishedYear = 1936, FK_BookTypeId = 3 }
+                    new Book { BookTitle = "The Great Gatsby", BookDescription = "A classic novel about the Roaring Twenties", PublishedYear = 1925, Quantity = 2, FK_BookTypeId = 2 },
+                    new Book { BookTitle = "To Kill a Mockingbird", BookDescription = "A story about racism and injustice in the American South", PublishedYear = 1960, Quantity = 2, FK_BookTypeId = 5 },
+                    new Book { BookTitle = "The Lord of the Rings", BookDescription = "A fantasy epic about a quest to destroy an evil ring", PublishedYear = 1954, Quantity = 2, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "Pride and Prejudice", BookDescription = "A romantic comedy about the Bennet family", PublishedYear = 1813, Quantity = 2, FK_BookTypeId = 3 },
+                    new Book { BookTitle = "1984", BookDescription = "A dystopian novel about a totalitarian government", PublishedYear = 1949, Quantity = 2, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "The Catcher in the Rye", BookDescription = "A coming-of-age story about a teenage boy in New York City", PublishedYear = 1951, Quantity = 2, FK_BookTypeId = 2 },
+                    new Book { BookTitle = "Moby-Dick", BookDescription = "A novel about Captain Ahab's obsession with a white whale", PublishedYear = 1851, Quantity = 2, FK_BookTypeId = 5 },
+                    new Book { BookTitle = "The Hitchhiker's Guide to the Galaxy", BookDescription = "A humorous science fiction book about the end of the world", PublishedYear = 1979, Quantity = 2, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "The Hunger Games", BookDescription = "A dystopian novel about a teenage girl who must compete in a fight to the death", PublishedYear = 2008, Quantity = 2, FK_BookTypeId = 4 },
+                    new Book { BookTitle = "Gone with the Wind", BookDescription = "A historical romance set in the American South during the Civil War", PublishedYear = 1936, Quantity = 2, FK_BookTypeId = 3 }
                 };
 
                 context.Books.AddRange(books);

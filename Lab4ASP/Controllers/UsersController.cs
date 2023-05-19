@@ -60,13 +60,13 @@ namespace Lab4ASP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,PhoneNumber,Email")] Users user)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(user);
+            //}
+            //return View(user);
         }
 
         // GET: Customers/Edit/5
@@ -98,7 +98,7 @@ namespace Lab4ASP.Controllers
             }
 
             if (ModelState.IsValid)
-            {
+           {
                 try
                 {
                     _context.Update(user);

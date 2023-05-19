@@ -25,12 +25,41 @@ namespace Lab4ASP.Controllers
         }
 
         // GET: LoanHistories
-        public async Task<ActionResult<List<LoanHistoryViewModel>>> Index()
+        public async Task<ActionResult<List<LoanHistoryViewModel>>> Index(string searchString, bool? showLoanedBooks)
+        {
+            var loanHistoryQuery = from l in _context.LoanHistories
+                                   join u in _context.Users on l.FK_UserId equals u.UserId
+                                   join b in _context.Books on l.FK_BookId equals b.BookId
+                                   orderby u.LastName
+                                   select new LoanHistoryViewModel
+                                   {
+                                       FullName = u.FullName,
+                                       BookTitle = b.BookTitle,
+                                       LoanStart = l.LoanStart,
+                                       LoanEnd = l.LoanEnd,
+                                       Isloand = l.IsLoaned,
+                                       LoanHistoryId = l.LoanHistoryId
+                                   };
+
+            if (showLoanedBooks.HasValue)
+            {
+                bool isLoaned = showLoanedBooks.Value;
+                loanHistoryQuery = loanHistoryQuery.Where(l => l.Isloand == isLoaned);
+            }
+
+            var loanHistory = await loanHistoryQuery.ToListAsync();
+
+            return View(loanHistory);
+        }
+
+        //Get returned book(s)
+        public async Task<ActionResult<List<LoanHistoryViewModel>>> GetReturnedBook(string searchString)
         {
             var loanHistory = await (from l in _context.LoanHistories
                                      join u in _context.Users on l.FK_UserId equals u.UserId
                                      join b in _context.Books on l.FK_BookId equals b.BookId
                                      orderby u.LastName
+                                     where l.IsLoaned != true //show only returned book(s)
                                      select new LoanHistoryViewModel //fyller viewmodel med data
                                      {
                                          FullName = u.FullName,
@@ -43,35 +72,49 @@ namespace Lab4ASP.Controllers
 
             return View(loanHistory);
         }
-
         //Get users and loaned books by search
-        public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString)
+        public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString, bool? switchLoanSearch)
         {
-            var borrowedBook = from l in _context.LoanHistories
-                               join u in _context.Users on l.FK_UserId equals u.UserId
-                               join b in _context.Books on l.FK_BookId equals b.BookId
-                               select new UserBookViewModel
-                               {
-                                   UserName = u.FullName,
-                                   BookTitle = b.BookTitle,
-                                   BookDescription = b.BookDescription,
-                                   LoanStart = l.LoanStart,
-                                   LoanEnd = l.LoanEnd,
-                                   IsLoaned = l.IsLoaned,
-                               };
+            var query = from l in _context.LoanHistories
+                        join u in _context.Users on l.FK_UserId equals u.UserId
+                        join b in _context.Books on l.FK_BookId equals b.BookId
+                        orderby u.LastName
+                        select new UserBookViewModel
+                        {
+                            LoanHistoryId = l.LoanHistoryId,
+                            UserName = u.FullName,
+                            BookTitle = b.BookTitle,
+                            BookDescription = b.BookDescription,
+                            LoanStart = l.LoanStart,
+                            LoanEnd = l.LoanEnd,
+                            IsLoaned = l.IsLoaned,
+                        };
 
-            var borrowedBookResult = await borrowedBook.ToListAsync();
+            //if (switchLoanSearch.HasValue)
+            //{
+            //    query = query.Where(l => l.IsLoaned == switchLoanSearch.Value);
+            //}
+            if (switchLoanSearch == true) // Only show returned books
+            {
+                query = query.Where(l => (bool)!l.IsLoaned);
+            }
+
+            var borrowedBook = await query.ToListAsync();
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                borrowedBookResult = borrowedBookResult
-                    .Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                borrowedBook = borrowedBook.Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            return View(borrowedBookResult);
+            ViewBag.SwitchLoanSearch = switchLoanSearch; // Store the current switch state
+
+            return View(borrowedBook);
+
         }
-       
+
+
+
+
         // GET: LoanHistories/Details/5
         public async Task<IActionResult> Details(int? id)
         {

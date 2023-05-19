@@ -28,6 +28,8 @@ namespace Lab4ASP.Models
         [DisplayName("Published")]
         public int PublishedYear { get; set; } //change to datetime
 
+        public int Quantity { get; set; } = 2;
+
         [Required]
         [ForeignKey("BookTypes")]
         public int FK_BookTypeId { get; set; }
