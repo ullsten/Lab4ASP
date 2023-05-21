@@ -59,11 +59,38 @@ namespace Lab4ASP
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Books}/{action=GetRandomBook}/{id?}");
+                pattern: "{controller=DashBoards}/{action=GetRandomBook}/{id?}");
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "SuperAdmin",
+            //        pattern: "{controller=DashBoards}/{action=GetUserBook}/{id?}",
+            //        defaults: null,
+            //        constraints: new { role = "SuperAdmin" }
+            //    );
+
+            //    endpoints.MapControllerRoute(
+            //        name: "Basic",
+            //        pattern: "{controller=DashBoards}/{action=GetRandomBook}/{id?}",
+            //        defaults: null,
+            //        constraints: new { role = "Basic" }
+            //    );
+
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=DashBoards}/{action=Index}/{id?}"
+            //    );
+            //});
+
+
+
             app.MapRazorPages();
 
             app.Run();

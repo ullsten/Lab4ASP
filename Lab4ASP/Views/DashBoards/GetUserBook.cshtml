@@ -6,28 +6,27 @@
 
 <h1>Loan histories in Lab4ASP Library register</h1>
 <hr />
-<div class="row justify-content-center">
-    <div class="row">
-        <div class="col-md-4">
-            <div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="mb-3">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#borrowBookModal">Add Loanapplication</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#borrowBookModal">Add Loan Application</button>
             </div>
-            <div class="mt-2">
+            <div class="mb-3">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add Book</button>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add something</button>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-4">
             <form asp-action="GetUserBook" method="get">
-                <p>
-                    <label for="searchString">Search:</label>
-                    <input type="text" name="searchString" id="searchString" placeholder="Search by first name..." />
-                    <input type="submit" value="Search" />
-                </p>
+                <div class="input-group">
+                    <input type="text" name="searchString" id="searchString" class="form-control" placeholder="Search by first name..." />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
             </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-4">
             <form id="searchForm" action="" method="get">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="switchLoanSearch" name="switchLoanSearch" value="true" @(ViewBag.SwitchLoanSearch == true ? "checked" : "") onchange="document.getElementById('searchForm').submit();" />
@@ -36,63 +35,78 @@
             </form>
         </div>
     </div>
-
 </div>
 <hr />
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoanStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoanEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsLoaned)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="container">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(model => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.BookTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.BookDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.LoanStart)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.LoanEnd)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.IsLoaned)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoanStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoanEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsLoaned)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.BookTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.BookDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.LoanStart)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.LoanEnd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.IsLoaned)
+                    </td>
+
+
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.LoanHistoryId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.LoanHistoryId">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.LoanHistoryId">Delete</a>
                     </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <!-- Modal content -->
+</div>
+
+<!-- Borrow book Modal -->
+<div class="modal fade" id="borrowBookModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <!-- Modal content -->
+</div>
+
 
     @*Modal content*@
     <!-- Add User Modal -->

@@ -23,14 +23,19 @@
                 <select asp-for="FK_BookId" class="form-control" asp-items="ViewBag.FK_BookId"></select>
                 <span asp-validation-for="FK_BookId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        @*    <div class="form-group">
                 <label asp-for="LoanStart" class="control-label"></label>
                 <input asp-for="LoanStart" class="form-control" />
                 <span asp-validation-for="LoanStart" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
+            </div>*@
+         @*   <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsLoaned" /> @Html.DisplayNameFor(model => model.IsLoaned)
+                </label>
+            </div>*@
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsReturned" /> @Html.DisplayNameFor(model => model.IsReturned)
                 </label>
             </div>
             <div class="form-group">
@@ -42,9 +47,10 @@
 </div>
 
 <div>
-    
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

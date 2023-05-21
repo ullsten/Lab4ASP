@@ -37,7 +37,7 @@ namespace Lab4ASP.Controllers
                                        BookTitle = b.BookTitle,
                                        LoanStart = l.LoanStart,
                                        LoanEnd = l.LoanEnd,
-                                       Isloand = l.IsLoaned,
+                                       Isloand = (bool)l.IsLoaned,
                                        LoanHistoryId = l.LoanHistoryId
                                    };
 
@@ -52,26 +52,6 @@ namespace Lab4ASP.Controllers
             return View(loanHistory);
         }
 
-        //Get returned book(s)
-        public async Task<ActionResult<List<LoanHistoryViewModel>>> GetReturnedBook(string searchString)
-        {
-            var loanHistory = await (from l in _context.LoanHistories
-                                     join u in _context.Users on l.FK_UserId equals u.UserId
-                                     join b in _context.Books on l.FK_BookId equals b.BookId
-                                     orderby u.LastName
-                                     where l.IsLoaned != true //show only returned book(s)
-                                     select new LoanHistoryViewModel //fyller viewmodel med data
-                                     {
-                                         FullName = u.FullName,
-                                         BookTitle = b.BookTitle,
-                                         LoanStart = l.LoanStart,
-                                         LoanEnd = l.LoanEnd,
-                                         Isloand = l.IsLoaned,
-                                         LoanHistoryId = l.LoanHistoryId
-                                     }).ToListAsync();
-
-            return View(loanHistory);
-        }
         //Get users and loaned books by search
         public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString, bool? switchLoanSearch)
         {
@@ -88,13 +68,11 @@ namespace Lab4ASP.Controllers
                             LoanStart = l.LoanStart,
                             LoanEnd = l.LoanEnd,
                             IsLoaned = l.IsLoaned,
+                            FK_UserId = l.FK_UserId,
+                            FK_BookId = l.FK_BookId,
                         };
 
-            //if (switchLoanSearch.HasValue)
-            //{
-            //    query = query.Where(l => l.IsLoaned == switchLoanSearch.Value);
-            //}
-            if (switchLoanSearch == true) // Only show returned books
+            if (switchLoanSearch == true) // Only show loaned books
             {
                 query = query.Where(l => (bool)!l.IsLoaned);
             }
@@ -108,12 +86,13 @@ namespace Lab4ASP.Controllers
 
             ViewBag.SwitchLoanSearch = switchLoanSearch; // Store the current switch state
 
+            // Retrieve the list of users and books from the database
+            ViewBag.Users = await _context.Users.ToListAsync();
+            ViewBag.Books = await _context.Books.ToListAsync();
+
             return View(borrowedBook);
 
         }
-
-
-
 
         // GET: LoanHistories/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -158,7 +137,7 @@ namespace Lab4ASP.Controllers
 
                 _context.Add(loanHistory);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GetUserBook));
             }
             ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", loanHistory.FK_UserId);
             return View(loanHistory);
@@ -256,6 +235,19 @@ namespace Lab4ASP.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUser([Bind("UserId,FirstName,LastName,PhoneNumber,Email")] Users user)
+        {
+            //if (ModelState.IsValid)
+            //{
+            _context.Add(user);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(GetUserBook));
+            //}
+            //return View(user);
         }
 
         private bool LoanHistoryExists(int id)

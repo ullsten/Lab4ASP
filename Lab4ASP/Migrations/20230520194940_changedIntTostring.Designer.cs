@@ -4,6 +4,7 @@ using Lab4ASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab4ASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230520194940_changedIntTostring")]
+    partial class changedIntTostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,16 +253,10 @@ namespace Lab4ASP.Migrations
                     b.Property<bool>("IsLoaned")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("LoanEnd")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("LoanStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReturnedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("LoanHistoryId");

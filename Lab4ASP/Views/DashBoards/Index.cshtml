@@ -1,0 +1,212 @@
+﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Lab4 Library</p>
+</div>
+
+@{
+    if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+    {
+        <h1>Loan histories in Lab4ASP Library register</h1>
+        <hr />
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#borrowBookModal">Add Loan Application</button>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add Book</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add something</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <form asp-action="GetUserBook" method="get">
+                        <div class="input-group">
+                            <input type="text" name="searchString" id="searchString" class="form-control" placeholder="Search by first name..." />
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <form id="searchForm" action="" method="get">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="switchLoanSearch" name="switchLoanSearch" value="true" @(ViewBag.SwitchLoanSearch == true ? "checked" : "") onchange="document.getElementById('searchForm').submit();" />
+                            <label class="form-check-label" for="switchLoanSearch">Show returned Books Only</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BookTitle)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BookDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LoanStart)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LoanEnd)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsLoaned)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.BookTitle)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.BookDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.LoanStart)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.LoanEnd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.IsLoaned)
+                            </td>
+
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.LoanHistoryId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.LoanHistoryId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.LoanHistoryId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <!-- Modal content -->
+        </div>
+
+        <!-- Borrow book Modal -->
+        <div class="modal fade" id="borrowBookModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <!-- Modal content -->
+        </div>
+
+
+        @*Modal content*@
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add User Form -->
+                        <form asp-controller="Users" asp-action="Create" method="post">
+                            <!-- Form fields for creating a user -->
+                            <!-- Example: -->
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" required>
+                            </div><div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone</label>
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <!-- Add more form fields as needed -->
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Borrow book -->
+        <div class="modal fade" id="borrowBookModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Borrow book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add Loan Application Form -->
+                        <form asp-controller="LoanHistories" asp-action="Create" method="post">
+                            <div class="form-group">
+                                <label for="FK_UserId" class="control-label">User</label>
+                                <select id="FK_UserId" name="FK_UserId" class="form-control" required>
+                                    <!-- Iterate over users and generate options -->
+                                    @foreach (var user in ViewBag.Users)
+                                    {
+                                        <option value="@user.UserId">@user.FullName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="FK_BookId" class="control-label">Book</label>
+                                <select id="FK_BookId" name="FK_BookId" class="form-control" required>
+                                    <!-- Iterate over books and generate options -->
+                                    @foreach (var book in ViewBag.Books)
+                                    {
+                                        <option value="@book.BookId">@book.BookTitle</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="LoanStart" class="control-label">Loan Start</label>
+                                <input type="date" id="LoanStart" name="LoanStart" class="form-control" required />
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+@{
+    if (User.Identity.IsAuthenticated && User.IsInRole("Basic")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+    {
+       <h1>USer</h1>
+    }
+}

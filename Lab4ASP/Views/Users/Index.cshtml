@@ -7,9 +7,10 @@
 <h1>Users in Lab4 Library</h1>
 
 <p>
-    <a asp-action="Create">Registrer new user</a>
+    <a asp-action="Create" class="btn btn-primary">Add User</a>
+    <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
 </p>
-<table class="table">
+<table class="table table-striped bg-light">
     <thead>
         <tr>
             <th>
@@ -43,9 +44,17 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <button type="button" class="btn btn-light btn-sm">Actions</button>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.UserId">Edit</a>
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.UserId">Details</a>
+                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                            </div>
+                        </div>
+                    </div>
             </td>
         </tr>
 }

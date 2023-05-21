@@ -71,7 +71,7 @@ namespace Lab4ASP.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             //[EmailAddress]
-            [Display(Name ="Email/Username")]
+            [Display(Name = "Email/Username")]
             public string Email { get; set; }
 
             /// <summary>
@@ -141,9 +141,9 @@ namespace Lab4ASP.Areas.Identity.Pages.Account
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
-                      {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                }
 
                 if (result.IsLockedOut)
                 {

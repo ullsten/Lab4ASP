@@ -2,14 +2,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Lab4ASP.Models.JunctionTables;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lab4ASP.Models
 {
-    public class Users
+    public class Users : IdentityUser
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
+
+        public string? IdentityUserId { get; set; }
 
         [Required]
         [StringLength(20)]

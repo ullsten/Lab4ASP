@@ -7,9 +7,15 @@
 <h1>Lab4 Library books</h1>
 
 <p>
-    <a asp-action="Create">Add new book to library</a>
+    <a asp-action="Create" class="btn btn-primary">Add book</a>
+    <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
 </p>
-<table class="table">
+<table class="table table-striped text-bg-light">
+    
+  @*  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>*@
+
     <thead>
         <tr>
             <th>
@@ -54,11 +60,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
-            </td>
+                <td>
+                </td>
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn btn-light btn-sm">Actions</button>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
+                            <a class="dropdown-item" asp-action="Details" asp-route-id="@item.BookId">Details</a>
+                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+                        </div>
+                    </div>
+                </div>
+
         </tr>
 }
     </tbody>

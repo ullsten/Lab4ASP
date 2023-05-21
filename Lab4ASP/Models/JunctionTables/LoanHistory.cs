@@ -21,7 +21,7 @@ namespace Lab4ASP.Models.JunctionTables
         [Required]
         [DisplayName("Loan start")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime LoanStart { get; set; }
+        public DateTime LoanStart { get; set; } = DateTime.Now;
 
         [Required]
         [DisplayName("Loan end")]
@@ -31,5 +31,17 @@ namespace Lab4ASP.Models.JunctionTables
         [Required]
         [DisplayName("Borrowed")]
         public bool IsLoaned { get; set; }
+
+        [DisplayName("Returned")]
+        public bool IsReturned { get; set; } = false;
+
+        public DateTime ReturnedDate { get; set; }
+
+        //public void MarkAsReturned()
+        //{ 
+        //    IsLoaned = false;
+        //    IsReturned = true; 
+        //    ReturnedDate = DateTime.Now;
+        //}
     }
 }
