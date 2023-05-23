@@ -28,20 +28,22 @@ namespace Lab4ASP.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? LoanStart { get; set; }
 
-        [DisplayName("Last loan day")]
+        [DisplayName("To be returned")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? LoanEnd { get; set; } = DateTime.Now;
 
-        public bool? IsLoaned { get; set; }
-        public bool? IsReturned { get; set; }
+        public bool IsLoaned { get; set; }
+        public bool IsReturned { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ReturnedDate { get; set; }
 
         public string Borrower { get; set; }
 
         //Relation for borrow book
         [DisplayName("User")]
-        public int FK_UserId { get; set; }
-        public Users? Users { get; set; }
+        public string FK_UserId { get; set; }
+        public ApplicationUser? Users { get; set; }
 
         [DisplayName("Book")]
         public int FK_BookId { get; set; }

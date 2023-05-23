@@ -41,10 +41,6 @@ namespace Lab4ASP.Data
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "123Pa$$word.");
-                    await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Basic.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Moderator.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Admin.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Enums.Roles.SuperAdmin.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.SuperAdmin.ToString());
                 }
             }
@@ -90,12 +86,12 @@ namespace Lab4ASP.Data
             {
                 var addresses = new Address[]
 {
-                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_UserId = 1 },
-                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_UserId = 2},
-                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_UserId = 3 },
-                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_UserId = 4 },
-                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_UserId = 5 },
-                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_UserId = 6 },
+                    new Address { Street = "Byskillnadsvägen 14", City = "Köpmanholmen", PostalCode = "89340", FK_UserId = "1" },
+                    new Address { Street = "456 Elm Avenue", City = "Los Angeles", PostalCode = "90001", FK_UserId = "2"},
+                    new Address { Street = "789 Oak Drive", City = "Chicago", PostalCode = "60601", FK_UserId = "3" },
+                    new Address { Street = "321 Pine Street", City = "San Francisco", PostalCode = "94101", FK_UserId = "4" },
+                    new Address { Street = "987 Maple Lane", City = "Seattle", PostalCode = "98101", FK_UserId = "5" },
+                    new Address { Street = "654 Cedar Road", City = "Miami", PostalCode = "33101", FK_UserId = "6" },
                 };
 
                 context.Addresses.AddRange(addresses);

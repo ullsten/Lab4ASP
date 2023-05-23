@@ -1,4 +1,5 @@
-﻿@model Lab4ASP.Models.Users
+﻿@model Lab4ASP.Models.ApplicationUser
+
 
 @{
     ViewData["Title"] = "Create";
@@ -8,6 +9,7 @@
 
 <h4>Fill the form to add new user.</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -24,13 +26,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <input asp-for="PhoneNumber" class="form-control" placeholder="07x xxx xxxx" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" placeholder="your email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="PasswordHash">Password</label>
+                <input asp-for="PasswordHash" type="password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />   
+                <span asp-validation-for="PasswordHash" class="text-danger"></span>
             </div>
             <div class="form-group mt-2">
                 <input type="submit" value="Create" class="btn btn-primary" />

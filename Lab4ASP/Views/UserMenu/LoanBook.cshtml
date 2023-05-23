@@ -8,14 +8,14 @@
 
     <!-- Add the justify-content-center class to center the form -->
     <div class="col-md-4">
-        <h1>Loan book</h1>
+        <h1>Loan Book</h1>
 
         <hr />
         <form asp-action="LoanBook">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Users" class="control-label"></label>
-                <select asp-for="FK_UserId" class="form-control" asp-items="ViewBag.FK_UserId"></select>
+                <select asp-for="Users.Id" class="form-control" asp-items="ViewBag.FK_UserId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Books" class="control-label"></label>

@@ -34,7 +34,7 @@ namespace Lab4ASP.Controllers
             var currentUserFirstName = currentUser.FirstName;        //Get loggedInUsers firstName
 
             //filter option so only logged in users name visible in list
-            var availableUsers = _context.Users
+            var availableUsers = _userManager.Users
                 .Where(u => u.FirstName == currentUserFirstName)
                 .ToList();
 
@@ -43,7 +43,7 @@ namespace Lab4ASP.Controllers
                 .Where(b => b.Quantity != 0)
                 .ToList();
 
-            ViewData["FK_UserId"] = new SelectList(availableUsers, "UserId", "FullName");
+            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName");
             ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
 
             return View();
@@ -75,7 +75,9 @@ namespace Lab4ASP.Controllers
                 return RedirectToAction(nameof(GetLoggedInUserBook));
             }
 
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", loanHistory.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
+            ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookTitle");
+
             return View(loanHistory);
         }
 
@@ -91,7 +93,7 @@ namespace Lab4ASP.Controllers
             }
             // Query the books borrowed by the current user
             var borrowedBook = from l in _context.LoanHistories
-                               join u in _context.Users on l.FK_UserId equals u.UserId
+                               join u in _userManager.Users on l.FK_UserId equals u.Id
                                join b in _context.Books on l.FK_BookId equals b.BookId
                                where u.Email == currentUser.Email // Filter by current user's ID
                                where l.IsLoaned == true
@@ -134,7 +136,7 @@ namespace Lab4ASP.Controllers
             }
 
             //Need to show value in dropdown in view
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "FullName", loanHistory.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
             ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookTitle");
             return View(loanHistory);
         }
@@ -201,7 +203,7 @@ namespace Lab4ASP.Controllers
                 return RedirectToAction(nameof(GetLoggedInUserBook));
             }
 
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", loanHistory.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
             return View(loanHistory);
         }
 

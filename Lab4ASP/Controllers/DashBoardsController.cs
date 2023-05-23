@@ -28,7 +28,7 @@ namespace Lab4ASP.Controllers
         public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString, bool? switchLoanSearch)
         {
             var query = from l in _context.LoanHistories
-                        join u in _context.Users on l.FK_UserId equals u.UserId
+                        join u in _userManager.Users on l.FK_UserId equals u.Id
                         join b in _context.Books on l.FK_BookId equals b.BookId
                         orderby u.LastName
                         select new UserBookViewModel
@@ -59,7 +59,7 @@ namespace Lab4ASP.Controllers
             ViewBag.SwitchLoanSearch = switchLoanSearch; // Store the current switch state
 
             // Retrieve the list of users and books from the database
-            ViewBag.Users = await _context.Users.ToListAsync();
+            ViewBag.Users = await _userManager.Users.ToListAsync();
             ViewBag.Books = await _context.Books.ToListAsync();
 
             return View(borrowedBook);

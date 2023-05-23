@@ -36,7 +36,7 @@
                             @{
                                 if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
                                 {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="DashBoards" asp-action="GetUserBook">Dashboard</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="LoanHistories" asp-action="GetUserBook">Dashboard</a>
                                 }
                             }
                             @{

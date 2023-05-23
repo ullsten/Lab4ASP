@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Lab4ASP.Models
 {
-    public class Users : IdentityUser
+    public class Users
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
-
-        public string? IdentityUserId { get; set; }
 
         [Required]
         [StringLength(20)]

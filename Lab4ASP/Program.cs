@@ -23,6 +23,8 @@ namespace Lab4ASP
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSession(); //To enable session support 
+
             var app = builder.Build();
 
 
@@ -52,7 +54,7 @@ namespace Lab4ASP
                 app.UseHsts();
             }
 
-
+            app.UseSession(); // Add this line to enable session middleware
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -67,29 +69,6 @@ namespace Lab4ASP
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=DashBoards}/{action=GetRandomBook}/{id?}");
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "SuperAdmin",
-            //        pattern: "{controller=DashBoards}/{action=GetUserBook}/{id?}",
-            //        defaults: null,
-            //        constraints: new { role = "SuperAdmin" }
-            //    );
-
-            //    endpoints.MapControllerRoute(
-            //        name: "Basic",
-            //        pattern: "{controller=DashBoards}/{action=GetRandomBook}/{id?}",
-            //        defaults: null,
-            //        constraints: new { role = "Basic" }
-            //    );
-
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=DashBoards}/{action=Index}/{id?}"
-            //    );
-            //});
-
-
 
             app.MapRazorPages();
 

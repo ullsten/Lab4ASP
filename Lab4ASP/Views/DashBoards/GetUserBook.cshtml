@@ -1,11 +1,15 @@
 ﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
 
+
+
+
 @{
     ViewData["Title"] = "GetUserBook";
 }
 
 <h1>Loan histories in Lab4ASP Library register</h1>
 <hr />
+<h1>Dashboars</h1>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
@@ -14,8 +18,8 @@
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#borrowBookModal">Add Loan Application</button>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add Book</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add something</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</button>
+                @*<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add something</button>*@
             </div>
         </div>
         <div class="col-md-6 col-lg-4">
@@ -97,17 +101,6 @@
     </table>
 </div>
 
-<!-- Add User Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <!-- Modal content -->
-</div>
-
-<!-- Borrow book Modal -->
-<div class="modal fade" id="borrowBookModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <!-- Modal content -->
-</div>
-
-
     @*Modal content*@
     <!-- Add User Modal -->
     <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
@@ -137,6 +130,10 @@
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
+                    <div class="form-group">
+                        <label for="PasswordHash">Password</label>
+                        <input type="Password" class="form-control" id="PasswordHash" name="PasswordHash" required>
+                    </div>
                         <!-- Add more form fields as needed -->
 
                         <div class="modal-footer">
@@ -150,23 +147,23 @@
     </div>
 
 <!-- Borrow book -->
-<div class="modal fade" id="borrowBookModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="borrowBookModal" tabindex="-1" aria-labelledby="addBorrowModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Borrow book</h5>
+                <h5 class="modal-title" id="addBorrowModalLabel">Borrow book</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Add Loan Application Form -->
                 <form asp-controller="LoanHistories" asp-action="Create" method="post">
                     <div class="form-group">
-                        <label for="FK_UserId" class="control-label">User</label>
+                        <label for="Id" class="control-label">User-fixa</label>
                         <select id="FK_UserId" name="FK_UserId" class="form-control" required>
                             <!-- Iterate over users and generate options -->
                             @foreach (var user in ViewBag.Users)
                             {
-                                <option value="@user.UserId">@user.FullName</option>
+                                <option value="@user.Id">@user.FullName</option>
                             }
                         </select>
                     </div>
@@ -176,14 +173,9 @@
                             <!-- Iterate over books and generate options -->
                             @foreach (var book in ViewBag.Books)
                             {
-                                <option value="@book.BookId">@book.BookTitle</option>
+                                <option value="@book.BookId">@book.BookTitle</option>   //FIAXA INTE VISA BOOKS DÄR 0
                             }
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="LoanStart" class="control-label">Loan Start</label>
-                        <input type="date" id="LoanStart" name="LoanStart" class="form-control" required />
-                        <span class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -194,3 +186,21 @@
         </div>
     </div>
 </div>
+
+<!-- Add Book Modal -->
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+    <!-- modal content -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookModalLabel">Borrow book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <h1>Books coming</h1>
+               
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -4,6 +4,7 @@ using Lab4ASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab4ASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230521215920_removedRelationUses-IdentityUses")]
+    partial class removedRelationUsesIdentityUses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +38,8 @@ namespace Lab4ASP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("FK_UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("FK_UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -48,17 +51,9 @@ namespace Lab4ASP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("AddressId");
 
-                    b.HasIndex("UsersId");
-
-                    b.HasIndex("UsersUserId");
+                    b.HasIndex("FK_UserId");
 
                     b.ToTable("Addresses", (string)null);
                 });
@@ -252,9 +247,8 @@ namespace Lab4ASP.Migrations
                     b.Property<int>("FK_BookId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FK_UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("FK_UserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsLoaned")
                         .HasColumnType("bit");
@@ -271,9 +265,6 @@ namespace Lab4ASP.Migrations
                     b.Property<DateTime>("ReturnedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("LoanHistoryId");
 
                     b.HasIndex("BookAuthorId");
@@ -281,8 +272,6 @@ namespace Lab4ASP.Migrations
                     b.HasIndex("BooksBookId");
 
                     b.HasIndex("FK_UserId");
-
-                    b.HasIndex("UsersUserId");
 
                     b.ToTable("LoanHistories", (string)null);
                 });
@@ -462,13 +451,9 @@ namespace Lab4ASP.Migrations
 
             modelBuilder.Entity("Lab4ASP.Models.Address", b =>
                 {
-                    b.HasOne("Lab4ASP.Models.ApplicationUser", "Users")
+                    b.HasOne("Lab4ASP.Models.Users", "Users")
                         .WithMany("Addresses")
-                        .HasForeignKey("UsersId");
-
-                    b.HasOne("Lab4ASP.Models.Users", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("UsersUserId");
+                        .HasForeignKey("FK_UserId");
 
                     b.Navigation("Users");
                 });
@@ -513,15 +498,11 @@ namespace Lab4ASP.Migrations
                         .WithMany("LoanHistories")
                         .HasForeignKey("BooksBookId");
 
-                    b.HasOne("Lab4ASP.Models.ApplicationUser", "Users")
+                    b.HasOne("Lab4ASP.Models.Users", "Users")
                         .WithMany("LoanHistories")
                         .HasForeignKey("FK_UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Lab4ASP.Models.Users", null)
-                        .WithMany("LoanHistories")
-                        .HasForeignKey("UsersUserId");
 
                     b.Navigation("Books");
 
@@ -577,13 +558,6 @@ namespace Lab4ASP.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Lab4ASP.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("LoanHistories");
                 });
 
             modelBuilder.Entity("Lab4ASP.Models.Author", b =>

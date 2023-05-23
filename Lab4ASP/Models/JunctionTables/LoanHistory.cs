@@ -11,8 +11,8 @@ namespace Lab4ASP.Models.JunctionTables
         public int LoanHistoryId { get; set; }
 
         [ForeignKey("Users")]
-        public int FK_UserId { get; set; }
-        public Users? Users { get; set; }
+        public string FK_UserId { get; set; }
+        public ApplicationUser? Users { get; set; }
 
         [ForeignKey("Book")]
         public int FK_BookId { get; set; }
@@ -29,19 +29,12 @@ namespace Lab4ASP.Models.JunctionTables
         public DateTime LoanEnd { get; set; }
 
         [Required]
-        [DisplayName("Borrowed")]
+        [DisplayName("Loan again")]
         public bool IsLoaned { get; set; }
 
         [DisplayName("Returned")]
-        public bool IsReturned { get; set; } = false;
+        public bool IsReturned { get; set; } = false; //false as default
 
         public DateTime ReturnedDate { get; set; }
-
-        //public void MarkAsReturned()
-        //{ 
-        //    IsLoaned = false;
-        //    IsReturned = true; 
-        //    ReturnedDate = DateTime.Now;
-        //}
     }
 }
