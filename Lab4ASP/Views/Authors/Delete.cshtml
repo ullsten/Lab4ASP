@@ -4,24 +4,33 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Author</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AuthorName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AuthorName)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="AuthorId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Are you sure you want to delete this author?</h3>
+
+                    <div>
+                        <hr />
+                        <dl class="row bg-dark m-3">
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.AuthorName)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.AuthorName)
+                            </dd>
+                        </dl>
+
+                        <form asp-action="Delete" class="m-3">
+                            <input type="hidden" asp-for="AuthorId" />
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            <a asp-action="Index" class="btn btn-dark">Back to List</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

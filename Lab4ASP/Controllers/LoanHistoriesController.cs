@@ -10,6 +10,8 @@ using Lab4ASP.Models.JunctionTables;
 using Lab4ASP.Models.ViewModels;
 using Lab4ASP.Models;
 using Microsoft.AspNetCore.Identity;
+using PagedList;
+using PagedList.Mvc;
 
 namespace Lab4ASP.Controllers
 {
@@ -53,8 +55,10 @@ namespace Lab4ASP.Controllers
         }
 
         //Get users and loaned books by search
-        public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned)
+        public async Task<ActionResult<UserBookViewModel>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned)
         {
+     
+
             var loanList = from l in _context.LoanHistories
                            join u in _userManager.Users on l.FK_UserId equals u.Id
                            join b in _context.Books on l.FK_BookId equals b.BookId
@@ -147,6 +151,13 @@ namespace Lab4ASP.Controllers
                     await _context.SaveChangesAsync();
                 }
 
+                // Get the latest loan history entry
+                var latestLoan = await _context.LoanHistories.OrderByDescending(l => l.LoanHistoryId).FirstOrDefaultAsync();
+
+                // Pass the latest loan history entry ID to the view
+                TempData["LatestLoanId"] = latestLoan?.LoanHistoryId;
+                TempData["LoanCreatedMessage"] = "Loan application created successfully.";
+
                 return RedirectToAction(nameof(GetUserBook));
             }
             ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
@@ -189,9 +200,14 @@ namespace Lab4ASP.Controllers
                 return NotFound();
             }
 
+            //filter avaible books where quantity != 0
+            var availableBooks = _context.Books
+                .Where(b => b.Quantity != 0)
+                .ToList();
+
             //Need to show value in dropdown in view
             ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
-            ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookTitle");
+            ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
             return View(loanHistory);
         }
 

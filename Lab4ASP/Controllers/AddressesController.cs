@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab4ASP.Data;
 using Lab4ASP.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lab4ASP.Controllers
 {
     public class AddressesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AddressesController(ApplicationDbContext context)
+        public AddressesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Addresses
@@ -48,7 +48,7 @@ namespace Lab4ASP.Controllers
         // GET: Addresses/Create
         public IActionResult Create()
         {
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "FullName"); //Change here what to display in dropdown list
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName"); //Change here what to display in dropdown list
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace Lab4ASP.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", address.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "Email", address.FK_UserId);
             return View(address);
         }
 
@@ -82,7 +82,7 @@ namespace Lab4ASP.Controllers
             {
                 return NotFound();
             }
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", address.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", address.FK_UserId);
             return View(address);
         }
 
@@ -118,7 +118,7 @@ namespace Lab4ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FK_UserId"] = new SelectList(_context.Users, "UserId", "Email", address.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "Email", address.FK_UserId);
             return View(address);
         }
 
