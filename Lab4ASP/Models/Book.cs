@@ -31,6 +31,8 @@ namespace Lab4ASP.Models
 
         public int Quantity { get; set; } = 2;
 
+        public byte[]? BookPicture { get; set; } //for bookpicture
+
         [Required]
         [ForeignKey("BookTypes")]
         public int FK_BookTypeId { get; set; }

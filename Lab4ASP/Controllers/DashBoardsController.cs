@@ -71,12 +71,13 @@ namespace Lab4ASP.Controllers
         public async Task<IActionResult> GetRandomBook()
         {
             var randomBook = await _context.Books
-                .Include(b => b.BookTypes)          //Hämtar böcker från databasen
+                .Include(b => b.BookTypes)  //Hämtar böcker från databasen
                 .OrderBy(x => Guid.NewGuid())       //ordnar böckerna random
                 .Select(b => new UserBookViewModel      // skapar UserBookViewModel object för varje bok med title+description angivet nedanför
                 {
                     RndTitle = b.BookTitle,
-                    RndDescription = b.BookDescription
+                    RndDescription = b.BookDescription,
+                   
                 })
                 .FirstOrDefaultAsync();         //hämtar första boken i listan som bli den random bok som ska visas.
 

@@ -24,6 +24,8 @@ namespace Lab4ASP.Models.ViewModels
         [DisplayName("Description: ")]
         public string? RndDescription { get; set; }
 
+        public string Author { get; set; }
+
         [DisplayName("Loaned")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? LoanStart { get; set; }
@@ -48,5 +50,8 @@ namespace Lab4ASP.Models.ViewModels
         [DisplayName("Book")]
         public int FK_BookId { get; set; }
         public Book? Books { get; set; }
+
+        public int FK_AuthorId { get; set; }
+        public Author? Authors { get; set; }
     }
 }
