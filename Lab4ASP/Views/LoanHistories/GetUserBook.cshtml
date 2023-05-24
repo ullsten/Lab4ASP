@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "GetUserBook";
 }
-
+<div class="bg-light mt-5 p-5">
 <h1>Lab4ASP Library register</h1>
 <hr />
 <h3>Admin dashboard</h3>
@@ -18,12 +18,9 @@
                <button class="btn btn-primary m-0 p-1" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
                 <a class="btn btn-primary m-0 p-1" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>
                 <hr />
-                
-                @*<a class="btn btn-primary m-0 p-1" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>*@
             </div>
             <div class="mb-3">
-                @*<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</button>*@
-                @*<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add something</button>*@
+                @*Kan lägga mera här*@
             </div>
         </div>
         <div class="col-md-6 col-lg-4">
@@ -138,10 +135,8 @@
             }
         </tbody>
     </table>
-
-
 </div>
-
+</div>
 @*Modal content*@
 <!-- Add User Modal -->
 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">

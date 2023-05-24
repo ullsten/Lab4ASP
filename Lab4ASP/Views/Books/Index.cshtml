@@ -3,14 +3,14 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<div class="bg-light mt-5 p-4 rounded">
 <h1>Lab4 Library books</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Add book</a>
     <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
 </p>
-<table class="table table-striped text-bg-light">
+<table class="table table-striped text-bg-light table-hover">
     
   @*  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -79,3 +79,4 @@
 }
     </tbody>
 </table>
+</div>
