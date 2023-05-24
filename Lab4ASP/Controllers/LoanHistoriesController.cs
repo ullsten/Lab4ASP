@@ -27,37 +27,42 @@ namespace Lab4ASP.Controllers
         }
 
         // GET: LoanHistories
-        public async Task<ActionResult<List<LoanHistoryViewModel>>> Index(string searchString, bool? showLoanedBooks)
-        {
-            var loanHistoryQuery = from l in _context.LoanHistories
-                                   join u in _userManager.Users on l.FK_UserId equals u.Id
-                                   join b in _context.Books on l.FK_BookId equals b.BookId
-                                   orderby u.LastName
-                                   select new LoanHistoryViewModel
-                                   {
-                                       FullName = u.FullName,
-                                       BookTitle = b.BookTitle,
-                                       LoanStart = l.LoanStart,
-                                       LoanEnd = l.LoanEnd,
-                                       Isloand = (bool)l.IsLoaned,
-                                       LoanHistoryId = l.LoanHistoryId
-                                   };
+        //public async Task<ActionResult<List<LoanHistoryViewModel>>> Index(string searchString, bool? showLoanedBooks)
+        //{
+        //    var loanHistoryQuery = from l in _context.LoanHistories
+        //                           join u in _userManager.Users on l.FK_UserId equals u.Id
+        //                           join b in _context.Books on l.FK_BookId equals b.BookId
+        //                           orderby u.LastName
+        //                           select new LoanHistoryViewModel
+        //                           {
+        //                               FullName = u.FullName,
+        //                               BookTitle = b.BookTitle,
+        //                               LoanStart = l.LoanStart,
+        //                               LoanEnd = l.LoanEnd,
+        //                               Isloand = (bool)l.IsLoaned,
+        //                               LoanHistoryId = l.LoanHistoryId
+        //                           };
 
-            if (showLoanedBooks.HasValue)
-            {
-                bool isLoaned = showLoanedBooks.Value;
-                loanHistoryQuery = loanHistoryQuery.Where(l => l.Isloand == isLoaned);
-            }
+        //    if (showLoanedBooks.HasValue)
+        //    {
+        //        bool isLoaned = showLoanedBooks.Value;
+        //        loanHistoryQuery = loanHistoryQuery.Where(l => l.Isloand == isLoaned);
+        //    }
 
-            var loanHistory = await loanHistoryQuery.ToListAsync();
+        //    var loanHistory = await loanHistoryQuery.ToListAsync();
 
-            return View(loanHistory);
-        }
+        //    return View(loanHistory);
+        //}
 
         //Get users and loaned books by search
-        public async Task<ActionResult<UserBookViewModel>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned)
-        {
-     
+        public async Task<ActionResult<UserBookViewModel>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned, int? page = 1)
+        {   
+            if(page != null && page < 1)
+            {
+                page = 1;
+            }
+
+            var pageSize = 10;
 
             var loanList = from l in _context.LoanHistories
                            join u in _userManager.Users on l.FK_UserId equals u.Id
@@ -103,6 +108,44 @@ namespace Lab4ASP.Controllers
 
             return View(borrowedBook);
         }
+
+        //public async Task<ActionResult<IEnumerable<UserBookViewModel>>> GetLoggedInUserBook(string searchString)
+        //{
+        //    // Get the current logged-in user to filter result 
+        //    var currentUser = await _userManager.GetUserAsync(User);
+        //    if (currentUser == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    // Query the books borrowed by the current user
+        //    var borrowedBook = from l in _context.LoanHistories
+        //                       join u in _userManager.Users on l.FK_UserId equals u.Id
+        //                       join b in _context.Books on l.FK_BookId equals b.BookId
+        //                       where u.Email == currentUser.Email // Filter by current user's ID
+        //                       where l.IsLoaned == true
+        //                       select new UserBookViewModel
+        //                       {
+        //                           LoanHistoryId = l.LoanHistoryId,
+        //                           UserName = u.FullName,
+        //                           BookTitle = b.BookTitle,
+        //                           BookDescription = b.BookDescription,
+        //                           LoanStart = l.LoanStart,
+        //                           LoanEnd = l.LoanEnd,
+        //                           IsLoaned = l.IsLoaned,
+        //                           IsReturned = l.IsReturned,
+        //                           ReturnedDate = l.ReturnedDate,
+        //                       };
+
+        //    var borrowedBookResult = await borrowedBook.AsNoTracking().ToListAsync();
+
+        //    if (!string.IsNullOrWhiteSpace(searchString))
+        //    {
+        //        borrowedBookResult = borrowedBookResult
+        //            .Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+        //            .ToList();
+        //    }
+        //    return View(borrowedBookResult);
+        //}
 
         // GET: LoanHistories/Create
         public async Task<IActionResult> Create()
@@ -208,6 +251,7 @@ namespace Lab4ASP.Controllers
             //Need to show value in dropdown in view
             ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
             ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
+
             return View(loanHistory);
         }
 

@@ -3,45 +3,9 @@
     <h2>User dashboard</h2>
     <hr />
     <p>
-    <a asp-controller="UserMenu" asp-action="Create" class="btn btn-outline-light">Borrow book</a>
+    <a asp-controller="LoanHistories" asp-action="Create" class="btn btn-outline-light">Borrow book</a>
     </p>
-<div class="container">
-    <div class="row justify-content-center">
-<div class="col-md-6 col-lg-4">
-    <form asp-action="GetUserBook" method="get">
-        <div class="input-group">
-            <input type="text" name="searchString" id="searchString" class="form-control" placeholder="Search by first name..." />
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
-</div>
-<div class="col-md-6 col-lg-4">
-    <form id="searchFormReturned" action="" method="get">
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="switchReturned" name="switchReturned" value="true" @(ViewBag.switchReturned == true ? "checked" : "") onchange="document.getElementById('searchFormReturned').submit();" />
-            <label class="form-check-label" for="switchReturned">Show returned Books Only</label>
-        </div>
-    </form>
-    <form id="searchFormLoaned" action="" method="get">
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="switchLoaned" name="switchLoaned" value="true" @(ViewBag.switchLoaned == true ? "checked" : "") onchange="document.getElementById('searchFormLoaned').submit();" />
-            <label class="form-check-label" for="switchLoaned">Show Loaned Books</label>
-        </div>
-    </form>
-</div>
-    </div>
 
-    <hr />
-    @if (TempData["LoanCreatedMessage"] != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @TempData["LoanCreatedMessage"]
-        </div>
-        <hr />
-    }
-
-</div>
-<div class="container">
     <table class="table table-striped text-white">
         <thead>
             <tr>
@@ -69,16 +33,13 @@
                 <th>
                     @Html.DisplayNameFor(model => model.ReturnedDate)
                 </th> 
-                <th>
-                    Options
-                </th> 
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
         {
-                <tr class="@(TempData["LatestLoanId"] != null && TempData["LatestLoanId"].Equals(item.LoanHistoryId) ? "table-success" : "")">
-                    <td>
+            <tr>
+                <td>
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td> 
                 <td>
@@ -104,9 +65,11 @@
                 </td>
                 <td>
                     <a class="btn btn-outline-light" asp-action="Edit" asp-route-id="@item.LoanHistoryId">Return</a>
+
+                    @*<a class="btn btn-outline-light" asp-action="MarkAsReturned" asp-route-id="@item.LoanHistoryId">Return</a> |*@
+                    @*<a class="btn btn-outline-warning" asp-action="Delete" asp-route-id="@item.LoanHistoryId">Return</a>*@
                 </td>
             </tr>
         }
         </tbody>
     </table>
-</div>

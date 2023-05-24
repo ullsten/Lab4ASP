@@ -42,7 +42,7 @@
                             @{
                                 if (User.Identity.IsAuthenticated && User.IsInRole("Basic")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
                                 {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">My Profile</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">My Profile</a>
                                 }
                             }
 
@@ -87,18 +87,10 @@
                 You are in user section with your options.
             </div>
             <hr />
-            <a class="btn btn-primary" asp-controller="UserMenu" asp-action="LoanBook">Loan book</a>
+            <a class="btn btn-primary" asp-controller="UserMenu" asp-action="Create">Loan book</a>
             <a class="btn btn-primary" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">See loaned book(s)</a>
             <hr />
             <div class="dropdown mt-3">
-                @* <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                User options
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Create">Loan book</a>
-                <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="GetUserBook">Users borrowed book(s)</a>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>*@
             </div>
         </div>
     </div>

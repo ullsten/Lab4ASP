@@ -12,11 +12,12 @@ namespace Lab4ASP.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Range(1000, int.MaxValue)] //start value to 1000
+        [DisplayName("Id")]
         public int BookId { get; set; }
 
         [Required]
         [StringLength(50)]
-        [DisplayName("Book title")]
+        [DisplayName("Title")]
         public string BookTitle { get; set; }
 
         [Required]

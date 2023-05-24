@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>*@
-@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>   
+﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
 
 @{
     ViewData["Title"] = "GetUserBook";
@@ -12,8 +11,15 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
             <div class="mb-3">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
-                <a class="btn btn-primary" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>
+                <a class="btn btn-info m-0 p-1" asp-controller="BookAuthors" asp-action="Index">Book register</a>
+                <a class="btn btn-info m-0 p-1" asp-controller="Users" asp-action="Index">User register</a>
+                <a class="btn btn-info m-0 p-1" asp-controller="Addresses" asp-action="Index">Address register</a>
+               <hr />
+               <button class="btn btn-primary m-0 p-1" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+                <a class="btn btn-primary m-0 p-1" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>
+                <hr />
+                
+                <a class="btn btn-primary m-0 p-1" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>
             </div>
             <div class="mb-3">
                 @*<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</button>*@
@@ -58,7 +64,7 @@
 <div class="container">
     <table class="table table-striped table-hover">
         <thead>
-           @* <tr>
+            <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.UserName)
                 </th>
@@ -85,7 +91,7 @@
                 </th>
                 <th>
                     Options
-                </th>*@
+                </th>
             </tr>
         </thead>
         <tbody>

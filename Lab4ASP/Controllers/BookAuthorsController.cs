@@ -22,7 +22,11 @@ namespace Lab4ASP.Controllers
         // GET: BookAuthors
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.BooksAuthors.Include(b => b.Authors).Include(b => b.Books);
+            var applicationDbContext = _context.BooksAuthors
+                .Include(b => b.Authors)
+                .Include(b => b.Books)
+                .Include(b=> b.Books.BookTypes);
+
             return View(await applicationDbContext.ToListAsync());
         }
 

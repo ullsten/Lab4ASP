@@ -32,7 +32,7 @@ namespace Lab4ASP.Models.JunctionTables
         [DisplayName("Loan again")]
         public bool IsLoaned { get; set; }
 
-        [DisplayName("Returned")]
+        [DisplayName("Return")]
         public bool IsReturned { get; set; } = false; //false as default
 
         public DateTime ReturnedDate { get; set; }

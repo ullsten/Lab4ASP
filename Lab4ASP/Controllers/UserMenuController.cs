@@ -27,8 +27,59 @@ namespace Lab4ASP.Controllers
             return View();
         }
 
-        // GET: Avaible options for logged in user when borrow book
-        public async Task<IActionResult> LoanBook()
+        //Logged in users dashboard shows only current users loans
+        public async Task<ActionResult<IEnumerable<UserBookViewModel>>> GetLoggedInUserBook(string searchString, bool? switchReturned, bool? switchLoaned)
+        {
+            // Get the current logged-in user to filter result 
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return BadRequest();
+            }
+            // Query the books borrowed by the current user
+            var borrowedBook = from l in _context.LoanHistories
+                               join u in _userManager.Users on l.FK_UserId equals u.Id
+                               join b in _context.Books on l.FK_BookId equals b.BookId
+                               where u.Id == currentUser.Id // Filter by current user's id to show realated loans
+                               orderby l.LoanStart descending
+                               select new UserBookViewModel
+                               {
+                                   LoanHistoryId = l.LoanHistoryId,
+                                   UserName = u.FullName,
+                                   BookTitle = b.BookTitle,
+                                   BookDescription = b.BookDescription,
+                                   LoanStart = l.LoanStart,
+                                   LoanEnd = l.LoanEnd,
+                                   IsLoaned = l.IsLoaned,
+                                   IsReturned = l.IsReturned,
+                                   ReturnedDate = l.ReturnedDate,
+                               };
+
+            if (switchReturned == true) // Only returned books
+            {
+                borrowedBook = borrowedBook.Where(l => l.IsReturned);
+            }
+            if (switchLoaned == true)
+            {
+                borrowedBook = borrowedBook.Where(l => l.IsLoaned);
+            }
+
+            var borrowedBookResult = await borrowedBook.AsNoTracking().ToListAsync();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                borrowedBookResult = borrowedBookResult
+                    .Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            ViewBag.SwitchReturned = switchReturned; // Store the current switch state returned
+            ViewBag.SwitchLoaned = switchLoaned;    //Store the current switch state loaned
+
+            return View(borrowedBookResult);
+        }
+
+        public async Task<IActionResult> Create()
         {
             var currentUser = await _userManager.GetUserAsync(User); //Get loggedInUsers info.
             var currentUserFirstName = currentUser.FirstName;        //Get loggedInUsers firstName
@@ -43,28 +94,30 @@ namespace Lab4ASP.Controllers
                 .Where(b => b.Quantity != 0)
                 .ToList();
 
-            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName");
-            ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
+            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName"); // Display the user's full name in the dropdown
+            ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle"); // Display the book title in the dropdown
 
             return View();
         }
 
         // POST: LoanHistories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoanBook([Bind("LoanHistoryId,FK_UserId,FK_BookId")] LoanHistory loanHistory)
+        public async Task<IActionResult> Create([Bind("LoanHistoryId,FK_UserId,FK_BookId,LoanStart")] LoanHistory loanHistory)
         {
             if (ModelState.IsValid)
             {
-                // Set loanEnd to 9 days after loan start
+                //Set loanEnd to 9 days after loan start
                 loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
-                // Set IsLoaned to true after submitting a new loan
+                //Set IsLoaned to true after submit new loan
                 loanHistory.IsLoaned = true;
 
                 _context.Add(loanHistory);
                 await _context.SaveChangesAsync();
 
-                // Decrease the quantity of the borrowed book by 1
+                // Decrease the quantity of the borrowed book by 1 - if 0 book not shows in droppdown list
                 var borrowedBook = await _context.Books.FindAsync(loanHistory.FK_BookId);
                 if (borrowedBook != null)
                 {
@@ -72,57 +125,122 @@ namespace Lab4ASP.Controllers
                     await _context.SaveChangesAsync();
                 }
 
+                // Get the latest loan history entry
+                var latestLoan = await _context.LoanHistories.OrderByDescending(l => l.LoanHistoryId).FirstOrDefaultAsync();
+
+                // Pass the latest loan history entry ID to the view
+                TempData["LatestLoanId"] = latestLoan?.LoanHistoryId;
+                TempData["LoanCreatedMessage"] = "Loan application created successfully.";
+
                 return RedirectToAction(nameof(GetLoggedInUserBook));
             }
-
             ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
-            ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookTitle");
-
             return View(loanHistory);
         }
 
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null || _context.LoanHistories == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        //Show book(s) for logged in user only
-        public async Task<ActionResult<IEnumerable<UserBookViewModel>>> GetLoggedInUserBook(string searchString)
-        {
-            // Get the current logged-in user to filter result 
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
-            {
-                return BadRequest();
-            }
-            // Query the books borrowed by the current user
-            var borrowedBook = from l in _context.LoanHistories
-                               join u in _userManager.Users on l.FK_UserId equals u.Id
-                               join b in _context.Books on l.FK_BookId equals b.BookId
-                               where u.Email == currentUser.Email // Filter by current user's ID
-                               where l.IsLoaned == true
-                               select new UserBookViewModel
-                               {
-                                   LoanHistoryId = l.LoanHistoryId,
-                                   UserName = u.FullName,
-                                   BookTitle = b.BookTitle,
-                                   BookDescription = b.BookDescription,
-                                   LoanStart = l.LoanStart,
-                                   LoanEnd = l.LoanEnd,
-                                   IsLoaned = l.IsLoaned,
-                                   IsReturned = l.IsReturned,
-                                   ReturnedDate = l.ReturnedDate,
-                               };
+        //    var loanHistory = await _context.LoanHistories.FindAsync(id);
+        //    if (loanHistory == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var borrowedBookResult = await borrowedBook.AsNoTracking().ToListAsync();
+        //    var currentUser = await _userManager.GetUserAsync(User); //Get loggedInUsers info.
+        //    var currentUserFirstName = currentUser.FirstName;        //Get loggedInUsers firstName
 
-            if (!string.IsNullOrWhiteSpace(searchString))
-            {
-                borrowedBookResult = borrowedBookResult
-                    .Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-            return View(borrowedBookResult);
-        }
+        //    //filter option so only logged in users name visible in list
+        //    var availableUsers = _userManager.Users
+        //        .Where(u => u.FirstName == currentUserFirstName)
+        //        .ToList();
 
-       
-        public async Task<IActionResult> Edit(int? id)
+
+        //    //filter avaible books where quantity != 0 
+        //    //user can only change to book where quantity !=0
+        //    var availableBooks = _context.Books
+        //        .Where(b => b.Quantity != 0)
+        //        .ToList();
+
+        //    //Needs to show value in dropdown in view
+        //    ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName", loanHistory.FK_UserId);
+        //    ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
+
+        //    return View(loanHistory);
+        //}
+
+        //// POST: LoanHistories/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("LoanHistoryId,FK_UserId,FK_BookId,LoanStart,LoanEnd,IsLoaned,IsReturned")] LoanHistory loanHistory)
+        //{
+        //    if (id != loanHistory.LoanHistoryId)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            // Retrieve the original loan history from the database
+        //            var originalLoanHistory = _context.LoanHistories.AsNoTracking().FirstOrDefault(lh => lh.LoanHistoryId == id);
+        //            if (originalLoanHistory == null)
+        //            {
+        //                return NotFound();
+        //            }
+
+        //            // Preserve the original LoanStart and LoanEnd values
+        //            loanHistory.LoanStart = originalLoanHistory.LoanStart;
+        //            loanHistory.LoanEnd = originalLoanHistory.LoanEnd;
+
+        //            // Update the loan history
+        //            if (loanHistory.IsReturned == true)
+        //            {
+        //                loanHistory.ReturnedDate = DateTime.Now;
+
+        //                // Retrieve the associated book from the database
+        //                var book = await _context.Books.FindAsync(loanHistory.FK_BookId);
+        //                if (book != null)
+        //                {
+        //                    // Increase the quantity of the book
+        //                    book.Quantity += 1;
+        //                    _context.Update(book);
+        //                }
+
+        //                // Set IsLoaned to false when IsReturned is true
+        //                loanHistory.IsLoaned = false;
+        //            }
+
+        //            _context.Update(loanHistory);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!LoanHistoryExists(loanHistory.LoanHistoryId))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(GetLoggedInUserBook));
+        //    }
+
+        //    ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
+        //    return View(loanHistory);
+        //}
+
+        // GET: LoanHistories/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null || _context.LoanHistories == null)
             {
@@ -135,15 +253,26 @@ namespace Lab4ASP.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(User); //Get loggedInUsers info.
+            var currentUserFirstName = currentUser.FirstName;        //Get loggedInUsers firstName
+
+            //filter option so only logged in users name visible in list
+            var availableUsers = _userManager.Users
+                .Where(u => u.FirstName == currentUserFirstName)
+                .ToList();
+
+            ////filter avaible books where quantity != 0
+            //var availableBooks = _context.Books
+            //    .Where(b => b.Quantity != 0)
+            //    .ToList();
+
             //Need to show value in dropdown in view
-            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName", loanHistory.FK_UserId);
             ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookTitle");
+
             return View(loanHistory);
         }
 
-        // POST: LoanHistories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("LoanHistoryId,FK_UserId,FK_BookId,LoanStart,LoanEnd,IsLoaned,IsReturned")] LoanHistory loanHistory)
@@ -155,37 +284,13 @@ namespace Lab4ASP.Controllers
 
             if (ModelState.IsValid)
             {
+                if (loanHistory.IsReturned)
+                {
+                    loanHistory.ReturnedDate = DateTime.Now;
+                }
+
                 try
                 {
-                    // Retrieve the original loan history from the database
-                    var originalLoanHistory = _context.LoanHistories.AsNoTracking().FirstOrDefault(lh => lh.LoanHistoryId == id);
-                    if (originalLoanHistory == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Preserve the original LoanStart and LoanEnd values
-                    loanHistory.LoanStart = originalLoanHistory.LoanStart;
-                    loanHistory.LoanEnd = originalLoanHistory.LoanEnd;
-
-                    // Update the loan history
-                    if (loanHistory.IsReturned == true)
-                    {
-                        loanHistory.ReturnedDate = DateTime.Now;
-
-                        // Retrieve the associated book from the database
-                        var book = await _context.Books.FindAsync(loanHistory.FK_BookId);
-                        if (book != null)
-                        {
-                            // Increase the quantity of the book
-                            book.Quantity += 1;
-                            _context.Update(book);
-                        }
-
-                        // Set IsLoaned to false when IsReturned is true
-                        loanHistory.IsLoaned = false;
-                    }
-
                     _context.Update(loanHistory);
                     await _context.SaveChangesAsync();
                 }
@@ -200,13 +305,21 @@ namespace Lab4ASP.Controllers
                         throw;
                     }
                 }
+
+                //Decrease quanity for returned book
+                var borrowedBook = await _context.Books.FindAsync(loanHistory.FK_BookId);
+                if (borrowedBook != null)
+                {
+                    borrowedBook.Quantity--;
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(GetLoggedInUserBook));
             }
 
-            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "Email", loanHistory.FK_UserId);
             return View(loanHistory);
         }
-
         // GET: LoanHistories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -26,7 +26,9 @@ namespace Lab4ASP.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Books.Include(b => b.BookTypes);
+            var applicationDbContext = _context.Books
+                .Include(b => b.BookTypes)
+                .Include(b => b.BooksAuthors);
             return View(await applicationDbContext.ToListAsync());
         }
 
