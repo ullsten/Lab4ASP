@@ -24,33 +24,32 @@ namespace Lab4ASP.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var applicationDbContext = _context.Books
+        //        .Include(b => b.BookTypes)
+        //        .Include(b => b.BooksAuthors);
+        //    return View(await applicationDbContext.ToListAsync());
+        //}
+
+        public async Task<ActionResult<IEnumerable<BookRegisterViewModel>>> Index()
         {
-            var applicationDbContext = _context.Books
-                .Include(b => b.BookTypes)
-                .Include(b => b.BooksAuthors);
-            return View(await applicationDbContext.ToListAsync());
+            var bookRegister = await _context.BooksAuthors
+                .Include(l => l.Books)
+                .Include(l => l.Books.BookTypes)
+                .Select(l => new BookRegisterViewModel
+                {
+                    BookId = l.FK_BookId,
+                    BookTitle = l.Books.BookTitle,
+                    BookDescription = l.Books.BookDescription,
+                    Published = l.Books.PublishedYear,
+                    Genre = l.Books.BookTypes.BookTypeName,
+                    Author = l.Authors.AuthorName,
+                    Quantity = l.Books.Quantity,
+                }).ToListAsync();
+
+            return View(bookRegister);
         }
-
-        // GET: Books/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Books == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books
-                .Include(b => b.BookTypes)
-                .FirstOrDefaultAsync(m => m.BookId == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
         // GET: Books/Create
         public IActionResult Create()
         {
@@ -58,22 +57,6 @@ namespace Lab4ASP.Controllers
             return View();
         }
 
-        // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book)
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //        _context.Add(book);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    //}
-        //    //ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
-        //    return View(book);
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book, IFormFile bookPicture)
@@ -164,6 +147,24 @@ namespace Lab4ASP.Controllers
              return View(book);
         }
 
+        // GET: Books/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Books == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _context.Books
+                .Include(b => b.BookTypes)
+                .FirstOrDefaultAsync(m => m.BookId == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
 
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)

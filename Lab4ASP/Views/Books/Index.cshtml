@@ -1,15 +1,26 @@
-﻿@model IEnumerable<Lab4ASP.Models.Book>
+﻿@*@model IEnumerable<Lab4ASP.Models.Book>*@
+@model IEnumerable<Lab4ASP.Models.ViewModels.BookRegisterViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 <div class="bg-light mt-5 p-5 rounded">
-<h1>Lab4 Library books</h1>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add book</a>
-    <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
-</p>
+<h1>Lab4 Library book register</h1>
+                @{
+                    if (User.IsInRole("SuperAdmin, Admin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+                    {
+                        <a class="btn btn-primary" asp-action="Create">Add book</a>
+                        <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
+                    }
+                    else if (User.IsInRole("Basic")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+                    {
+                        <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">Dashboard</a>
+                    }
+                    else
+                    {
+                        <h3 class="text-dark">Lab4ASP Library</h3>
+                    }
+                }
 <hr />
 <table class="table table-striped text-bg-light table-hover">
     
@@ -25,15 +36,18 @@
                 @Html.DisplayNameFor(model => model.BookDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublishedYear)
+                @Html.DisplayNameFor(model => model.Published)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookTypes.BookTypeName)
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th></th>
+           
         </tr>
     </thead>
     <tbody>
@@ -49,10 +63,13 @@
                 @Html.DisplayFor(modelItem => item.BookDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PublishedYear)
+                @Html.DisplayFor(modelItem => item.Published)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookTypes.BookTypeName)
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
