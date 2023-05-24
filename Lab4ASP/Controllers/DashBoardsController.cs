@@ -72,11 +72,14 @@ namespace Lab4ASP.Controllers
         {
             var randomBook = await _context.Books
                 .Include(b => b.BookTypes)  //Hämtar böcker från databasen
-                .OrderBy(x => Guid.NewGuid())       //ordnar böckerna random
+                .OrderBy(x => Guid.NewGuid())
+                .Where(b => b.BookId == 11)
+                //ordnar böckerna random
                 .Select(b => new UserBookViewModel      // skapar UserBookViewModel object för varje bok med title+description angivet nedanför
                 {
                     RndTitle = b.BookTitle,
                     RndDescription = b.BookDescription,
+                    BookPicture = b.BookPicture,
                    
                 })
                 .FirstOrDefaultAsync();         //hämtar första boken i listan som bli den random bok som ska visas.

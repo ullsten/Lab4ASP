@@ -38,21 +38,30 @@
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                    <h4 class="card-title">Primary card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    @foreach (var item in Model)
+                    {
+                        <h4 class="card-title"> @Html.DisplayFor(model => item.RndTitle)</h4>
+                        @if (item.BookPicture != null)
+                        {
+                            <img style="width:250px;height:70px; object-fit:cover; border-radius:" src="data:image;base64,@Convert.ToBase64String(item.BookPicture)" alt="Book Picture" />
+                        }
+                        else
+                        {
+                            <p>No picture available.</p>
+                        }
+                    }
                     <table class="table table-striped text-white">
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
                                     <td class="text-white">
-                                        @Html.DisplayNameFor(model => model.RndTitle)
+
                                         @Html.DisplayFor(model => item.RndDescription)
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-white">
-                                        @Html.DisplayNameFor(model => model.RndTitle)
                                         @Html.DisplayFor(model => item.RndDescription)
                                     </td>
                                 </tr>

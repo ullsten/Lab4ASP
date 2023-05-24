@@ -14,7 +14,7 @@
                     <h4 class="card-subtitle">Edit Book</h4>
                     <hr />
 
-                    <form asp-action="Edit">
+                    <form asp-action="Edit" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="BookId" />
                         <div class="form-group">
@@ -41,6 +41,11 @@
                             <label asp-for="Quantity" class="control-label"></label>
                             <input asp-for="Quantity" class="form-control" />
                             <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BookPicture" class="control-label"></label>
+                            <input asp-for="BookPicture" type="file" class="form-control-file" />
+                            <span asp-validation-for="BookPicture" class="text-danger"></span>
                         </div>
                         <div class="form-group mt-2">
                             <input type="submit" value="Save" class="btn btn-primary" />

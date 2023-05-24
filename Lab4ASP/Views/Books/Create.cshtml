@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="BookTitle" class="control-label"></label>
@@ -29,12 +29,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="BookTypes.BookTypeName" class="control-label"></label>
-                <select asp-for="FK_BookTypeId" class ="form-control" asp-items="ViewBag.FK_BookTypeId"></select>
+                <select asp-for="FK_BookTypeId" class="form-control" asp-items="ViewBag.FK_BookTypeId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookPicture" class="control-label"></label>
+                <input asp-for="BookPicture" type="file" class="form-control-file" />
+                <span asp-validation-for="BookPicture" class="text-danger"></span>
             </div>
             <div class="form-group mt-2">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -45,9 +50,10 @@
 </div>
 
 <div>
-    
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

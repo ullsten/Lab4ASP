@@ -61,19 +61,43 @@ namespace Lab4ASP.Controllers
         // POST: Books/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book)
+        //{
+        //    //if (ModelState.IsValid)
+        //    //{
+        //        _context.Add(book);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    //}
+        //    //ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
+        //    return View(book);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book, IFormFile bookPicture)
         {
             //if (ModelState.IsValid)
             //{
+                if (bookPicture != null && bookPicture.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await bookPicture.CopyToAsync(ms);
+                        book.BookPicture = ms.ToArray();
+                    }
+                }
+
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             //}
+
             //ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
             return View(book);
         }
+
 
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -97,7 +121,7 @@ namespace Lab4ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book, IFormFile bookPicture)
         {
             if (id != book.BookId)
             {
@@ -108,6 +132,15 @@ namespace Lab4ASP.Controllers
             //{
                 try
                 {
+                    if (bookPicture != null && bookPicture.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            await bookPicture.CopyToAsync(ms);
+                            book.BookPicture = ms.ToArray();
+                        }
+                    }
+
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                 }
@@ -122,12 +155,15 @@ namespace Lab4ASP.Controllers
                         throw;
                     }
                 }
-           // ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
-            return RedirectToAction(nameof(Index));
+
+                 return RedirectToAction(nameof(Index));
             //}
-            
-            //return View(book);
+
+            // If the model state is invalid, you can handle the error or return the view with the invalid model.
+             ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
+             return View(book);
         }
+
 
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)

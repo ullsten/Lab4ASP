@@ -33,13 +33,6 @@ namespace Lab4ASP.Controllers
             _emailSender = emailSender;
         }
 
-        // GET: Customers
-        //public async Task<IActionResult> Index()
-        //{
-        //    return _context.Users != null ?
-        //                View(await _context.Users.ToListAsync()) :
-        //                Problem("Entity set 'ApplicationDbContext.Users'  is null.");
-        //}
         public async Task<IActionResult> Index(string userAddedId)
         {
             // Check if userAddedId is not null or empty
@@ -65,20 +58,6 @@ namespace Lab4ASP.Controllers
         {
             return View();
         }
-
-        // POST: Customers/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,PhoneNumber,Email")] ApplicationUser user)
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //        _context.Add(user);
-        //        await _context.SaveChangesAsync();
-        //         RedirectToAction(nameof(Index));
-        //    //}
-        //    return View(user);
-        //}
 
         //Add new User to Identity table, set username from email, password being hashed.
         [HttpPost]
@@ -234,7 +213,6 @@ namespace Lab4ASP.Controllers
             return View(user);
         }
 
-        // GET: Customers/Delete/5
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(string? id)
         {

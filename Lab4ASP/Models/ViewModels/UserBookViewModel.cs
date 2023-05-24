@@ -25,6 +25,7 @@ namespace Lab4ASP.Models.ViewModels
         public string? RndDescription { get; set; }
 
         public string Author { get; set; }
+        public byte[] BookPicture { get; set; }
 
         [DisplayName("Loaned")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
