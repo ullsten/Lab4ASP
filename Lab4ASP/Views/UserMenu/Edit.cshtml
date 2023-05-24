@@ -23,7 +23,7 @@
                 <select asp-for="FK_BookId" class="form-control" asp-items="ViewBag.FK_BookId"></select>
                 <span asp-validation-for="FK_BookId" class="text-danger"></span>
             </div>
-            <div class="form-group form-switch">
+       @*     <div class="form-group form-switch">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsReturned" /> @Html.DisplayNameFor(model => model.IsReturned)
                 </label>
@@ -32,7 +32,33 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsLoaned" /> @Html.DisplayNameFor(model => model.IsLoaned)
                 </label>
+            </div>*@
+            <div class="form-group form-switch">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" asp-for="IsReturned" onclick="toggleCheckbox('IsReturned', 'IsLoaned')" />
+                    @Html.DisplayNameFor(model => model.IsReturned)
+                </label>
             </div>
+
+            <div class="form-check form-switch">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" asp-for="IsLoaned" onclick="toggleCheckbox('IsLoaned', 'IsReturned')" />
+                    @Html.DisplayNameFor(model => model.IsLoaned)
+                </label>
+            </div>
+
+            <script>
+                function toggleCheckbox(selectedCheckbox, otherCheckbox) {
+                    var selected = document.getElementById(selectedCheckbox);
+                    var other = document.getElementById(otherCheckbox);
+
+                    if (selected.checked) {
+                        other.checked = false;
+                    }
+                }
+            </script>
+
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a class="btn btn-dark" asp-action="GetLoggedInUserBook">Back to List</a>
