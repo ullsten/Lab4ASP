@@ -1,96 +1,68 @@
-﻿@*@model IEnumerable<Lab4ASP.Models.Book>*@
-@model IEnumerable<Lab4ASP.Models.ViewModels.BookRegisterViewModel>
+﻿@model IEnumerable<Lab4ASP.Models.ViewModels.BookRegisterViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
+
 <div class="bg-light mt-5 p-5 rounded">
-<h1>Lab4 Library book register</h1>
-                @{
-                    if (User.IsInRole("SuperAdmin, Admin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+    <h1>Lab4 Library book register</h1>
+    @{
+        if (User.IsInRole("SuperAdmin, Admin"))
+        {
+            <a class="btn btn-primary" asp-action="Create">Add book</a>
+            <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
+        }
+        else if (User.IsInRole("Basic"))
+        {
+            <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">Dashboard</a>
+        }
+        else
+        {
+            <h3 class="text-dark">Lab4ASP Library</h3>
+        }
+    }
+    <hr />
+
+    <div class="row row-cols-1 row-cols-md-3">
+        @foreach (var item in Model)
+        {
+            <div class="col mb-4">
+                <div class="card h-100 d-flex align-items-center justify-content-center">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.BookTitle</h5>
+                        <p class="card-text">
+                            <strong>Book ID:</strong> @item.BookId <br />
+                            <strong>Description:</strong> @item.BookDescription <br />
+                            <strong>Published:</strong> @item.Published <br />
+                            <strong>Genre:</strong> @item.Genre <br />
+                            <strong>Author:</strong> @item.Author <br />
+                            <strong>Quantity:</strong> @item.Quantity
+                        </p>
+                    </div>
+                    @if (item != null && item.BookPicture != null)
                     {
-                        <a class="btn btn-primary" asp-action="Create">Add book</a>
-                        <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
-                    }
-                    else if (User.IsInRole("Basic")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
-                    {
-                        <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">Dashboard</a>
+                        <img class="rounded-bottom" id="bookPicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.BookPicture))">
                     }
                     else
                     {
-                        <h3 class="text-dark">Lab4ASP Library</h3>
+                        <div class="card-body text-center" style="width:150px;height:150px">
+                            <p>No picture</p>
+                        </div>
                     }
-                }
-<hr />
-<table class="table table-striped text-bg-light table-hover">
-    
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BookId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Published)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-             <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-           
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Published)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        <button type="button" class="btn btn-light btn-sm">Options</button>
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
-                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
-                                @*<a class="dropdown-item" asp-action="Details" asp-route-id="@item.BookId">Details</a>*@
-                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+                    <div class="card-body">
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-light btn-sm">Options</button>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
+                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </td>
-                
-
-        </tr>
-}
-    </tbody>
-</table>
+                </div>
+            </div>
+        }
+    </div>
 </div>

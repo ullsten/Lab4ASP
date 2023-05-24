@@ -16,5 +16,6 @@ namespace Lab4ASP.Models.ViewModels
         public string Genre { get; set; }
         public string Author { get; set; }
         public int Quantity { get; set; }
+        public byte[] BookPicture { get; set; }
     }
 }

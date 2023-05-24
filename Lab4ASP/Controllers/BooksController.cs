@@ -46,6 +46,7 @@ namespace Lab4ASP.Controllers
                     Genre = l.Books.BookTypes.BookTypeName,
                     Author = l.Authors.AuthorName,
                     Quantity = l.Books.Quantity,
+                    BookPicture = l.Books.BookPicture,
                 }).ToListAsync();
 
             return View(bookRegister);
