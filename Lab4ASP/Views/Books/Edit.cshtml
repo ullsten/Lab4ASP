@@ -3,20 +3,17 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title">Lab4ASP Library</h1>
-
-                    <h4 class="card-subtitle">Edit Book</h4>
+                    <h1 class="card-title">Create</h1>
+                    <h4 class="card-subtitle">Book</h4>
                     <hr />
 
-                    <form asp-action="Edit" enctype="multipart/form-data">
+                    <form asp-action="Create" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="BookId" />
 
                         <div class="row">
                             <div class="col-md-6">
@@ -25,32 +22,37 @@
                                     <input asp-for="BookTitle" class="form-control" />
                                     <span asp-validation-for="BookTitle" class="text-danger"></span>
                                 </div>
+
                                 <div class="form-group">
                                     <label asp-for="BookDescription" class="control-label"></label>
                                     <input asp-for="BookDescription" class="form-control" />
                                     <span asp-validation-for="BookDescription" class="text-danger"></span>
                                 </div>
+
                                 <div class="form-group">
                                     <label asp-for="PublishedYear" class="control-label"></label>
                                     <input asp-for="PublishedYear" class="form-control" />
                                     <span asp-validation-for="PublishedYear" class="text-danger"></span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label asp-for="FK_BookTypeId" class="control-label"></label>
+                                    <label asp-for="BookTypes.BookTypeName" class="control-label"></label>
                                     <select asp-for="FK_BookTypeId" class="form-control" asp-items="ViewBag.FK_BookTypeId"></select>
-                                    <span asp-validation-for="FK_BookTypeId" class="text-danger"></span>
                                 </div>
+
                                 <div class="form-group">
                                     <label asp-for="Quantity" class="control-label"></label>
                                     <input asp-for="Quantity" class="form-control" />
                                     <span asp-validation-for="Quantity" class="text-danger"></span>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div asp-validation-summary="ModelOnly" class="text-warning"></div>
                                 <div class="form-floating mb-3">
-                                    <label asp-for="BookPicture" style="width: 100%;"></label>
-                                    @if (Model.BookPicture != null)
+                                    <label style="display: none;">@Html.DisplayNameFor(model => model.BookPicture)</label>
+
+                                    @if (Model != null && Model.BookPicture != null)
                                     {
                                         <img id="bookPicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.BookPicture))">
                                     }
@@ -69,8 +71,8 @@
                         </div>
 
                         <div class="form-group mt-2">
-                            <input type="submit" value="Save" class="btn btn-primary" />
-                            <a asp-action="Index" class="btn btn-dark">Back to List</a>
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
                         </div>
                     </form>
                 </div>
@@ -78,4 +80,5 @@
         </div>
     </div>
 </div>
+
 
