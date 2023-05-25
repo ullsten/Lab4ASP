@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Lab4ASP.Models.Address>
-
+﻿@*@model IEnumerable<Lab4ASP.Models.ViewModels.AddressUserViewModel>*@
+@model IEnumerable<Lab4ASP.Models.Address>
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,7 +7,7 @@
 <div class="d-flex flex-column align-items-center mt-5 p-3">
     <div class="card w-75">
         <div class="card-body">
-            <h1 class="card-title">Add user address</h1>
+            <h1 class="card-title">Lab4ASP Library Address register</h1>
             <p>
                 <a asp-action="Create" class="btn btn-primary">Add new customer address</a>
                 <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
@@ -25,7 +25,7 @@
                             @Html.DisplayNameFor(model => model.PostalCode)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Users)
+                            @Html.DisplayNameFor(model => model.Users.FullName)
                         </th>
                         <th>
                             Options
@@ -46,7 +46,7 @@
                                 @Html.DisplayFor(modelItem => item.PostalCode)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.FK_UserId)
+                                @Html.DisplayFor(modelItem => item.Users.FullName)
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">

@@ -24,7 +24,7 @@ namespace Lab4ASP.Models
         public string PostalCode { get; set; }
 
         //Relation
-        //[ForeignKey("Users")]
+        [ForeignKey("Users")]
         public string? FK_UserId { get; set; } = null;
 
         [DisplayName("User")]

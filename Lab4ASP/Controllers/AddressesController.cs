@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Lab4ASP.Data;
 using Lab4ASP.Models;
 using Microsoft.AspNetCore.Identity;
+using Lab4ASP.Models.ViewModels;
+using Lab4ASP.Models.JunctionTables;
 
 namespace Lab4ASP.Controllers
 {
@@ -22,7 +24,9 @@ namespace Lab4ASP.Controllers
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Addresses.Include(a => a.Users);
+            var applicationDbContext = _context.Addresses
+                .Include(a => a.Users);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -118,7 +122,7 @@ namespace Lab4ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "Email", address.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "UserId", "Email", address.FK_UserId);
             return View(address);
         }
 

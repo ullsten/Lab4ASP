@@ -3,149 +3,148 @@
 @{
     ViewData["Title"] = "GetUserBook";
 }
+
 <div class="bg-light mt-5 p-5 rounded">
-<h1>Lab4ASP Library register</h1>
-<hr />
-<h3>Admin dashboard</h3>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="mb-3">
-                <a class="btn btn-info m-0 p-1" asp-controller="Books" asp-action="Index">Book register</a>
-                <a class="btn btn-info m-0 p-1" asp-controller="Users" asp-action="Index">User register</a>
-                <a class="btn btn-info m-0 p-1" asp-controller="Addresses" asp-action="Index">Address register</a>
-               <hr />
-               <button class="btn btn-primary m-0 p-1" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
-                <a class="btn btn-primary m-0 p-1" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>
+    <h1>Lab4ASP Library register</h1>
+    <hr />
+    <h3>Admin dashboard</h3>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="mb-3">
+                    <a class="btn btn-info m-0 p-1" asp-controller="Books" asp-action="Index">Book register</a>
+                    <a class="btn btn-info m-0 p-1" asp-controller="Users" asp-action="Index">User register</a>
+                    <a class="btn btn-info m-0 p-1" asp-controller="Addresses" asp-action="Index">Address register</a>
+                    <hr />
+                    <button class="btn btn-primary m-0 p-1" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+                    <a class="btn btn-primary m-0 p-1" asp-controller="LoanHistories" asp-action="Create">Add Loan</a>
+                </div>
+                <div class="mb-3">
+                    @*Kan lägga mera här*@
+                </div>
             </div>
-            <div class="mb-3">
-                @*Kan lägga mera här*@
+            <div class="col-md-6 col-lg-4">
+                <form asp-action="GetUserBook" method="get">
+                    <div class="input-group">
+                        <input type="text" name="searchString" id="searchString" class="form-control" placeholder="Search by first name..." />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <form id="searchFormReturned" action="" method="get">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="switchReturned" name="switchReturned" value="true" @(ViewBag.switchReturned == true ? "checked" : "") onchange="document.getElementById('searchFormReturned').submit();" />
+                        <label class="form-check-label" for="switchReturned">Show returned Books Only</label>
+                    </div>
+                </form>
+                <form id="searchFormLoaned" action="" method="get">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="switchLoaned" name="switchLoaned" value="true" @(ViewBag.switchLoaned == true ? "checked" : "") onchange="document.getElementById('searchFormLoaned').submit();" />
+                        <label class="form-check-label" for="switchLoaned">Show Loaned Books</label>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
-            <form asp-action="GetUserBook" method="get">
-                <div class="input-group">
-                    <input type="text" name="searchString" id="searchString" class="form-control" placeholder="Search by first name..." />
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <form id="searchFormReturned" action="" method="get">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switchReturned" name="switchReturned" value="true" @(ViewBag.switchReturned == true ? "checked" : "") onchange="document.getElementById('searchFormReturned').submit();" />
-                    <label class="form-check-label" for="switchReturned">Show returned Books Only</label>
-                </div>
-            </form>
-            <form id="searchFormLoaned" action="" method="get">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switchLoaned" name="switchLoaned" value="true" @(ViewBag.switchLoaned == true ? "checked" : "") onchange="document.getElementById('searchFormLoaned').submit();" />
-                    <label class="form-check-label" for="switchLoaned">Show Loaned Books</label>
-                </div>
-            </form>
-        </div>
-
-    </div>
-
-</div>
-<hr />
-@if (TempData["LoanCreatedMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["LoanCreatedMessage"]
     </div>
     <hr />
-}
+    @if (TempData["LoanCreatedMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["LoanCreatedMessage"]
+        </div>
+        <hr />
+    }
 
-<div class="container">
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.UserName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BookTitle)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BookDescription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LoanStart)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LoanEnd)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DaysLeft)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ReturnedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsLoaned)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsReturned)
-                </th>
-                <th>
-                    Options
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="@(TempData["LatestLoanId"] != null && TempData["LatestLoanId"].Equals(item.LoanHistoryId) ? "table-success" : "")">
-                    <td>
-                        @Html.DisplayFor(model => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.BookTitle)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.BookDescription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.LoanStart)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.LoanEnd)
-                    </td>
-                    <td>
+    <div class="container">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BookTitle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BookDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LoanStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LoanEnd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DaysLeft)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReturnedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsLoaned)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsReturned)
+                    </th>
+                    <th>
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(TempData["LatestLoanId"] != null && TempData["LatestLoanId"].Equals(item.LoanHistoryId) ? "table-success" : "")">
+                        <td>
+                            @Html.DisplayFor(model => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.BookTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.BookDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.LoanStart)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.LoanEnd)
+                        </td>
+                        <td>
                             @if (!item.IsReturned)
                             {
                                 @item.DaysLeft
                             }
                         </td>
-                    <td>
+                        <td>
                             @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "") @*Could add message here*@
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.IsLoaned)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.IsReturned)
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.LoanHistoryId">Edit</a>
-                                    @*<a class="dropdown-item" asp-action="Details" asp-route-id="@item.LoanHistoryId">Details</a>*@
-                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.LoanHistoryId">Delete</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.IsLoaned)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.IsReturned)
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.LoanHistoryId">Edit</a>
+                                        @*<a class="dropdown-item" asp-action="Details" asp-route-id="@item.LoanHistoryId">Details</a>*@
+                                        <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.LoanHistoryId">Delete</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
+
 @*Modal content*@
 <!-- Add User Modal -->
 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
@@ -163,7 +162,8 @@
                     <div class="form-group">
                         <label for="firstName">First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName" required>
-                    </div><div class="form-group">
+                    </div>
+                    <div class="form-group">
                         <label for="lastName">Last Name</label>
                         <input type="text" class="form-control" id="lastName" name="lastName" required>
                     </div>
@@ -202,9 +202,51 @@
             </div>
             <div class="modal-body">
                 <h1>Books coming</h1>
-
             </div>
         </div>
     </div>
 </div>
+<!-- Add Loan Modal -->
+<div class="modal fade" id="addLoanModal" tabindex="-1" aria-labelledby="addLoanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addLoanModalLabel">Add Loan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Add Loan Form -->
+                <form asp-controller="Loans" asp-action="Create" method="post">
+                    <!-- Form fields for creating a loan -->
+                    <!-- Example: -->
+                    <div class="form-group">
+                        <label for="userId">User</label>
+                        <select class="form-control" id="userId" name="userId" required>
+                            <!-- Populate user options here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookId">Book</label>
+                        <select class="form-control" id="bookId" name="bookId" required>
+                            <!-- Populate book options here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="loanStart">Loan Start</label>
+                        <input type="date" class="form-control" id="loanStart" name="loanStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loanEnd">Loan End</label>
+                        <input type="date" class="form-control" id="loanEnd" name="loanEnd" required>
+                    </div>
+                    <!-- Add more form fields as needed -->
 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,11 +7,20 @@ namespace Lab4ASP.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
 
+        [DisplayName("Email Confirmed")]
+        public bool EmailConfirmed { get; set; }
+
         [NotMapped]
-        [DisplayName("Customer")]
+        [DisplayName("Phone")]
+        public string PhoneTitle { get; set; }
+
+        [NotMapped]
+        [DisplayName("User")]
         public string FullName => $"{FirstName} {LastName}";
         public int UsernameChangeLimit { get; set; } = 10;
         public byte[]? ProfilePicture { get; set; }
