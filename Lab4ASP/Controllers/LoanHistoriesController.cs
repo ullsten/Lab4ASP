@@ -195,7 +195,7 @@ namespace Lab4ASP.Controllers
             return View(loanHistory);
         }
 
-        
+
 
         // GET: LoanHistories/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -211,21 +211,26 @@ namespace Lab4ASP.Controllers
                 return NotFound();
             }
 
-            //filter avaible books where quantity != 0
-            var availableBooks = _context.Books
-                .Where(b => b.Quantity != 0)
+            var currentUser = await _userManager.GetUserAsync(User); // Get loggedInUser's info.
+            var currentUserFirstName = currentUser.FirstName; // Get loggedInUser's firstName
+
+            // Filter option so only loggedInUser's name is visible in the list
+            var availableUsers = _userManager.Users
+                .Where(u => u.FirstName == currentUserFirstName)
                 .ToList();
 
-            //Need to show value in dropdown in view
-            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
+            // Filter available books where quantity > 0 or the book is the one being edited
+            var availableBooks = _context.Books
+                .Where(b => b.Quantity > 0 || b.BookId == loanHistory.FK_BookId)
+                .ToList();
+
+            // Need to show values in dropdown in the view
+            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName", loanHistory.FK_UserId);
             ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
 
             return View(loanHistory);
         }
 
-        // POST: LoanHistories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("LoanHistoryId,FK_UserId,FK_BookId,LoanStart,LoanEnd,IsLoaned,IsReturned")] LoanHistory loanHistory)
@@ -240,6 +245,25 @@ namespace Lab4ASP.Controllers
                 if (loanHistory.IsReturned)
                 {
                     loanHistory.ReturnedDate = DateTime.Now;
+                    loanHistory.IsLoaned = false;
+
+                    // Increase quantity for returned book
+                    var borrowedBook = await _context.Books.FindAsync(loanHistory.FK_BookId);
+                    if (borrowedBook != null)
+                    {
+                        borrowedBook.Quantity++;
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else if (loanHistory.IsLoaned)
+                {
+                    // Degrease quantity for loaned book
+                    var borrowedBook = await _context.Books.FindAsync(loanHistory.FK_BookId);
+                    if (borrowedBook != null)
+                    {
+                        borrowedBook.Quantity--;
+                        await _context.SaveChangesAsync();
+                    }
                 }
 
                 try
@@ -258,6 +282,7 @@ namespace Lab4ASP.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(GetUserBook));
             }
 

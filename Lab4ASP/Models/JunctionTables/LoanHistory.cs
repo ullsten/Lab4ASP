@@ -14,7 +14,8 @@ namespace Lab4ASP.Models.JunctionTables
         public string FK_UserId { get; set; }
         public ApplicationUser? Users { get; set; }
 
-        [ForeignKey("Book")]
+        [ForeignKey("Books")]
+        [DisplayName("Book Id")]
         public int FK_BookId { get; set; }
         public Book? Books { get; set; }
 
@@ -33,9 +34,11 @@ namespace Lab4ASP.Models.JunctionTables
         [DisplayName("Loan again")]
         public bool IsLoaned { get; set; }
 
-        [DisplayName("Return")]
+        [DisplayName("Returned")]
         public bool IsReturned { get; set; } = false; //false as default
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 
+        [DisplayName("Returned Date")]
         public DateTime? ReturnedDate { get; set; }
         [NotMapped]
         public string ReturnedDateMessage
