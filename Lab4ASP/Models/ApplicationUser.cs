@@ -12,8 +12,8 @@ namespace Lab4ASP.Models
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
-        [DisplayName("Email Confirmed")]
-        public bool EmailConfirmed { get; set; }
+        //[DisplayName("Email Confirmed")]
+        //public bool EmailConfirmed { get; set; }
 
         [NotMapped]
         [DisplayName("Phone")]

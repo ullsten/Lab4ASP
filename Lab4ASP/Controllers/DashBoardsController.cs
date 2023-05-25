@@ -23,7 +23,7 @@ namespace Lab4ASP.Controllers
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+       // [Authorize(Roles = "SuperAdmin")]
         //Get users and loaned books by search
         public async Task<ActionResult<List<UserBookViewModel>>> GetUserBook(string searchString, bool? switchLoanSearch)
         {
@@ -66,7 +66,7 @@ namespace Lab4ASP.Controllers
 
         }
 
-        [Authorize(Roles = "Basic, SuperAdmin")]
+        //[Authorize(Roles = "Basic, SuperAdmin")]
         //For user
         public async Task<IActionResult> GetRandomBook()
         {

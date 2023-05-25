@@ -12,21 +12,6 @@ namespace Lab4ASP.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    AddressId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PostalCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.AddressId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
                 {
@@ -73,13 +58,13 @@ namespace Lab4ASP.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     UsernameChangeLimit = table.Column<int>(type: "int", nullable: false),
                     ProfilePicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -96,26 +81,19 @@ namespace Lab4ASP.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Users",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FK_AddressId = table.Column<int>(type: "int", nullable: true),
-                    AddressesAddressId = table.Column<int>(type: "int", nullable: true)
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
-                    table.ForeignKey(
-                        name: "FK_Customers_Addresses_AddressesAddressId",
-                        column: x => x.AddressesAddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "AddressId");
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,6 +105,8 @@ namespace Lab4ASP.Migrations
                     BookTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BookDescription = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     PublishedYear = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    BookPicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     FK_BookTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -247,6 +227,33 @@ namespace Lab4ASP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    AddressId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Street = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    FK_UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UsersUserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.AddressId);
+                    table.ForeignKey(
+                        name: "FK_Addresses_IdentityUser_FK_UserId",
+                        column: x => x.FK_UserId,
+                        principalTable: "IdentityUser",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Addresses_Users_UsersUserId",
+                        column: x => x.UsersUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BooksAuthors",
                 columns: table => new
                 {
@@ -278,13 +285,14 @@ namespace Lab4ASP.Migrations
                 {
                     LoanHistoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FK_CustomerId = table.Column<int>(type: "int", nullable: false),
+                    FK_UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FK_BookId = table.Column<int>(type: "int", nullable: false),
-                    BooksBookId = table.Column<int>(type: "int", nullable: true),
                     LoanStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LoanEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsLoaned = table.Column<bool>(type: "bit", nullable: false),
-                    BookAuthorId = table.Column<int>(type: "int", nullable: true)
+                    IsReturned = table.Column<bool>(type: "bit", nullable: false),
+                    ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BookAuthorId = table.Column<int>(type: "int", nullable: true),
+                    UsersUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -295,17 +303,33 @@ namespace Lab4ASP.Migrations
                         principalTable: "BooksAuthors",
                         principalColumn: "BookAuthorId");
                     table.ForeignKey(
-                        name: "FK_LoanHistories_Books_BooksBookId",
-                        column: x => x.BooksBookId,
+                        name: "FK_LoanHistories_Books_FK_BookId",
+                        column: x => x.FK_BookId,
                         principalTable: "Books",
-                        principalColumn: "BookId");
-                    table.ForeignKey(
-                        name: "FK_LoanHistories_Customers_FK_CustomerId",
-                        column: x => x.FK_CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "BookId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LoanHistories_IdentityUser_FK_UserId",
+                        column: x => x.FK_UserId,
+                        principalTable: "IdentityUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LoanHistories_Users_UsersUserId",
+                        column: x => x.UsersUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_FK_UserId",
+                table: "Addresses",
+                column: "FK_UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_UsersUserId",
+                table: "Addresses",
+                column: "UsersUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_FK_BookTypeId",
@@ -321,11 +345,6 @@ namespace Lab4ASP.Migrations
                 name: "IX_BooksAuthors_FK_BookId",
                 table: "BooksAuthors",
                 column: "FK_BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_AddressesAddressId",
-                table: "Customers",
-                column: "AddressesAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -372,19 +391,27 @@ namespace Lab4ASP.Migrations
                 column: "BookAuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoanHistories_BooksBookId",
+                name: "IX_LoanHistories_FK_BookId",
                 table: "LoanHistories",
-                column: "BooksBookId");
+                column: "FK_BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoanHistories_FK_CustomerId",
+                name: "IX_LoanHistories_FK_UserId",
                 table: "LoanHistories",
-                column: "FK_CustomerId");
+                column: "FK_UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LoanHistories_UsersUserId",
+                table: "LoanHistories",
+                column: "UsersUserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Addresses");
+
             migrationBuilder.DropTable(
                 name: "IdentityRoleClaims");
 
@@ -407,22 +434,19 @@ namespace Lab4ASP.Migrations
                 name: "IdentityRole");
 
             migrationBuilder.DropTable(
-                name: "IdentityUser");
-
-            migrationBuilder.DropTable(
                 name: "BooksAuthors");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "IdentityUser");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Books");
-
-            migrationBuilder.DropTable(
-                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "BookTypes");

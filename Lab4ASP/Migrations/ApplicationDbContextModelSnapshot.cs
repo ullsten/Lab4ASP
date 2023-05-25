@@ -36,7 +36,7 @@ namespace Lab4ASP.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FK_UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -48,15 +48,12 @@ namespace Lab4ASP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("UsersUserId")
                         .HasColumnType("int");
 
                     b.HasKey("AddressId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("FK_UserId");
 
                     b.HasIndex("UsersUserId");
 
@@ -249,9 +246,6 @@ namespace Lab4ASP.Migrations
                     b.Property<int?>("BookAuthorId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BooksBookId")
-                        .HasColumnType("int");
-
                     b.Property<int>("FK_BookId")
                         .HasColumnType("int");
 
@@ -278,7 +272,7 @@ namespace Lab4ASP.Migrations
 
                     b.HasIndex("BookAuthorId");
 
-                    b.HasIndex("BooksBookId");
+                    b.HasIndex("FK_BookId");
 
                     b.HasIndex("FK_UserId");
 
@@ -461,7 +455,7 @@ namespace Lab4ASP.Migrations
                 {
                     b.HasOne("Lab4ASP.Models.ApplicationUser", "Users")
                         .WithMany("Addresses")
-                        .HasForeignKey("UsersId");
+                        .HasForeignKey("FK_UserId");
 
                     b.HasOne("Lab4ASP.Models.Users", null)
                         .WithMany("Addresses")
@@ -508,7 +502,9 @@ namespace Lab4ASP.Migrations
 
                     b.HasOne("Lab4ASP.Models.Book", "Books")
                         .WithMany("LoanHistories")
-                        .HasForeignKey("BooksBookId");
+                        .HasForeignKey("FK_BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Lab4ASP.Models.ApplicationUser", "Users")
                         .WithMany("LoanHistories")

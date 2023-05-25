@@ -18,7 +18,7 @@ namespace Lab4ASP
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false) //sätt till false om det krånglar kan lösa problemet.
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
@@ -36,9 +36,9 @@ namespace Lab4ASP
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 ContextSeed.SeedRolesAsync(userManager, roleManager).Wait();
                 ContextSeed.SeedSuperAdminAsync(userManager, roleManager).Wait();
-               
+
                 //Add data to database at program run
-                ContextSeed.Initialize(context);
+               ContextSeed.Initialize(context);
             }
 
 
@@ -54,7 +54,7 @@ namespace Lab4ASP
                 app.UseHsts();
             }
 
-            app.UseSession(); // Add this line to enable session middleware
+            //app.UseSession(); // Add this line to enable session middleware
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
