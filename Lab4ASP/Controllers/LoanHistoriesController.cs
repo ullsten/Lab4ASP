@@ -27,7 +27,7 @@ namespace Lab4ASP.Controllers
         }
 
         // GET: LoanHistories
-        public async Task<ActionResult<List<LoanHistoryViewModel>>> Index(string searchString, bool? showLoanedBooks)
+        public async Task<ActionResult<List<LoanHistoryViewModel>>> Index(string searchString, bool? showLoanedBooks, int? selectedBookId)
         {
             var loanHistoryQuery = from l in _context.LoanHistories
                                    join u in _userManager.Users on l.FK_UserId equals u.Id
@@ -50,6 +50,10 @@ namespace Lab4ASP.Controllers
             }
 
             var loanHistory = await loanHistoryQuery.ToListAsync();
+
+            ViewBag.SelectedBookId = selectedBookId; // Set the selected book ID in ViewBag
+            ViewBag.BookList = new SelectList(_context.Books, "BookId", "BookTitle"); // Add this line to pass the book list to the view
+
 
             return View(loanHistory);
         }
@@ -148,6 +152,74 @@ namespace Lab4ASP.Controllers
         //}
 
         // GET: LoanHistories/Create
+        //public async Task<IActionResult> Create()
+        //{
+        //    var currentUser = await _userManager.GetUserAsync(User); //Get loggedInUsers info.
+        //    var currentUserFirstName = currentUser.FirstName;        //Get loggedInUsers firstName
+
+        //    //filter option so only logged in users name visible in list
+        //    var availableUsers = _userManager.Users
+        //        .Where(u => u.FirstName == currentUserFirstName)
+        //        .ToList();
+
+        //    //filter avaible books where quantity != 0
+        //    var availableBooks = _context.Books
+        //        .Where(b => b.Quantity != 0)
+        //        .ToList();
+
+        //    ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName"); // Display the user's full name in the dropdown
+        //    ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle"); // Display the book title in the dropdown
+
+        //    return View();
+        //}
+
+        //// POST: LoanHistories/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("LoanHistoryId,FK_UserId,FK_BookId")] LoanHistory loanHistory)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Find the existing loan history entry
+        //        var existingLoan = await _context.LoanHistories.FindAsync(loanHistory.LoanHistoryId);
+        //        if (existingLoan == null)
+        //        {
+        //            // Loan history entry not found
+        //            return NotFound();
+        //        }
+
+        //        // Set returned date to current DateTime
+        //        existingLoan.ReturnedDate = DateTime.Now;
+
+        //        // Retrieve the previous loan end value
+        //        var previousLoanEnd = existingLoan.LoanEnd;
+
+
+
+        //        // Set IsReturned to true
+        //        existingLoan.IsReturned = true;
+
+        //        _context.Update(existingLoan);
+        //        await _context.SaveChangesAsync();
+
+        //        // Increase the quantity of the returned book by 1
+        //        var returnedBook = await _context.Books.FindAsync(existingLoan.FK_BookId);
+        //        if (returnedBook != null)
+        //        {
+        //            returnedBook.Quantity++;
+        //            await _context.SaveChangesAsync();
+        //        }
+
+        //        TempData["LoanCreatedMessage"] = "Book returned successfully.";
+
+        //         return RedirectToAction(nameof(GetUserBook));
+        //    }
+
+        //    ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
+        //    return View(loanHistory);
+        //}
         public async Task<IActionResult> Create()
         {
             var currentUser = await _userManager.GetUserAsync(User); //Get loggedInUsers info.
@@ -163,7 +235,7 @@ namespace Lab4ASP.Controllers
                 .Where(b => b.Quantity != 0)
                 .ToList();
 
-            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName"); // Display the user's full name in the dropdown
+            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName"); // Display the user's full name in the dropdown
             ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle"); // Display the book title in the dropdown
 
             return View();
@@ -179,7 +251,7 @@ namespace Lab4ASP.Controllers
             if (ModelState.IsValid)
             {
                 //Set loanEnd to 9 days after loan start
-                loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
+                //loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
                 //Set IsLoaned to true after submit new loan
                 loanHistory.IsLoaned = true;
 

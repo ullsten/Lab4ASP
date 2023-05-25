@@ -39,7 +39,7 @@ namespace Lab4ASP.Models.ViewModels
         public bool IsReturned { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime ReturnedDate { get; set; }
+        public DateTime? ReturnedDate { get; set; }
 
         public string Borrower { get; set; }
 
@@ -54,5 +54,7 @@ namespace Lab4ASP.Models.ViewModels
 
         public int FK_AuthorId { get; set; }
         public Author? Authors { get; set; }
+        public int DaysLeft { get; set; }
+
     }
 }

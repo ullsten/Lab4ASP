@@ -26,7 +26,8 @@ namespace Lab4ASP.Models.JunctionTables
         [Required]
         [DisplayName("Loan end")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime LoanEnd { get; set; }
+        public DateTime LoanEnd => LoanStart.AddDays(9);
+
 
         [Required]
         [DisplayName("Loan again")]
@@ -35,6 +36,38 @@ namespace Lab4ASP.Models.JunctionTables
         [DisplayName("Return")]
         public bool IsReturned { get; set; } = false; //false as default
 
-        public DateTime ReturnedDate { get; set; }
+        public DateTime? ReturnedDate { get; set; }
+        [NotMapped]
+        public string ReturnedDateMessage
+        {
+            get
+            {
+                if (IsReturned)
+                {
+                    return ReturnedDate?.ToString("yyyy-MM-dd") ?? "Not available";
+                }
+                else
+                {
+                    return "Not returned";
+                }
+            }
+        }
+
+        [NotMapped]
+        public int DaysLeft
+        {
+            get
+            {
+                if (!IsReturned)
+                {
+                    TimeSpan remainingTime = LoanEnd - DateTime.Now;
+                    return remainingTime.Days;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
     }
 }

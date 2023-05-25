@@ -7,7 +7,7 @@
 <div class="bg-light mt-5 p-5 rounded">
     <h1>Lab4 Library book register</h1>
     @{
-        if (User.IsInRole("SuperAdmin, Admin"))
+        if (User.IsInRole("SuperAdmin"))
         {
             <a class="btn btn-primary" asp-action="Create">Add book</a>
             <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
@@ -50,12 +50,46 @@
                         </div>
                     }
                     <div class="card-body">
+                        @{
+                            if (User.IsInRole("SuperAdmin"))
+                            {
+                                <!-- Loan button -->
+                                @if (item.Quantity > 0)
+                                {
+                                    <a class="btn btn-primary" asp-action="Create" asp-controller="LoanHistories" asp-route-id="@item.BookId">Loan</a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary loan-button" disabled>No Stock</button>
+                                }
+                            }
+                            else if (User.IsInRole("Basic"))
+                            {
+                                <!-- Loan button -->
+                                @if (item.Quantity > 0)
+                                {
+                                    <a class="btn btn-primary" asp-action="Create" asp-controller="UserMenu" asp-route-id="@item.BookId">Loan</a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary loan-button" disabled>No Stock</button>
+                                }
+                            }
+                            else
+                            {
+                                <h3 class="text-dark">Lab4ASP Library</h3>
+                            }
+                        }
+                       
+                    </div>
+                    <div class="card-body">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <button type="button" class="btn btn-light btn-sm">Options</button>
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
+                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.BookId">Details</a>
                                     <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
                                 </div>
                             </div>
@@ -66,3 +100,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

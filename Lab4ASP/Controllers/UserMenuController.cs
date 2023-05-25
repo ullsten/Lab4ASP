@@ -53,6 +53,8 @@ namespace Lab4ASP.Controllers
                                    IsLoaned = l.IsLoaned,
                                    IsReturned = l.IsReturned,
                                    ReturnedDate = l.ReturnedDate,
+                                   DaysLeft = l.DaysLeft,
+                                   BookPicture = l.Books.BookPicture,
                                };
 
             if (switchReturned == true) // Only returned books
@@ -69,7 +71,7 @@ namespace Lab4ASP.Controllers
             if (!string.IsNullOrWhiteSpace(searchString))
             {
                 borrowedBookResult = borrowedBookResult
-                    .Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+                    .Where(u => u.BookTitle.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
 
@@ -110,7 +112,7 @@ namespace Lab4ASP.Controllers
             if (ModelState.IsValid)
             {
                 //Set loanEnd to 9 days after loan start
-                loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
+                //loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
                 //Set IsLoaned to true after submit new loan
                 loanHistory.IsLoaned = true;
 

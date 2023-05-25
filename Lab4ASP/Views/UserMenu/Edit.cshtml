@@ -47,16 +47,7 @@
                 </label>
             </div>
 
-            <script>
-                function toggleCheckbox(selectedCheckbox, otherCheckbox) {
-                    var selected = document.getElementById(selectedCheckbox);
-                    var other = document.getElementById(otherCheckbox);
-
-                    if (selected.checked) {
-                        other.checked = false;
-                    }
-                }
-            </script>
+        
 
 
             <div class="form-group">
@@ -71,7 +62,14 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
+        function toggleCheckbox(selectedCheckbox, otherCheckbox) {
+            var selected = document.getElementById(selectedCheckbox);
+            var other = document.getElementById(otherCheckbox);
+
+            if (selected.checked) {
+                other.checked = false;
+            }
+        }
+    </script>
 }

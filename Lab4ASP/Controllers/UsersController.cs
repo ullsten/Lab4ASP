@@ -53,6 +53,84 @@ namespace Lab4ASP.Controllers
             }
         }
 
+      
+
+        // GET: Customers/Edit/5
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
+        // POST: Customers/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,UserName,PhoneNumber,Email")] ApplicationUser user)
+        {
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingUser = await _userManager.FindByIdAsync(id);
+                    if (existingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existingUser.FirstName = user.FirstName;
+                    existingUser.LastName = user.LastName;
+                    existingUser.PhoneNumber = user.PhoneNumber;
+                    existingUser.Email = user.Email;
+                    existingUser.UserName = user.UserName;
+
+                    // Update the user using UserManager
+                    var result = await _userManager.UpdateAsync(existingUser);
+
+                    if (result.Succeeded)
+                    {
+                        // Update was successful
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    // If update failed, add model errors to ModelState
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(user.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View(user);
+        }
+
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -137,81 +215,7 @@ namespace Lab4ASP.Controllers
             return View(user);
         }
 
-        // GET: Customers/Edit/5
-        [HttpGet]
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-
-        // POST: Customers/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,UserName,PhoneNumber,Email")] ApplicationUser user)
-        {
-            if (id != user.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var existingUser = await _userManager.FindByIdAsync(id);
-                    if (existingUser == null)
-                    {
-                        return NotFound();
-                    }
-
-                    existingUser.FirstName = user.FirstName;
-                    existingUser.LastName = user.LastName;
-                    existingUser.PhoneNumber = user.PhoneNumber;
-                    existingUser.Email = user.Email;
-                    existingUser.UserName = user.UserName;
-
-                    // Update the user using UserManager
-                    var result = await _userManager.UpdateAsync(existingUser);
-
-                    if (result.Succeeded)
-                    {
-                        // Update was successful
-                        return RedirectToAction(nameof(Index));
-                    }
-
-                    // If update failed, add model errors to ModelState
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(user.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            return View(user);
-        }
+       
 
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(string? id)

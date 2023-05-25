@@ -44,43 +44,15 @@ namespace Lab4ASP.Controllers
                     BookDescription = l.Books.BookDescription,
                     Published = l.Books.PublishedYear,
                     Genre = l.Books.BookTypes.BookTypeName,
-                    Author = l.Authors.AuthorName,
+                    Author = string.IsNullOrEmpty(l.Authors.AuthorName) ? "No Author" : l.Authors.AuthorName, // Check if author is null or empty!!! Not working fixx later
                     Quantity = l.Books.Quantity,
                     BookPicture = l.Books.BookPicture,
-                }).ToListAsync();
+                })
+                .ToListAsync();
 
             return View(bookRegister);
         }
-        // GET: Books/Create
-        public IActionResult Create()
-        {
-            ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName");
-            return View();
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book, IFormFile bookPicture)
-        {
-            //if (ModelState.IsValid)
-            //{
-                if (bookPicture != null && bookPicture.Length > 0)
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        await bookPicture.CopyToAsync(ms);
-                        book.BookPicture = ms.ToArray();
-                    }
-                }
-
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            //}
-
-            //ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
-            return View(book);
-        }
 
 
         // GET: Books/Edit/5
@@ -140,13 +112,46 @@ namespace Lab4ASP.Controllers
                     }
                 }
 
-                 return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             //}
 
             // If the model state is invalid, you can handle the error or return the view with the invalid model.
-             ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
-             return View(book);
+            ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
+            return View(book);
         }
+
+        // GET: Books/Create
+        public IActionResult Create()
+        {
+            ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("BookId,BookTitle,BookDescription,PublishedYear,Quantity,FK_BookTypeId")] Book book, IFormFile bookPicture)
+        {
+            //if (ModelState.IsValid)
+            //{
+                if (bookPicture != null && bookPicture.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await bookPicture.CopyToAsync(ms);
+                        book.BookPicture = ms.ToArray();
+                    }
+                }
+
+                _context.Add(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            //}
+
+            //ViewData["FK_BookTypeId"] = new SelectList(_context.BookTypes, "BookTypeId", "BookTypeName", book.FK_BookTypeId);
+            return View(book);
+        }
+
+
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)

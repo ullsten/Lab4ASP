@@ -65,12 +65,12 @@ namespace Lab4ASP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BookAuthorId,FK_BookId,AuthorId")] BookAuthor bookAuthor)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 _context.Add(bookAuthor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            //}
             ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "AuthorName", bookAuthor.AuthorId);
             ViewData["FK_BookId"] = new SelectList(_context.Books, "BookId", "BookDescription", bookAuthor.FK_BookId);
             return View(bookAuthor);
