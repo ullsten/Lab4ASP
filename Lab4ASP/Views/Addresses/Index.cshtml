@@ -1,71 +1,71 @@
-﻿@*@model IEnumerable<Lab4ASP.Models.ViewModels.AddressUserViewModel>*@
-@model IEnumerable<Lab4ASP.Models.Address>
+﻿@model IEnumerable<Lab4ASP.Models.Address>
 @{
     ViewData["Title"] = "Index";
 }
 
 <div class="d-flex flex-column align-items-center mt-5 p-3">
-    <div class="card w-75">
+    <div class="card w-100">
         <div class="card-body">
             <h1 class="card-title">Lab4ASP Library Address register</h1>
             <p>
                 <a asp-action="Create" class="btn btn-primary">Add new customer address</a>
                 <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
             </p>
-            <table class="table table-light table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Street)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.City)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PostalCode)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Users.FullName)
-                        </th>
-                        <th>
-                            Options
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table table-light table-hover">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Street)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PostalCode)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Users.FullName)
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    @*<button type="button" class="btn btn-light btn-sm"></button>*@
-                                    <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.AddressId">Edit</a>
-                                            <a class="dropdown-item" asp-action=" Details" asp-route-id="@item.AddressId">Details</a>
-                                            <a class="dropdown-item" asp-action=" Delete" asp-route-id="@item.AddressId">Delete</a>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Street)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.City)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PostalCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Users.FullName)
+                            </th>
+                            <th>
+                                Options
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Street)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.City)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PostalCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Users.FullName)
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-light btn-sm"></button>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.AddressId">Edit</a>
+                                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.AddressId">Details</a>
+                                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.AddressId">Delete</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
