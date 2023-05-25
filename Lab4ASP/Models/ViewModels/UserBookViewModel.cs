@@ -35,13 +35,19 @@ namespace Lab4ASP.Models.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? LoanEnd { get; set; } = DateTime.Now;
 
+        [DisplayName("Loaned")]
         public bool IsLoaned { get; set; }
+        [DisplayName("Returned")]
         public bool IsReturned { get; set; }
 
+        [DisplayName("Returned Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReturnedDate { get; set; }
 
         public string Borrower { get; set; }
+        [DisplayName("Days left")]
+        public int DaysLeft { get; set; }
+
 
         //Relation for borrow book
         [DisplayName("User")]
@@ -54,7 +60,6 @@ namespace Lab4ASP.Models.ViewModels
 
         public int FK_AuthorId { get; set; }
         public Author? Authors { get; set; }
-        public int DaysLeft { get; set; }
-
+      
     }
 }

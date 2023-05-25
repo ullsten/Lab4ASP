@@ -76,6 +76,7 @@
                                         <br />
                                     }
                                     <strong>Returned Date:</strong> @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "Not returned")
+                               
                                 </p>
 
                                 <a href="@Url.Action("Edit", new { id = item.LoanHistoryId })" class="btn btn-dark">Return</a>
