@@ -8,11 +8,11 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title">Edit book - fixa</h1>
-                    <h4 class="card-subtitle">Book</h4>
+                    <h1 class="card-title">Lab4ASP Library</h1>
+                    <h4 class="card-subtitle">Edit Book</h4>
                     <hr />
-
-                    <form asp-action="Edit">
+                    @*enctype behövs för upload picture*@
+                    <form asp-action="Edit" enctype="multipart/form-data"> 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="BookId" />
 
@@ -83,6 +83,12 @@
 </div>
 
 
-@section Scripts {
+@*@section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
