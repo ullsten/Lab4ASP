@@ -215,18 +215,13 @@ namespace Lab4ASP.Controllers
             var currentUser = await _userManager.GetUserAsync(User); // Get loggedInUser's info.
             var currentUserFirstName = currentUser.FirstName; // Get loggedInUser's firstName
 
-            // Filter option so only loggedInUser's name is visible in the list
-            var availableUsers = _userManager.Users
-                .Where(u => u.FirstName == currentUserFirstName)
-                .ToList();
-
             // Filter available books where quantity > 0 or the book is the one being edited
             var availableBooks = _context.Books
                 .Where(b => b.Quantity > 0 || b.BookId == loanHistory.FK_BookId)
                 .ToList();
 
             // Need to show values in dropdown in the view
-            ViewData["FK_UserId"] = new SelectList(availableUsers, "Id", "FullName", loanHistory.FK_UserId);
+            ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
             ViewData["FK_BookId"] = new SelectList(availableBooks, "BookId", "BookTitle");
 
             return View(loanHistory);

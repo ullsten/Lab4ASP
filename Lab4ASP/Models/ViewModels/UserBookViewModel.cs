@@ -9,7 +9,7 @@ namespace Lab4ASP.Models.ViewModels
     {
         public int LoanHistoryId { get; set; }
 
-        [DisplayName("Borrower")]
+        [DisplayName("User")]
         public string? UserName { get; set; }
 
         [DisplayName("Book Title")]

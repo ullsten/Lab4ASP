@@ -112,7 +112,10 @@
                                 @Html.DisplayFor(model => item.LoanStart)
                             </td>
                             <td>
-                                @Html.DisplayFor(model => item.LoanEnd)
+                                @if(!item.IsReturned)
+                                {
+                                    @Html.DisplayFor(model => item.LoanEnd)
+                                }
                             </td>
                             <td>
                                 @if (!item.IsReturned)
@@ -121,7 +124,11 @@
                                 }
                             </td>
                             <td>
-                                @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "") @*Could add message here*@
+                                @if(item.IsReturned)
+                                {
+                                    @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "") @*Could add message here*@
+                                }
+                              
                             </td>
                             <td>
                                 @Html.DisplayFor(model => item.IsLoaned)

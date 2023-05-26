@@ -62,11 +62,11 @@
                                 <!-- Loan button -->
                                 @if (item.Quantity > 0)
                                 {
-                                    <a class="btn btn-primary" asp-action="Create" asp-controller="LoanHistories" asp-route-id="@item.BookId">Loan</a>
+                                    <a class="btn btn-primary" asp-action="Create" asp-controller="LoanHistories" asp-route-id="@item.BookId">Add loan user</a>
                                 }
                                 else
                                 {
-                                    <button class="btn btn-primary loan-button" disabled>No Stock</button>
+                                    <button class="btn btn-primary loan-button" disabled>Not avaible</button>
                                 }
                             }
                             else if (User.IsInRole("Basic"))
