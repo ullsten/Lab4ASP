@@ -6,7 +6,8 @@
 
 <div class="mt-5 p-5 rounded">
     <div class="card p-2">
-    <h1>Lab4 Library book register</h1>
+        
+    <h1 class="text-center">Lab4 Library book register</h1>
 
         <div class="col-md-6 col-lg-4">
             <p>
@@ -19,6 +20,7 @@
                     else if (User.IsInRole("Basic"))
                     {
                         <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">Dashboard</a>
+                        <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="Create">Borrow book</a>
                     }
                     else
                     {
@@ -32,8 +34,10 @@
     <div class="row row-cols-1 row-cols-md-3 mt-3">
         @foreach (var item in Model)
         {
-            <div class="col mb-4">
+            <div class="col-md-6 col-lg-4 mt-3">
                 <div class="card h-100 d-flex align-items-center justify-content-center">
+                    <div class="row g-0">
+                        <div class="col-12">
                     <div class="card-body">
                         <h5 class="card-title">@item.BookTitle</h5>
                         <p class="card-text">
@@ -45,16 +49,23 @@
                             <strong>Quantity:</strong> @item.Quantity
                         </p>
                     </div>
-                    @if (item != null && item.BookPicture != null)
-                    {
-                        <img class="rounded-bottom" id="bookPicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.BookPicture))">
-                    }
-                    else
-                    {
-                        <div class="card-body text-center" style="width:150px;height:150px">
-                            <p>No picture</p>
+                    <div class="card-body">
+                        <div class="text-center">
+                            @if (item != null && item.BookPicture != null)
+                            {
+                                
+                                    <img class="rounded-bottom w-100" id="bookPicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.BookPicture))">
+                                
+                            }
+                            else
+                            {
+                                <div class="card-body text-center" style="width:150px;height:150px">
+                                    <p>No picture</p>
+                                </div>
+                            }
                         </div>
-                    }
+                    </div>
+
                     <div class="card-body">
                         @{
                             if (User.IsInRole("SuperAdmin"))
@@ -78,7 +89,7 @@
                                 }
                                 else
                                 {
-                                    <button class="btn btn-primary loan-button" disabled>No Stock</button>
+                                    <button class="btn btn-primary loan-button" disabled>Not in stock</button>
                                 }
                             }
                             else
@@ -107,7 +118,8 @@
                     {
                         <h4 class="text-dark">Lab4ASP Library</h4>
                     }
-
+                        </div>
+                    </div>
                 </div>
             </div>
         }

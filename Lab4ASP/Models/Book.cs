@@ -40,5 +40,6 @@ namespace Lab4ASP.Models
 
         public ICollection<BookAuthor>? BooksAuthors { get; set; }
         public ICollection<LoanHistory>? LoanHistories { get; set; }
+
     }
 }

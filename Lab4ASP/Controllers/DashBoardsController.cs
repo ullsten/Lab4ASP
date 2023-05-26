@@ -68,29 +68,42 @@ namespace Lab4ASP.Controllers
 
         //[Authorize(Roles = "Basic, SuperAdmin")]
         //For user
+        //public async Task<IActionResult> GetRandomBook()
+        //{
+        //    var randomBook = await _context.Books
+        //        .Include(b => b.BookTypes)  //Hämtar böcker från databasen
+        //        //.OrderBy(x => Guid.NewGuid())
+        //        //ordnar böckerna random
+        //        .Select(b => new UserBookViewModel      // skapar UserBookViewModel object för varje bok med title+description angivet nedanför
+        //        {
+        //            RndTitle = b.BookTitle,
+        //            RndDescription = b.BookDescription,
+        //            BookPicture = b.BookPicture,
+                   
+        //        })
+        //        .FirstOrDefaultAsync();         //hämtar första boken i listan som bli den random bok som ska visas.
+
+        //    if (randomBook == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    //Skapar en ny lista med bara en bok för att i view visa random books vid reload
+        //    var randomBookCollection = new List<UserBookViewModel> { randomBook };
+
+        //    return View(randomBookCollection);
+        //}
         public async Task<IActionResult> GetRandomBook()
         {
-            var randomBook = await _context.Books
-                .Include(b => b.BookTypes)  //Hämtar böcker från databasen
-                .OrderBy(x => Guid.NewGuid())
-                //ordnar böckerna random
-                .Select(b => new UserBookViewModel      // skapar UserBookViewModel object för varje bok med title+description angivet nedanför
+            var bookPictures = await _context.Books
+                .Where(b => b.BookPicture != null)
+                .Select(b => new UserBookViewModel
                 {
-                    RndTitle = b.BookTitle,
-                    RndDescription = b.BookDescription,
+                    BookTitle = b.BookTitle,
+                    BookDescription = b.BookDescription,
                     BookPicture = b.BookPicture,
-                   
-                })
-                .FirstOrDefaultAsync();         //hämtar första boken i listan som bli den random bok som ska visas.
+                }).ToListAsync();
 
-            if (randomBook == null)
-            {
-                return NotFound();
-            }
-            //Skapar en ny lista med bara en bok för att i view visa random books vid reload
-            var randomBookCollection = new List<UserBookViewModel> { randomBook };
-
-            return View(randomBookCollection);
+            return View(bookPictures);
         }
     }
 }
