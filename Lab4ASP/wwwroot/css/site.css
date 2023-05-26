@@ -45,6 +45,8 @@
 .register-form {
     max-width: 800px;
 }
+
+
 /*For logout button */
 .navbar-nav .nav-item.active {
     /*background-color: #cfac07;*/ /* Set your desired background color */
