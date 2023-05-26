@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3 p-3">
             <div class="container-fluid">
                 @{
                     if (User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
@@ -23,7 +23,9 @@
                     }
                     else
                     {
-                        <h3 class="text-dark">Lab4ASP Library</h3>
+                        <div class="text-center w-100">
+                            <h3 class="text-dark mb-0">Lab4ASP Library</h3>
+                        </div>
                     }
                 }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"

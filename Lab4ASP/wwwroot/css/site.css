@@ -1,3 +1,21 @@
+.news{
+    background-color:antiquewhite;
+    color: black;
+    padding: 3em;
+    margin-top:1em;
+}
+
+.bookDaySearch {
+    background-color: white;
+}
+
+.btn-square {
+    border-radius: 0;
+    background-color:antiquewhite;
+}
+
+
+
 
 .GetRandomBook {
     background-image: url(../images/LibraryBook.jpg);

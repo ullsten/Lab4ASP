@@ -1,86 +1,99 @@
 ﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
 
+<div class="container mt-5">
+    <div class="bookDaySearch rounded">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 mt-5">
+                <div class="card text-dark mb-3">
+                    <div class="card-header">Book of the Day</div>
+                    <div class="card-body">
+                        @foreach (var item in Model)
+                        {
+                            <h4 class="card-title">@Html.DisplayFor(model => item.RndTitle)</h4>
+                            @if (item.BookPicture != null)
+                            {
+                                <img style="width:250px;height:70px; object-fit:cover; border-radius: 5px;" src="data:image;base64,@Convert.ToBase64String(item.BookPicture)" alt="Book Picture" />
+                            }
+                            else
+                            {
+                                <p>No picture available.</p>
+                            }
+                            <p class="card-text">@Html.DisplayFor(model => item.RndDescription)</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form class="form-inline justify-content-end mb-3">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search Books">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-<div class="GetRandomBook rounded">
-    <div class="text-center text-white">
-        <h1 class="display-1">Welcome</h1>
-        <p>Lab4 Library</p>
+        </div>
+
     </div>
 
-    <div class="row d-flex justify-content-center m-3">
-        <div class="col">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header text-center">-- Book of the day --</div>
-                <div class="card-body">
-                    <table class="table table-striped text-white">
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td class="text-white">
-                                        @Html.DisplayNameFor(model => model.RndTitle)
-                                        @Html.DisplayFor(model => item.RndTitle)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-white">
-                                        @Html.DisplayNameFor(model => model.RndDescription)
-                                        @Html.DisplayFor(model => item.RndDescription)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                <div class="card-body">
-                    @foreach (var item in Model)
-                    {
-                        <h4 class="card-title"> @Html.DisplayFor(model => item.RndTitle)</h4>
-                        @if (item.BookPicture != null)
-                        {
-                            <img style="width:250px;height:70px; object-fit:cover; border-radius:" src="data:image;base64,@Convert.ToBase64String(item.BookPicture)" alt="Book Picture" />
-                        }
-                        else
-                        {
-                            <p>No picture available.</p>
-                        }
-                    }
-                    <table class="table table-striped text-white">
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td class="text-white">
-
-                                        @Html.DisplayFor(model => item.RndDescription)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-white">
-                                        @Html.DisplayFor(model => item.RndDescription)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                <div class="card-body">
-                    <h4 class="card-title">Primary card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
-        </div>
+    <div class="news rounded">
+    <div class="row text-center">
+        
+            <h2>NEWS</h2>
+        
     </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card h-100">
+                <img src="./images/support.png" class="card-img-top" alt="Card Image">
+                <div class="card-body">
+                    <h5 class="card-title">Assessment support from your library</h5>
+                    <p class="card-text">Where? What? How? Find your answers in the libraries</p>
+                    <p>WEDNESDAY 3 MAY 2023</p>
+                        <a href="#" class="btn btn-outline-light text-dark">MORE ></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100">
+                <img src="./images/appointment.png" class="card-img-top" alt="Card Image">
+                <div class="card-body">
+                    <h5 class="card-title">New Associate Director appointment</h5>
+                    <p class="card-text">Dr Jenny Haynes has been appointed as the new Associate Director: Cultural...</p>
+                    <p>TUESDAY 2 MAY 2023</p>
+                        <a href="#" class="btn btn-outline-light text-dark">MORE ></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100">
+                <img src="./images/makerspace.png" class="card-img-top" alt="Card Image">
+                <div class="card-body">
+                    <h5 class="card-title">New Library Makerspace now open</h5>
+                    <p class="card-text">Experiment and have fun at our creative tech hub in the Edward Boyle Library.</p>
+                    <P>MONDAY 24 APRIL 2023</P>
+                        <a href="#" class="btn btn-outline-light text-dark">MORE ></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <img src="./images/spacefinder.png" class="card-img-top" alt="Card Image">
+                <div class="card-body">
+                    <h5 class="card-title">Spacefinder now even better</h5>
+                    <p class="card-text">Spacefinder update takes study spaces beyond libraries and across campus</p>
+                    <p>THURSDAY 30 MARCH 2023</p>
+                    <a href="#" class="btn btn-outline-light text-dark">MORE ></a>
+                </div>
+            </div>
+        </div>
 
+    </div>
+    </div>
 </div>
-
