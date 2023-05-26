@@ -79,7 +79,7 @@ namespace Lab4ASP.Controllers
                                BookTitle = b.BookTitle,
                                BookDescription = b.BookDescription,
                                LoanStart = l.LoanStart,
-                               LoanEnd = l.LoanEnd,
+                               LoanEnd = l.LoanStart.AddDays(9),
                                IsLoaned = l.IsLoaned,
                                IsReturned = l.IsReturned,
                                ReturnedDate = l.ReturnedDate,

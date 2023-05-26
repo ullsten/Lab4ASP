@@ -4,39 +4,26 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Address</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostalCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Users)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Users.Email)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.AddressId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="card mx-auto mt-5" style="width: 30rem;">
+    <div class="card-body">
+        <h5 class="card-title">Lab4ASP Library</h5>
+        <div>
+            <h6 class="card-subtitle mb-2 text-muted"></h6>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">Street</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Street)</dd>
+                <dt class="col-sm-4">City</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.City)</dd>
+                <dt class="col-sm-4">Postal Code</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.PostalCode)</dd>
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Users.Email)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Users.Email)</dd>
+            </dl>
+        </div>
+        <div>
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.AddressId">Edit</a>
+            <a class="btn btn-dark" asp-action="Index">Back to List</a>
+        </div>
+    </div>
 </div>
