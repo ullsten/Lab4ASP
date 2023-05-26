@@ -53,10 +53,8 @@ namespace Lab4ASP.Controllers
             }
         }
 
-      
-
         // GET: Customers/Edit/5
-        [HttpGet]
+      
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -67,7 +65,8 @@ namespace Lab4ASP.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                return NotFound();
+                ViewBag.ErrorMessage = $"User with id: {id} cannot be found";
+                return View("NotFound");
             }
 
             return View(user);
@@ -77,7 +76,7 @@ namespace Lab4ASP.Controllers
         // POST: Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,UserName,PhoneNumber,Email")] ApplicationUser user)
+        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,PhoneNumber,Email,PasswordHash")] ApplicationUser user)
         {
             if (id != user.Id)
             {
@@ -94,11 +93,14 @@ namespace Lab4ASP.Controllers
                         return NotFound();
                     }
 
+                    // Update the properties of the existing user
                     existingUser.FirstName = user.FirstName;
                     existingUser.LastName = user.LastName;
                     existingUser.PhoneNumber = user.PhoneNumber;
                     existingUser.Email = user.Email;
                     existingUser.UserName = user.UserName;
+                    existingUser.EmailConfirmed = user.EmailConfirmed;
+                    
 
                     // Update the user using UserManager
                     var result = await _userManager.UpdateAsync(existingUser);
@@ -130,6 +132,7 @@ namespace Lab4ASP.Controllers
 
             return View(user);
         }
+
 
         // GET: Customers/Create
         public IActionResult Create()

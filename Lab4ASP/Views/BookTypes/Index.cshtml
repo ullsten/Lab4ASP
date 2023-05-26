@@ -5,51 +5,55 @@
 }
 
 <div class="d-flex flex-column align-items-center">
-    <h1 class="mt-5">Lab4ASP Library Book Genre</h1>
+    <div class="card w-55">
+        <div class="card-body">
+            <h1 class="card-title mt-5">Lab4ASP Library Book Genre</h1>
 
-    <p>
-        <a asp-action="Create" class="btn btn-primary">Add genre</a>
-        <a asp-controller="LoanHistories" asp-action="GetUserBook" class="btn btn-dark">Back to dashboard</a>
-    </p>
+            <p class="card-text">
+                <a asp-action="Create" class="btn btn-primary">Add genre</a>
+                <a asp-controller="LoanHistories" asp-action="GetUserBook" class="btn btn-dark">Back to dashboard</a>
+            </p>
 
-    <table class="table table-hover table-striped w-25">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.BookTypeId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BookTypeName)
-                </th>
-                <th>
-                    Options
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BookTypeId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BookTypeName)
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-light btn-sm">Actions</button>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
-                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.BookTypeId">Edit</a>
-                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.BookTypeId">Delete</a>
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BookTypeId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BookTypeName)
+                        </th>
+                        <th>
+                            Options
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BookTypeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BookTypeName)
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <button type="button" class="btn btn-light btn-sm">Actions</button>
+                                    <div class="btn-group" role="group">
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.BookTypeId">Edit</a>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.BookTypeId">Delete</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

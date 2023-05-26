@@ -74,6 +74,10 @@ namespace Lab4ASP.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Profile Picture")]
             public byte[] ProfilePicture { get; set; }
 
+            [Display(Name = "Email Confirmed")]
+            public bool EmailConfirmed { get; set; }
+
+
             [TempData]
             public string StatusMessage { get; set; }
             [TempData]

@@ -11,7 +11,7 @@ namespace Lab4ASP.Models
         public int BookTypeId { get; set; }
         
         [Required]
-        [StringLength(15)]
+        [StringLength(30)]
         [DisplayName("Genre")]
         public string BookTypeName { get; set; }
     }

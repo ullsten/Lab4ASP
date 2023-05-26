@@ -23,6 +23,28 @@
     height: 100vh;
     margin: 5rem;
 }
+
+/*registration form*/
+.cascading-right {
+    margin-right: -50px;
+}
+
+@media (max-width: 991.98px) {
+    .cascading-right {
+        margin-right: 0;
+    }
+}
+
+.centered-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-form {
+    max-width: 800px;
+}
 /*For logout button */
 .navbar-nav .nav-item.active {
     /*background-color: #cfac07;*/ /* Set your desired background color */
