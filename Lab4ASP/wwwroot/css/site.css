@@ -7,6 +7,37 @@
     height: 100vh;
     margin: 5rem;
 }
+/*For logout button */
+.navbar-nav .nav-item.active {
+    /*background-color: #cfac07;*/ /* Set your desired background color */
+    color: #ff0000; /* Set your desired text color */
+    border-radius: 100px; /* Set the desired border radius value */
+    /*--bs-btn-hover-bg: #fff;*/
+}
+
+    .navbar-nav .nav-item.active button {
+        transition: transform 0.3s ease; /* Add transition effect */
+    }
+
+        .navbar-nav .nav-item.active button:hover {
+            transform: scale(1.2); /* Set the desired scale value on hover */
+        }
+
+
+    /* CSS for login/login buttons */
+    .navbar-nav .nav-item.active a.nav-link.login-button {
+        /* Set your desired styles for the active login/logout button */
+        /*background-color: #ff0000;*/ /* Set your desired background color */
+        color: #ff0000; /* Set your desired text color */
+        border-radius: 100px; /* Set the desired border radius value */
+        transition: transform 0.3s ease; /* Add transition effect */
+        --bs-btn-hover-bg: #fff;
+    }
+
+        .navbar-nav .nav-item.active a.nav-link.login-button:hover {
+            transform: scale(1.2); /* Set the desired scale value on hover */
+        }
+
 
 /*.admin-Board {
     background-image: url(../images/alex-block-PdDBTrkGYLo-unsplash.jpg);

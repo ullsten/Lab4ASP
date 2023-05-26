@@ -4,26 +4,32 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="bg-light mt-5 p-5 rounded">
+<div class="mt-5 p-5 rounded">
+    <div class="card p-2">
     <h1>Lab4 Library book register</h1>
-    @{
-        if (User.IsInRole("SuperAdmin"))
-        {
-            <a class="btn btn-primary" asp-action="Create">Add book</a>
-            <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
-        }
-        else if (User.IsInRole("Basic"))
-        {
-            <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">Dashboard</a>
-        }
-        else
-        {
-            <h3 class="text-dark">Lab4ASP Library</h3>
-        }
-    }
-    <hr />
 
-    <div class="row row-cols-1 row-cols-md-3">
+        <div class="col-md-6 col-lg-4">
+            <p>
+                @{
+                    if (User.IsInRole("SuperAdmin"))
+                    {
+                        <a class="btn btn-primary" asp-action="Create">Add book</a>
+                        <a class="btn btn-dark" asp-controller="LoanHistories" asp-action="GetUserBook">Back to dashboard</a>
+                    }
+                    else if (User.IsInRole("Basic"))
+                    {
+                        <a class="btn btn-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">Dashboard</a>
+                    }
+                    else
+                    {
+                        <h3 class="text-dark">Lab4ASP Library</h3>
+                    }
+                }
+            </p>
+        </div>
+   
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 mt-3">
         @foreach (var item in Model)
         {
             <div class="col mb-4">

@@ -85,7 +85,6 @@ namespace Lab4ASP.Controllers
                                ReturnedDate = l.ReturnedDate,
                                FK_UserId = l.FK_UserId,
                                FK_BookId = l.FK_BookId,
-                               DaysLeft = l.DaysLeft,
                            };
 
             if (switchReturned == true) // Only returned books
@@ -146,15 +145,13 @@ namespace Lab4ASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Set loanEnd to 9 days after loan start
-                //loanHistory.LoanEnd = loanHistory.LoanStart.AddDays(9);
-                //Set IsLoaned to true after submit new loan
+                // Set IsLoaned to true after submitting a new loan
                 loanHistory.IsLoaned = true;
 
                 _context.Add(loanHistory);
                 await _context.SaveChangesAsync();
 
-                // Decrease the quantity of the borrowed book by 1 - if 0 book not shows in droppdown list
+                // Decrease the quantity of the borrowed book by 1 - if 0, the book will not show in the dropdown list
                 var borrowedBook = await _context.Books.FindAsync(loanHistory.FK_BookId);
                 if (borrowedBook != null)
                 {
@@ -171,9 +168,13 @@ namespace Lab4ASP.Controllers
 
                 return RedirectToAction(nameof(GetUserBook));
             }
+
             ViewData["FK_UserId"] = new SelectList(_userManager.Users, "Id", "FullName", loanHistory.FK_UserId);
             return View(loanHistory);
         }
+
+
+
 
 
         // GET: LoanHistories/Details/5

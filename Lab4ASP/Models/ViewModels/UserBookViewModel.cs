@@ -33,7 +33,7 @@ namespace Lab4ASP.Models.ViewModels
 
         [DisplayName("To be returned")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? LoanEnd { get; set; } = DateTime.Now;
+        public DateTime? LoanEnd { get; set; }
 
         [DisplayName("Loaned")]
         public bool IsLoaned { get; set; }
@@ -45,9 +45,24 @@ namespace Lab4ASP.Models.ViewModels
         public DateTime? ReturnedDate { get; set; }
 
         public string Borrower { get; set; }
-        [DisplayName("Days left")]
-        public int DaysLeft { get; set; }
 
+        [DisplayName("Days left")]
+        [NotMapped]
+        public int DaysLeft
+        {
+            get
+            {
+                if (!IsReturned)
+                {
+                    TimeSpan remainingTime = (TimeSpan)(LoanEnd - DateTime.Now);
+                    return remainingTime.Days;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
 
         //Relation for borrow book
         [DisplayName("User")]

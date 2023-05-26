@@ -27,8 +27,8 @@ namespace Lab4ASP.Models.JunctionTables
         [Required]
         [DisplayName("Loan end")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime LoanEnd => LoanStart.AddDays(9);
-
+        // public DateTime LoanEnd => LoanStart.AddDays(9);
+        public DateTime LoanEnd { get; set; }
 
         [Required]
         [DisplayName("Loan again")]

@@ -56,43 +56,46 @@
         @foreach (var item in Model)
         {
             <div class="col-md-6 col-lg-4 mt-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.BookTitle</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@item.UserName</h6>
-                        <p class="card-text">@item.BookDescription</p>
-                        <p class="card-text">
-                            <strong>Loan Start:</strong> @item.LoanStart?.ToString("yyyy-MM-dd")<br />
-                            <strong>Loan End:</strong> <span class="@(item.IsReturned ? "text-decoration-line-through" : "")">@item.LoanEnd?.ToString("yyyy-MM-dd")</span>
-                        </p>
-
-                        <div class="row">
-                            <div class="col-9">
-                                <p class="card-text">
-                                    @if (!item.IsReturned)
-                                    {
-                                        <strong>Days Left:</strong> @item.DaysLeft
-
-                                        <br />
-                                    }
-                                    <strong>Returned Date:</strong> @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "Not returned")
-                               
-                                </p>
-
-                                <a href="@Url.Action("Edit", new { id = item.LoanHistoryId })" class="btn btn-dark">Return</a>
-                            </div>
-
-                            <div class="col-3">
-
-                                @if (item != null && item.BookPicture != null)
-                                {
-                                    <img id="bookPicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.BookPicture))">
-                                }
-                                else
-                                {
-                                    <img id="bookPicture" style="width:150px;height:200px; object-fit:cover" src="">
-                                }
-                             
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.BookTitle</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@item.UserName</h6>
+                                <p class="card-text">@item.BookDescription</p>                 
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="card-text">
+                                            @if (!item.IsReturned)
+                                            {
+                                            <p class="card-text">
+                                                <strong>Loaned:</strong> @item.LoanStart?.ToString("yyyy-MM-dd")
+                                                <br />
+                                                <strong>To be returned:</strong> @item.LoanEnd?.ToString("yyyy-MM-dd")
+                                                <br/>
+                                                <strong>Days Left:</strong> @item.DaysLeft
+                                                <br />
+                                            </p>
+                                            <a href="@Url.Action("Edit", new { id = item.LoanHistoryId })" class="btn btn-dark">Return</a>
+                                            }
+                                            @if(item.IsReturned)
+                                            {
+                                                <strong>Returned:</strong> @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "Not returned")
+                                            }
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="card-image-container">
+                                            @if (item != null && item.BookPicture != null)
+                                            {
+                                                <img class="card-img" src="data:image/*;base64,@(Convert.ToBase64String(item.BookPicture))">
+                                            }
+                                            else
+                                            {
+                                                <img class="card-img" src="">
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,3 +104,4 @@
         }
     </div>
 </div>
+
