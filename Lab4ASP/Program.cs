@@ -18,12 +18,12 @@ namespace Lab4ASP
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false) //sätt till false om det krånglar kan lösa problemet.
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true) //sätt till false om det krånglar kan lösa problemet.
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddSession(); //To enable session support 
+            builder.Services.AddSession(); //To enable session support  behövs för lägga till users
 
             var app = builder.Build();
 
@@ -54,7 +54,7 @@ namespace Lab4ASP
                 app.UseHsts();
             }
 
-            //app.UseSession(); // Add this line to enable session middleware
+            app.UseSession(); // Add this line to enable session middleware behövs för att lägga till ny user
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
