@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Lab4ASP.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
 
 </head>
 <body>
@@ -144,16 +145,13 @@
         </div>
     </div>
     <div class="container">
-        <main role="main" class="pb-3 mb-5">
+        <div class="content-wrapper">
+        <main role="main" class="pb-3 mb-5 flex-grow-1">
             @RenderBody()
         </main>
     </div>
-@*    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Lab4ASP - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
 
+    @*Footer*@
     <footer class="bg-light text-center text-white">
         <!-- Grid container -->
         <div class="container p-4 pb-0">
@@ -216,6 +214,8 @@
         </div>
         <!-- Copyright -->
     </footer>
+    </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab4ASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230526224241_changedLenghtBoktype")]
-    partial class changedLenghtBoktype
+    [Migration("20230527225229_createDbAzure")]
+    partial class createDbAzure
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

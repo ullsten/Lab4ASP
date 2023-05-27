@@ -50,6 +50,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.EmailConfirmed)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Addresses)
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -74,6 +77,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Addresses)
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">

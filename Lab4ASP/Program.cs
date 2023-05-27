@@ -2,6 +2,10 @@ using Lab4ASP.Data;
 using Lab4ASP.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using DotNetEnv;
+
 
 namespace Lab4ASP
 {
@@ -11,10 +15,25 @@ namespace Lab4ASP
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(connectionString));
+
+
+            DotNetEnv.Env.Load();
+            // Retrieve the connection string from the environment variable
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_AZURE");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string 'CONNECTION_STRING_AZURE' not found.");
+            }
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            options.UseSqlServer(connectionString));
+
+
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -71,7 +90,7 @@ namespace Lab4ASP
                 pattern: "{controller=DashBoards}/{action=GetRandomBook}/{id?}");
 
             app.MapRazorPages();
-
+           
             app.Run();
         }
     }

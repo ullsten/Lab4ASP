@@ -41,6 +41,8 @@ namespace Lab4ASP.Controllers
                 TempData["UserAddedId"] = userAddedId;
             }
 
+
+
             var users = await _userManager.Users.ToListAsync();
 
             if (users != null)

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Lab4ASP.Migrations
 {
     /// <inheritdoc />
-    public partial class createDb : Migration
+    public partial class createDbAzure : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,7 @@ namespace Lab4ASP.Migrations
                 {
                     BookTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BookTypeName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false)
+                    BookTypeName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,13 +58,13 @@ namespace Lab4ASP.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     UsernameChangeLimit = table.Column<int>(type: "int", nullable: false),
                     ProfilePicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -288,6 +288,7 @@ namespace Lab4ASP.Migrations
                     FK_UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FK_BookId = table.Column<int>(type: "int", nullable: false),
                     LoanStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LoanEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsLoaned = table.Column<bool>(type: "bit", nullable: false),
                     IsReturned = table.Column<bool>(type: "bit", nullable: false),
                     ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
