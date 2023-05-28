@@ -14,7 +14,7 @@ namespace Lab4ASP.Data
         {
         }
 
-        public DbSet<Users> Users { get; set; }
+        //public DbSet<Users> Users { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookType> BookTypes { get; set; }
@@ -27,7 +27,7 @@ namespace Lab4ASP.Data
             base.OnModelCreating(builder);
             //builder.HasDefaultSchema("Identity");
 
-            builder.Entity<Users>().ToTable("Users");
+            //builder.Entity<Users>().ToTable("Users");
             builder.Entity<Author>().ToTable("Authors");
             builder.Entity<Book>().ToTable("Books");
             builder.Entity<Address>().ToTable("Addresses");
