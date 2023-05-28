@@ -16,7 +16,7 @@
 
 
 .GetRandomBook {
-    background-image: url(../images/LibraryBook.jpg);
+    background-image: url(../images/bookCircle.webp);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -206,6 +206,9 @@ body {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     background-image: url(../images/alex-block-PdDBTrkGYLo-unsplash.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 hr {
