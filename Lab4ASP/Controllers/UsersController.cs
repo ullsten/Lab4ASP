@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net.Mail;
 using System.Text.Encodings.Web;
 using NuGet.Versioning;
+using Lab4ASP.Models.ViewModels;
 
 namespace Lab4ASP.Controllers
 {
@@ -33,7 +34,7 @@ namespace Lab4ASP.Controllers
             _emailSender = emailSender;
         }
 
-        public async Task<IActionResult> Index(string userAddedId)
+        public async Task<ActionResult<AddressUserViewModel>> Index(string userAddedId)
         {
             // Check if userAddedId is not null or empty
             if (!string.IsNullOrEmpty(userAddedId))
@@ -41,9 +42,16 @@ namespace Lab4ASP.Controllers
                 TempData["UserAddedId"] = userAddedId;
             }
 
-
-
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users
+                .Include(u => u.Addresses)
+                .Select(u=> new AddressUserViewModel
+                {
+                    UserId = u.Id,
+                    FullName = u.FullName,
+                    PhoneNumber = u.PhoneNumber,
+                    Email = u.Email,
+                    EmailConfirmed = u.EmailConfirmed,
+                }).ToListAsync();
 
             if (users != null)
             {

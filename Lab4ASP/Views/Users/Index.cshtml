@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Lab4ASP.Models.ApplicationUser>
+﻿@*@model IEnumerable<Lab4ASP.Models.ApplicationUser>*@
+
+ @model IEnumerable<Lab4ASP.Models.ViewModels.AddressUserViewModel>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -36,22 +39,18 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Id)
-                    </th>
+                        @Html.DisplayNameFor(model => model.UserId)
                     <th>
                         @Html.DisplayNameFor(model => model.FullName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PhoneTitle)
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Email)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.EmailConfirmed)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Addresses)
                     </th>
                     <th></th>
                 </tr>
@@ -62,9 +61,9 @@
                     //Assign to userAddedId and check against item.Id for newly added id and highlight
                     var userAddedId = TempData["UserAddedId"] as string;
 
-                    <tr class="@(!string.IsNullOrEmpty(userAddedId) && item.Id == userAddedId ? "user-added" : "")">
+                    <tr class="@(!string.IsNullOrEmpty(userAddedId) && item.UserId == userAddedId ? "user-added" : "")">
                         <td>
-                            @Html.DisplayFor(modelItem => item.Id)
+                            @Html.DisplayFor(modelItem => item.UserId)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FullName)
@@ -79,17 +78,14 @@
                             @Html.DisplayFor(modelItem => item.EmailConfirmed)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Addresses)
-                        </td>
-                        <td>
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                 <button type="button" class="btn btn-light btn-sm">Actions</button>
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
-                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                        <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                        <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.UserId">Edit</a>
+                                        <a class="dropdown-item" asp-action="Details" asp-route-id="@item.UserId">Details</a>
+                                        <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
                                     </div>
                                 </div>
                             </div>

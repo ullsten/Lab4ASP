@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab4ASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230527225229_createDbAzure")]
-    partial class createDbAzure
+    [Migration("20230528185816_addDb")]
+    partial class addDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,14 +51,9 @@ namespace Lab4ASP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("AddressId");
 
                     b.HasIndex("FK_UserId");
-
-                    b.HasIndex("UsersUserId");
 
                     b.ToTable("Addresses", (string)null);
                 });
@@ -271,9 +266,6 @@ namespace Lab4ASP.Migrations
                     b.Property<DateTime?>("ReturnedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("LoanHistoryId");
 
                     b.HasIndex("BookAuthorId");
@@ -282,42 +274,7 @@ namespace Lab4ASP.Migrations
 
                     b.HasIndex("FK_UserId");
 
-                    b.HasIndex("UsersUserId");
-
                     b.ToTable("LoanHistories", (string)null);
-                });
-
-            modelBuilder.Entity("Lab4ASP.Models.Users", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -463,10 +420,6 @@ namespace Lab4ASP.Migrations
                         .WithMany("Addresses")
                         .HasForeignKey("FK_UserId");
 
-                    b.HasOne("Lab4ASP.Models.Users", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("UsersUserId");
-
                     b.Navigation("Users");
                 });
 
@@ -517,10 +470,6 @@ namespace Lab4ASP.Migrations
                         .HasForeignKey("FK_UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Lab4ASP.Models.Users", null)
-                        .WithMany("LoanHistories")
-                        .HasForeignKey("UsersUserId");
 
                     b.Navigation("Books");
 
@@ -599,13 +548,6 @@ namespace Lab4ASP.Migrations
 
             modelBuilder.Entity("Lab4ASP.Models.JunctionTables.BookAuthor", b =>
                 {
-                    b.Navigation("LoanHistories");
-                });
-
-            modelBuilder.Entity("Lab4ASP.Models.Users", b =>
-                {
-                    b.Navigation("Addresses");
-
                     b.Navigation("LoanHistories");
                 });
 #pragma warning restore 612, 618

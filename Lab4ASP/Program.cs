@@ -24,11 +24,12 @@ namespace Lab4ASP
 
             DotNetEnv.Env.Load();
             // Retrieve the connection string from the environment variable
-            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_AZURE");
+            //var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING_AZURE");
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new InvalidOperationException("Connection string 'CONNECTION_STRING_AZURE' not found.");
+                throw new InvalidOperationException("Connection string 'CONNECTION_STRING' not found.");
             }
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
