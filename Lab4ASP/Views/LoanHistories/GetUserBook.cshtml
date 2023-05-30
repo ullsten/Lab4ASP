@@ -1,10 +1,18 @@
-﻿@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
+﻿@using Lab4ASP.Models
+@using Lab4ASP.Models.ViewModels;
+@model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
+
+@*@{
+    var products = ViewData["LoanHistory"] as List<UserBookViewModel>;
+    var totalPages = (int)ViewData["TotalPages"];
+    var currentPage = (int)ViewData["CurrentPage"];
+}*@
 
 @{
     ViewData["Title"] = "GetUserBook";
 }
 
-<div class="bg-light mt-5 p-5 rounded">
+<div class="bg-light mt-5 p-5 rounded container" >
     <h1>Lab4ASP Library register</h1>
     <hr />
     <h3>Admin dashboard</h3>
@@ -250,3 +258,36 @@
         </div>
     </div>
 </div>
+<hr />
+
+<!-- Pagination -->
+@*<nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+        @if (currentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/LoanHistories?page=@(currentPage - 1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(currentPage == i ? "active" : "")">
+                <a class="page-link" href="/LoanHistories?page=@i">@i</a>
+            </li>
+        }
+
+        @if (currentPage < totalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/LoanHistories?page=@(currentPage + 1)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>*@
+<!-- Pagination end -->
+

@@ -13,7 +13,7 @@
                     <hr />
                     <h3>Make changes in form if needed.</h3>
 
-                    <form asp-action="Edit" asp-controller="Users">
+                    <form asp-action="Edit" asp-controller="Users" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="Id" />
 

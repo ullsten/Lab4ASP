@@ -1,3 +1,10 @@
+
+
+/*För space från footer*/
+.container {
+    margin-bottom: 150px;
+}
+
 .news{
     background-color:antiquewhite;
     color: black;
@@ -47,6 +54,7 @@
 }
 
 footer {
+    height:12em;
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -92,16 +100,6 @@ footer {
         .navbar-nav .nav-item.active a.nav-link.login-button:hover {
             transform: scale(1.2); /* Set the desired scale value on hover */
         }
-
-
-/*.admin-Board {
-    background-image: url(../images/alex-block-PdDBTrkGYLo-unsplash.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    margin: 5rem;
-}*/
 
 @charset "UTF-8"; /*!
  * Bootswatch v5.2.3 (https://bootswatch.com)

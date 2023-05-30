@@ -13,8 +13,11 @@ namespace Lab4ASP
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            try
+            {
 
+          
+            var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -91,8 +94,23 @@ namespace Lab4ASP
                 pattern: "{controller=DashBoards}/{action=GetRandomBook}/{id?}");
 
             app.MapRazorPages();
-           
-            app.Run();
+
+                //app.Run();
+
+                if (app.Environment.IsDevelopment())
+                {
+                    app.Run();
+                }
+                else
+                {
+                    app.Run("http://0.0.0.0:8080");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
     }
 }

@@ -59,14 +59,9 @@ namespace Lab4ASP.Controllers
         }
 
         //Get users and loaned books by search
-        public async Task<ActionResult<UserBookViewModel>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned, int? page = 1)
-        {   
-            if(page != null && page < 1)
-            {
-                page = 1;
-            }
-
-            var pageSize = 10;
+        public async Task<ActionResult<UserBookViewModel>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned, int page = 1)
+        {
+            //int loanPerPage = 1;
 
             var loanList = from l in _context.LoanHistories
                            join u in _userManager.Users on l.FK_UserId equals u.Id
@@ -103,6 +98,18 @@ namespace Lab4ASP.Controllers
                 borrowedBook = borrowedBook.Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
+            //int toaltPages = (int)Math.Ceiling((double)loanList.Count() / loanPerPage);
+
+            //var loanToDisplay = loanList
+            //    .Skip((page - 1) * loanPerPage)
+            //    .Take(loanPerPage)
+            //    .ToList();
+
+            //ViewData["LoanHistory"] = loanToDisplay;
+            //ViewData["TotalPages"] = toaltPages;
+            //ViewData["CurrentPage"] = page;
+
+
             ViewBag.SwitchReturned = switchReturned; // Store the current switch state returned
             ViewBag.SwitchLoaned = switchLoaned;    //Store the current switch state loaned
 
@@ -118,7 +125,7 @@ namespace Lab4ASP.Controllers
         public async Task<IActionResult> Create()
         {
             var currentUser = await _userManager.GetUserAsync(User); //Get loggedInUsers info.
-            var currentUserFirstName = currentUser.FirstName;        //Get loggedInUsers firstName
+            var currentUserFirstName = currentUser?.FirstName;        //Get loggedInUsers firstName
 
             //filter option so only logged in users name visible in list
             var availableUsers = _userManager.Users
@@ -213,7 +220,7 @@ namespace Lab4ASP.Controllers
             }
 
             var currentUser = await _userManager.GetUserAsync(User); // Get loggedInUser's info.
-            var currentUserFirstName = currentUser.FirstName; // Get loggedInUser's firstName
+            var currentUserFirstName = currentUser?.FirstName; // Get loggedInUser's firstName
 
             // Filter available books where quantity > 0 or the book is the one being edited
             var availableBooks = _context.Books
