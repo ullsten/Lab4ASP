@@ -19,7 +19,7 @@
         <nav class="bar navbar navbar-expand-lg navbar-light bg-light" id="navigation">
             <div class="container-fluid">
                 @{
-                    if (User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
+                    if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
                     {
                         <a class="navbar-brand" asp-area="" asp-controller="DashBoards" asp-action="GetRandomBook">Lab4ASP Library</a>
                     }
@@ -27,7 +27,7 @@
                     {
                         <a class="navbar-brand" asp-area="" asp-controller="DashBoards" asp-action="GetRandomBook">Lab4ASP Library</a>
                     }
-                    else
+                    else if(!User.Identity.IsAuthenticated)
                     {
                         <div class="text-center w-100">
                             <h3 class="text-dark mb-0">Lab4ASP Library</h3>
@@ -41,10 +41,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                       
                             @{
                                 if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin")) //kollar mot Role table om inloggad person har rätt roll för att se länken i menyn.
                                 {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="LoanHistories" asp-action="GetUserBook">Dashboard</a>
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="LoanHistories" asp-action="GetUserBook">Dashboard</a>
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="SendEmail" asp-action="SendEmail">Email</a>
                                 }
                             }
                             @{
@@ -53,6 +55,7 @@
                                             <a class="nav-link text-dark" asp-area="" asp-controller="UserMenu" asp-action="GetLoggedInUserBook">My Profile</a>
                                 }
                             }
+              
 
                         </li>
                         <li class="nav-item">

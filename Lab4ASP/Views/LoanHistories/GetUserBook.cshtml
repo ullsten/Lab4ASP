@@ -2,15 +2,18 @@
 @using Lab4ASP.Models.ViewModels;
 @model IEnumerable<Lab4ASP.Models.ViewModels.UserBookViewModel>
 
-@*@{
-    var products = ViewData["LoanHistory"] as List<UserBookViewModel>;
-    var totalPages = (int)ViewData["TotalPages"];
-    var currentPage = (int)ViewData["CurrentPage"];
-}*@
+
 
 @{
     ViewData["Title"] = "GetUserBook";
 }
+
+@{
+    var books = ViewBag.Books as List<UserBookViewModel>;
+    var totalPages = (int?)ViewBag.TotalPages;
+    var currentPage = (int?)ViewBag.CurrentPage;
+}
+
 
 <div class="bg-light mt-5 p-5 rounded container" >
     <h1>Lab4ASP Library register</h1>
@@ -65,6 +68,10 @@
         </div>
         <hr />
     }
+    @if(!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-warning">@ViewBag.Message</div>
+    }
 
     <div class="container">
         <div class="table-responsive">
@@ -116,13 +123,21 @@
                             <td>
                                 @Html.DisplayFor(model => item.BookDescription)
                             </td>
-                            <td>
+                            <td class="text-info">
                                 @Html.DisplayFor(model => item.LoanStart)
                             </td>
                             <td>
                                 @if(!item.IsReturned)
                                 {
-                                    @Html.DisplayFor(model => item.LoanEnd)
+                                    if(item.LoanEnd < DateTime.Now)
+                                    {
+                                        <span class="text-danger">@Html.DisplayFor(model => item.LoanEnd)</span>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(model => item.LoanEnd)
+                                    }
+
                                 }
                             </td>
                             <td>
@@ -131,7 +146,7 @@
                                     @item.DaysLeft
                                 }
                             </td>
-                            <td>
+                            <td class="text-info">
                                 @if(item.IsReturned)
                                 {
                                     @(item.IsReturned ? (item.ReturnedDate.HasValue ? item.ReturnedDate.Value.ToString("yyyy-MM-dd") : "Not available") : "") @*Could add message here*@
@@ -261,33 +276,34 @@
 <hr />
 
 <!-- Pagination -->
-@*<nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
-    <ul class="pagination">
-        @if (currentPage > 1)
-        {
-            <li class="page-item">
-                <a class="page-link" href="/LoanHistories?page=@(currentPage - 1)" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        }
+<div class="pagination-container">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if (totalPages > 1)
+            {
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?page=1">First</a>
+                </li>
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?page=@(currentPage - 1)">Previous</a>
+                </li>
 
-        @for (int i = 1; i <= totalPages; i++)
-        {
-            <li class="page-item @(currentPage == i ? "active" : "")">
-                <a class="page-link" href="/LoanHistories?page=@i">@i</a>
-            </li>
-        }
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" href="?page=@i">@i</a>
+                    </li>
+                }
 
-        @if (currentPage < totalPages)
-        {
-            <li class="page-item">
-                <a class="page-link" href="/LoanHistories?page=@(currentPage + 1)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        }
-    </ul>
-</nav>*@
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link" href="?page=@(currentPage + 1)">Next</a>
+                </li>
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link" href="?page=@totalPages">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
 <!-- Pagination end -->
-

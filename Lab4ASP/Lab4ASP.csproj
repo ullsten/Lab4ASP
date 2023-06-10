@@ -22,6 +22,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.6" />
+		<PackageReference Include="OpenAi" Version="1.7.2" />
 		<PackageReference Include="PagedList.Mvc" Version="4.5.0" />
 		<PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
 		<None Include="readme.md" Pack="true" PackagePath="\" />

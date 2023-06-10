@@ -104,7 +104,15 @@
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <div class="card-image-container">
-                                            <a href="@Url.Action("Edit", new { id = item.LoanHistoryId })" class="btn btn-dark">Return</a>
+                                            @if(item.IsReturned)
+                                            {
+                                                //hide return button if book is returned
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Edit", new { id = item.LoanHistoryId })" class="btn btn-dark">Return</a>
+                                            }
+                                           
                                         </div>
                                     </div>
                                 </div>

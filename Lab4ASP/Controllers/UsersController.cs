@@ -161,7 +161,7 @@ namespace Lab4ASP.Controllers
                 MailAddress address = new MailAddress(user.Email);
                 string userName = address.User;
                 user.UserName = userName;
-
+                bool EmailConfirmed = user.EmailConfirmed == true;
                 // Set the password for the user
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, user.PasswordHash);
        
