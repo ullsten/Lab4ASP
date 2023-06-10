@@ -61,7 +61,7 @@ namespace Lab4ASP.Controllers
         //Get users and loaned books by search
         public async Task<ActionResult<UserBookViewModel>> GetUserBook(string searchString, bool? switchReturned, bool? switchLoaned, int page = 1)
         {
-            int productsPerPage = 5;
+            int loanPerPage = 5;
 
             var loanList = from l in _context.LoanHistories
                            join u in _userManager.Users on l.FK_UserId equals u.Id
@@ -110,24 +110,25 @@ namespace Lab4ASP.Controllers
                 borrowedBook = borrowedBook.Where(u => u.UserName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            ViewBag.SwitchReturned = switchReturned; // Store the current switch state returned
-            ViewBag.SwitchLoaned = switchLoaned;    //Store the current switch state loaned
+
 
             // Retrieve the list of users and books from the database
             ViewBag.Users = await _userManager.Users.ToListAsync();
             ViewBag.Books = await _context.Books.ToListAsync();
 
             int totalBooks = borrowedBook.Count;
-            int totalPages = (int)Math.Ceiling((double)totalBooks / productsPerPage);
+            int totalPages = (int)Math.Ceiling((double)totalBooks / loanPerPage);
 
             borrowedBook = borrowedBook
-                .Skip((page - 1) * productsPerPage)
-                .Take(productsPerPage)
+                .Skip((page - 1) * loanPerPage)
+                .Take(loanPerPage)
                 .ToList();
 
-            ViewData["Books"] = borrowedBook;
+            ViewData["Loans"] = borrowedBook;
             ViewData["TotalPages"] = totalPages;
             ViewData["CurrentPage"] = page;
+            ViewBag.SwitchReturned = switchReturned; // Store the current switch state returned
+            ViewBag.SwitchLoaned = switchLoaned;    //Store the current switch state loaned
 
             return View(borrowedBook);
         }
