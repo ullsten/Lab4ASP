@@ -86,7 +86,7 @@ namespace Lab4ASP.Controllers
         // POST: Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,PhoneNumber,Email,PasswordHash")] ApplicationUser user)
+        public async Task<IActionResult> Edit(string id, [Bind("UserId,FirstName,LastName,PhoneNumber,Email,PasswordHash, EmailConfirmed")] ApplicationUser user)
         {
             if (id != user.Id)
             {

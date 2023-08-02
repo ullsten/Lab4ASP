@@ -7,7 +7,6 @@ namespace Lab4ASP.Models
 {
     public class ApplicationUser : IdentityUser
     {
-
         [DisplayName("First Name")]
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
